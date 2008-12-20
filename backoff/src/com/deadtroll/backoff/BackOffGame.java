@@ -12,13 +12,17 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
+import com.deadtroll.backoff.engine.EnemyDescriptionMap;
+import com.deadtroll.backoff.engine.EnemyFactory;
+import com.deadtroll.backoff.engine.IEnemy;
+
 public class BackOffGame extends BasicGame {
 
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
 	
 	Player player;
-	Enemy[] enemies;
+	IEnemy[] enemies;
 	Bullet[] bullets;
 
 	boolean downPressed;
@@ -36,6 +40,8 @@ public class BackOffGame extends BasicGame {
 	long fireInterval = 200;
 	
 	Image background;
+	
+	EnemyDescriptionMap enemyMap;
 
 	public BackOffGame() {
 		super("Back Off! 0.1");
@@ -43,10 +49,14 @@ public class BackOffGame extends BasicGame {
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
-		this.start();
+		try {
+			this.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private void start() throws SlickException {
+	private void start() throws Exception {
 		this.background = new Image("res/sprites/background.jpg");
 		
 		this.player = new Player();
@@ -58,13 +68,21 @@ public class BackOffGame extends BasicGame {
 		
 		this.bullets = new Bullet[200];
 		
-		this.enemies = new Enemy[200];
+		this.enemies = new IEnemy[200];
+		
+		this.enemyMap = new EnemyDescriptionMap("res/foe");
 		
 		for (int i=0; i<this.enemies.length; i++) {
-			this.enemies[i] = new Zombie();
+			this.enemies[i] = EnemyFactory.getInstance().getEnemyInstance("zombie", this.enemyMap);
 			this.enemies[i].setX(i);
 			this.enemies[i].setY(100);
 		}
+		
+		this.downPressed = false;
+		this.leftPressed = false;
+		this.rightPressed = false;
+		this.upPressed = false;
+		
 	}
 
 	@Override
@@ -142,7 +160,7 @@ public class BackOffGame extends BasicGame {
 		} else {
 			g.setBackground(new Color(50,200,80));
 			g.drawImage(this.player.getCurrentSprite(),this.player.getX(),this.player.getY());
-			for (Enemy e : this.enemies) {
+			for (IEnemy e : this.enemies) {
 				if (e!=null) {
 					g.drawImage(e.getCurrentSprite(), e.getX(), e.getY());
 				}
@@ -163,7 +181,7 @@ public class BackOffGame extends BasicGame {
 			this.victory=false;
 			try {
 				this.start();
-			} catch (SlickException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
@@ -213,7 +231,7 @@ public class BackOffGame extends BasicGame {
 	}
 
 	private void updateEnemyPosition() {
-		for (Enemy e : this.enemies) {
+		for (IEnemy e : this.enemies) {
 			if (e!=null) {
 				if (this.player.getX()>e.getX()) {
 					e.setX(e.getX()+e.getSpeed());
@@ -254,7 +272,7 @@ public class BackOffGame extends BasicGame {
 		Rectangle[] boundingBoxes = new Rectangle[this.enemies.length];
 		for (int i=0;i<this.enemies.length;i++) {
 			if (this.enemies[i]!=null) {
-				Enemy e = this.enemies[i];
+				IEnemy e = this.enemies[i];
 				boundingBoxes[i] = new Rectangle(new Point(e.getX(),e.getY()),new Dimension(e.getCurrentSprite().getWidth(),e.getCurrentSprite().getHeight())); 
 			}
 		}
@@ -274,7 +292,7 @@ public class BackOffGame extends BasicGame {
 		}
 	}
 	
-	private void updateScore(Enemy enemy) {
+	private void updateScore(IEnemy enemy) {
 		this.player.setTotalScore(this.player.getTotalScore()+enemy.getScore());
 	}
 
@@ -285,7 +303,7 @@ public class BackOffGame extends BasicGame {
 		for (int i=0;i<this.enemies.length;i++) {
 			if (this.enemies[i]!=null) {
 				hasEnemies = true;
-				Enemy e = this.enemies[i];
+				IEnemy e = this.enemies[i];
 				boundingBoxes[i] = new Rectangle(new Point(e.getX(),e.getY()),new Dimension(e.getCurrentSprite().getWidth(),e.getCurrentSprite().getHeight())); 
 			}
 		}

@@ -1,23 +1,23 @@
-package com.deadtroll.backoff;
+package com.deadtroll.backoff.engine;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 
-
-public class Enemy implements Character {
+public class GenericEnemy implements IEnemy {
 
 	private int energy;
-	private int x,y;
+	private int x, y;
 	private int speed;
 	private byte status; // 0=alive/default, 1=dead
 	private int damage;
 	private int score;
+
 	private SpriteSheet spriteSheet;
-	
-	public Enemy(String enemyName) {
-		
+
+	public GenericEnemy(String enemyName) {
+
 	}
-	
+
 	public int getEnergy() {
 		return energy;
 	}
@@ -81,5 +81,5 @@ public class Enemy implements Character {
 	public void setSpriteSheet(SpriteSheet sprite) {
 		this.spriteSheet = sprite;
 	}
-
+	
 }
