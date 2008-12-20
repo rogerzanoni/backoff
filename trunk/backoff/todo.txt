@@ -1,13 +1,44 @@
-TO-DO
------
-* Condições de vitória [OK]
-* Arquivo de inimigo
-* Arquivo de personagem
-* Mapa com tiles e colisões (layers??)
-* Arquivo de mapas
-* Editor de mapas
-* Lógica de animação de personagens (??)
-* Editor de animação de personagens (??)
-* Animação de personagens
-* Lógica de fases
-* Editor de fases
+Roadmap
+-------
+0.2 (12/22/2008)
+    * Enemy XML representation [OK]
+    * Player XML representation
+
+0.3 (??/??/????)
+    * Map with tiles and collisions (layered collisions?)
+    * Map XML representation
+    * Map Editor 
+
+0.4 (??/??/????)
+    * Character animation logic (??)
+    * Character animation editor (??) 
+
+0.5 (??/??/????)
+    * Campaign logic (??)
+    * Campaign editor (??) 
+
+0.6 (??/??/????)
+    * Game menu 
+
+0.7 (??/??/????)
+    * Pause features 
+
+0.8 (??/??/????)
+    * Music and sound effects 
+
+0.9 (??/??/????)
+    * Itens collection
+    * Different enemies
+    * Different weapons 
+
+0.9.1 (??/??/????)
+    * Gameplay balancing 
+
+0.9.2 (??/??/????)
+    * Graphics round-up 
+
+0.9.3 (??/??/????)
+    * Beta testing (family members tryout :P) 
+
+1.0 (??/??/????)
+    * Planning Back-off 2!!! 

@@ -15,7 +15,7 @@ public class Bullet {
 
 	public Bullet() {
 		try {
-			this.setSprite(new Image("res/bullet.png"));
+			this.setSprite(new Image("res/sprites/bullet.png"));
 			this.setAbsoluteSpeed(10);
 		} catch (SlickException e) {
 			e.printStackTrace();
