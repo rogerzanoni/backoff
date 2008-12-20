@@ -1,0 +1,13 @@
+TO-DO
+-----
+* Condições de vitória [OK]
+* Arquivo de inimigo
+* Arquivo de personagem
+* Mapa com tiles e colisões (layers??)
+* Arquivo de mapas
+* Editor de mapas
+* Lógica de animação de personagens (??)
+* Editor de animação de personagens (??)
+* Animação de personagens
+* Lógica de fases
+* Editor de fases
