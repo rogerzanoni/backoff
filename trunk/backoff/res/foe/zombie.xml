@@ -1,0 +1,10 @@
+<foe>
+	<name>Zombie</name>
+	<life>10</life>
+	<speed>1</speed>
+	<damage></damage>
+	<spriteSheet>
+		<filename>zombie.png</filename>
+	</spriteSheet>
+	<score>100</score>
+</foe>
