@@ -1,4 +1,5 @@
-package com.deadtroll.backoff.engine;
+package com.deadtroll.backoff.engine.enemy;
+
 
 
 public class EnemyFactory {

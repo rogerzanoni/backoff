@@ -12,9 +12,10 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-import com.deadtroll.backoff.engine.EnemyDescriptionMap;
-import com.deadtroll.backoff.engine.EnemyFactory;
-import com.deadtroll.backoff.engine.IEnemy;
+import com.deadtroll.backoff.engine.Player;
+import com.deadtroll.backoff.engine.enemy.EnemyDescriptionMap;
+import com.deadtroll.backoff.engine.enemy.EnemyFactory;
+import com.deadtroll.backoff.engine.enemy.IEnemy;
 
 public class BackOffGame extends BasicGame {
 

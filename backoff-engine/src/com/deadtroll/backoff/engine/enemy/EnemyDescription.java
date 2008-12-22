@@ -1,4 +1,4 @@
-package com.deadtroll.backoff.engine;
+package com.deadtroll.backoff.engine.enemy;
 
 import org.newdawn.slick.SpriteSheet;
 
