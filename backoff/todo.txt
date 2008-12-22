@@ -1,12 +1,8 @@
 Roadmap
 -------
-0.2 (12/22/2008)
-    * Enemy XML representation [OK]
-    * Player XML representation
-
 0.3 (??/??/????)
-    * Map with tiles and collisions (layered collisions?)
-    * Map XML representation
+    * Map with tiles and collisions (layered collisions?) [OK]
+    * Map XML representation [OK]
     * Map Editor 
 
 0.4 (??/??/????)
