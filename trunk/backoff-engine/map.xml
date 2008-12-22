@@ -1,0 +1,20 @@
+<map description="Greenhill Zone" spriteSheet="res/terrain/map.png" spriteWidth="32" spriteHeight="32" width="20" height="20" playerLayer="1">
+	<layer id="base" zOrder="0">
+		<block x="0" y="0" sprite="0,0" />
+		<block x="1" y="0" sprite="0,0" />
+		<block x="2" y="0" sprite="0,0" />
+		<block x="3" y="0" sprite="0,0" />
+		<block x="4" y="0" sprite="0,0" />
+		<block x="5" y="0" sprite="0,0" />
+		<block x="6" y="0" sprite="0,0" />
+		<block x="7" y="0" sprite="0,0" />
+		<block x="8" y="0" sprite="0,0" />
+		<block x="9" y="0" sprite="0,0" />
+		<block x="6" y="1" sprite="0,0" />
+	</layer>
+	<layer id="walls" zOrder="1">
+	</layer>
+	<layer id="bushes" zOrder="2">
+		<block x="0" y="0" sprite="0,1" />
+	</layer>
+</map>

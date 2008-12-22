@@ -69,14 +69,14 @@ public class BackOffGame extends BasicGame {
 		
 		this.bullets = new Bullet[200];
 		
-		this.enemies = new IEnemy[200];
+		this.enemies = new IEnemy[5];
 		
 		this.enemyMap = new EnemyDescriptionMap("res/foe");
 		
 		for (int i=0; i<this.enemies.length; i++) {
 			this.enemies[i] = EnemyFactory.getInstance().getEnemyInstance("zombie", this.enemyMap);
-			this.enemies[i].setX(i);
-			this.enemies[i].setY(100);
+			this.enemies[i].setX((int)(Math.random()*GAME_WIDTH));
+			this.enemies[i].setY((int)(Math.random()*GAME_HEIGHT));
 		}
 		
 		this.downPressed = false;
