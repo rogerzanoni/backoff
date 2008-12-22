@@ -1,7 +1,8 @@
-package com.deadtroll.backoff.engine;
+package com.deadtroll.backoff.engine.enemy;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
+
 
 public class GenericEnemy implements IEnemy {
 

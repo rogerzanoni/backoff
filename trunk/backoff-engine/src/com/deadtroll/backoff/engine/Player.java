@@ -1,24 +1,23 @@
-package com.deadtroll.backoff;
+package com.deadtroll.backoff.engine;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 
-public class Player implements Character {
-
+public class Player {
+	
 	public static final int DIRECTION_UP = 0;
 	public static final int DIRECTION_RIGHT = 1;
 	public static final int DIRECTION_DOWN = 2;
 	public static final int DIRECTION_LEFT = 3;
-	
+
 	int energy;
-	int x,y;
+	int x, y;
 	int speed;
 	long totalScore;
 	int currentDirection;
-
 	SpriteSheet spriteSheet;
 	int currentSpriteX, currentSpriteY;
-	
+
 	public int getEnergy() {
 		return energy;
 	}
@@ -61,8 +60,9 @@ public class Player implements Character {
 
 	public Image getCurrentSprite() {
 		int lineTotal = this.spriteSheet.getHorizontalCount();
-		return this.spriteSheet.getSprite((this.x+this.y)%lineTotal, this.currentDirection);
-		
+		return this.spriteSheet.getSprite((this.x + this.y) % lineTotal,
+				this.currentDirection);
+
 	}
 
 	public void setSpriteSheet(SpriteSheet sprite) {
@@ -76,5 +76,4 @@ public class Player implements Character {
 	public void setCurrentDirection(int currentDirection) {
 		this.currentDirection = currentDirection;
 	}
-
 }

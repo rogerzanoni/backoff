@@ -1,4 +1,4 @@
-package com.deadtroll.backoff.engine;
+package com.deadtroll.backoff.engine.enemy;
 
 import java.io.File;
 import java.util.HashMap;
