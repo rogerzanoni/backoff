@@ -1,74 +1,65 @@
 #summary Game design document
 
 = NOTICE =
-
 Sorry, the document is in brazilian portuguese, for now. 
 We'll fix it as soon as possible.
 
-Nome do Projeto:  	Back Off!
-Autor: 	Luiz Carlos Cavalcanti
-Versão 	1.2
-Atualização 	2008-11-22
-Índice
-
+==Índice==
 TO-DO
-1. Introdução
 
+==1. Introdução==
 Este documento tem como objetivo descrever o jogo Back Off!. Servirá como guia para o desenvolvimento do jogo proposto e é a documentação de aceitação mínima do produto gerado.
-1.1. Convenções, termos e abreviações
 
+===1.1. Convenções, termos e abreviações===
 TO-DO
-2. Descrição do jogo
-2.1. Nome
 
+==2. Descrição do jogo==
+
+===2.1. Nome===
 Back Off!
-2.2. Gênero
 
+===2.2. Gênero===
 Shooter
-2.3. Descrição
 
+===2.3. Descrição===
 Jogo de tiro com visão top-down.
-2.4. História
 
+===2.4. História===
 A cidade foi invadida por zumbis. Só uma pessoa pode livrar os habitantes deste terrível ameaça, o major Brad.
-2.5. Personagens
 
+===2.5. Personagens===
 Coronel Brad
 
-2.6. Objetivos do jogo
-
+===2.6. Objetivos do jogo===
 Sobreviver o maior tempo possível e marcar o maior número de pontos no placar.
-2.7. Objetivos do jogador
 
+===2.7. Objetivos do jogador===
 Sobreviver à onda de zumbis que invade a tela, usando tiros para matá-los e assim acumular pontos.
-2.8. Jogos similares
 
+===2.8. Jogos similares===
 A mecânica é parecida com shooters de naves:
+  * Gradius
+  * Nanostray
 
-    * Gradius
-    * Nanostray
-
-2.9. Número de jogadores
-
+===2.9. Número de jogadores===
 Um jogador.
-2.10. Plataformas
 
+===2.10. Plataformas===
 PC - Java Standard Editon 5.0 - Windows 2000/XP/Vista, MacOS X, Linux 2.4.
-2.11. Características essenciais
 
-    * Jogabilidade rápida
-    * Gráficos fluidos
-    * Controles simples (direcional + 1 botão)
+===2.11. Características essenciais===
+  * Jogabilidade rápida
+  * Gráficos fluidos
+  * Controles simples (direcional + 1 botão)
 
-3. Desenvolvimento
-
+==3. Desenvolvimento==
 TO-DO
-3.1. Atividades
 
+===3.1. Atividades===
 TO-DO
-3.2. Cronograma
 
+===3.2. Cronograma===
 TO-DO
-4. Testes
 
+==4. Testes==
 TO-DO
