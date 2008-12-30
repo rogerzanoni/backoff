@@ -1,5 +1,6 @@
 package com.deadtroll.backoff.engine.map;
 
+
 public class Map {
 
 	private String name;
@@ -7,6 +8,10 @@ public class Map {
 	private MapLayer[] layers;
 	private int mapWidth;
 	private int mapHeight;
+	private String spriteSheet;
+	private int spriteSheetWidth;
+	private int spriteSheetHeight;
+	private int playerLayer;
 
 	public String getName() {
 		return name;
@@ -48,4 +53,36 @@ public class Map {
 		this.mapWidth = mapWidth;
 	}
 
+	public String getSpriteSheet() {
+		return spriteSheet;
+	}
+
+	public void setSpriteSheet(String spriteSheet) {
+		this.spriteSheet = spriteSheet;
+	}
+
+	public int getPlayerLayer() {
+		return playerLayer;
+	}
+
+	public void setPlayerLayer(int playerLayer) {
+		this.playerLayer = playerLayer;
+	}
+
+	public int getSpriteSheetHeight() {
+		return spriteSheetHeight;
+	}
+
+	public void setSpriteSheetHeight(int spriteSheetHeight) {
+		this.spriteSheetHeight = spriteSheetHeight;
+	}
+
+	public int getSpriteSheetWidth() {
+		return spriteSheetWidth;
+	}
+
+	public void setSpriteSheetWidth(int spriteSheetWidth) {
+		this.spriteSheetWidth = spriteSheetWidth;
+	}
+	
 }
