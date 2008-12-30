@@ -1,17 +1,15 @@
 package com.deadtroll.backoff.engine.map;
 
-import org.newdawn.slick.Image;
-
 public class MapBlock {
 
-	private Image sprite;
+	private int spriteId;
 
-	public Image getSprite() {
-		return sprite;
+	public int getSpriteId() {
+		return spriteId;
 	}
 
-	public void setSprite(Image sprite) {
-		this.sprite = sprite;
+	public void setSpriteId(int spriteId) {
+		this.spriteId = spriteId;
 	}
-
+	
 }
