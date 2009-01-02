@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
 import com.deadtroll.backoff.engine.map.Map;
-import com.deadtroll.backoff.engine.map.MapLayer;
 
 public class NewMapDialog extends JDialog {
 
@@ -219,7 +218,6 @@ public class NewMapDialog extends JDialog {
 			map.setDescription(this.txtName.getText());
 			map.setMapHeight(Integer.parseInt(this.txtMapHeight.getText()));
 			map.setMapWidth(Integer.parseInt(this.txtMapWidth.getText()));
-			map.setLayers(new MapLayer[Integer.parseInt(this.txtLayers.getText())]);
 
 			int resourceW = Integer.parseInt(this.txtResourcesWidth.getText());
 			int resourceH = Integer.parseInt(this.txtResourcesHeight.getText());
@@ -229,6 +227,8 @@ public class NewMapDialog extends JDialog {
 			map.setSpriteSheetWidth(resourceW);
 			map.setPlayerLayer(Integer.parseInt(this.txtPlayerLayer.getText())-1);
 
+			map.initializeMapLayers(Integer.parseInt(this.txtLayers.getText()));
+			
 			ApplicationController.getInstance().setCurrentMap(map);
 
 			this.dispose();

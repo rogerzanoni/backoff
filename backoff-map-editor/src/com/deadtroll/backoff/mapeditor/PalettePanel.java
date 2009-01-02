@@ -3,6 +3,7 @@ package com.deadtroll.backoff.mapeditor;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
@@ -21,6 +22,8 @@ public class PalettePanel extends JPanel {
 	private int spriteSheetHeight;
 	private JList spriteList;
 	private JScrollPane scrollSprite;
+	private JList layerList;
+	private JScrollPane scrollLayer;
 	
 	public PalettePanel() {
 		this.initComponents();
@@ -30,6 +33,7 @@ public class PalettePanel extends JPanel {
 		this.setLayout(null);
 		
 		this.scrollSprite = new JScrollPane();
+		this.scrollLayer = new JScrollPane();
 
 		this.spriteList = new JList();
 		this.spriteList.setCellRenderer(new SpriteListCellRenderer());
@@ -37,7 +41,18 @@ public class PalettePanel extends JPanel {
 
 			public void valueChanged(ListSelectionEvent evt) {
 				if (!evt.getValueIsAdjusting()) {
-					PalettePanel.this.listSelectionAction(evt.getFirstIndex());
+					PalettePanel.this.listSelectionAction(PalettePanel.this.spriteList.getSelectedIndex());
+				}
+			}
+			
+		});
+		
+		this.layerList = new JList();
+		this.layerList.addListSelectionListener(new ListSelectionListener() {
+
+			public void valueChanged(ListSelectionEvent evt) {
+				if (!evt.getValueIsAdjusting()) {
+					PalettePanel.this.layerSelectionAction(PalettePanel.this.layerList.getSelectedIndex());
 				}
 			}
 			
@@ -45,19 +60,28 @@ public class PalettePanel extends JPanel {
 		
 		this.scrollSprite.setSize(160,400);
 		this.scrollSprite.setLocation(10,10);
+		
+		this.scrollLayer.setSize(160,120);
+		this.scrollLayer.setLocation(10,420);
 
 		this.scrollSprite.setViewportView(this.spriteList);
+		this.scrollLayer.setViewportView(this.layerList);
 		
 		this.add(this.scrollSprite);
+		this.add(this.scrollLayer);
+	}
+
+	protected void layerSelectionAction(int index) {
+		ApplicationController.getInstance().setCurrentLayer(index);
+		this.getParent().invalidate();
 	}
 
 	protected void listSelectionAction(int index) {
-		BufferedImage img = (BufferedImage)this.spriteList.getModel().getElementAt(index);
-		ApplicationController.getInstance().setCurrentSprite(img);
 		ApplicationController.getInstance().setCurrentSpriteIndex(index);
 	}
 
 	public void updatePalette() {
+		HashMap<Integer, BufferedImage> spriteMap = new HashMap<Integer, BufferedImage>();
 		if (this.spriteSheetWidth>0 && this.spriteSheetHeight>0) {
 			try {
 				DefaultListModel listModel = new DefaultListModel();
@@ -65,11 +89,13 @@ public class PalettePanel extends JPanel {
 				
 				int blockWidth = img.getWidth()/this.spriteSheetWidth;
 				int blockHeight = img.getHeight()/this.spriteSheetHeight;
-				
+				int id=0;
 				for (int i=0; i<this.spriteSheetHeight; i++) {
 					for (int j = 0; j<this.spriteSheetWidth; j++) {
 						BufferedImage clip = img.getSubimage(j*blockWidth, i*blockHeight, blockWidth, blockHeight);
+						spriteMap.put(id, clip);
 						listModel.addElement(clip);
+						id++;
 					}
 				}
 				this.spriteList.setModel(listModel);
@@ -77,6 +103,15 @@ public class PalettePanel extends JPanel {
 				e.printStackTrace();
 			}
 		}
+		DefaultListModel listModel = new DefaultListModel();
+		int numLayers = ApplicationController.getInstance().getCurrentMap().getLayers().length;
+		for (int i=0; i<numLayers; i++) {
+			listModel.add(i, "Layer "+i);
+		}
+		this.layerList.setModel(listModel);
+		this.layerList.setSelectedIndex(0);
+
+		ApplicationController.getInstance().setSpriteMap(spriteMap);
 	}
 
 	public String getSpriteSheet() {

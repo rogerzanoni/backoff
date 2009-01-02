@@ -1,6 +1,7 @@
 package com.deadtroll.backoff.mapeditor;
 
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 import com.deadtroll.backoff.engine.map.Map;
 
@@ -20,8 +21,9 @@ public class ApplicationController {
 	
 	private Map currentMap;
 	private int currentSpriteIndex;
-	private BufferedImage currentSprite;
-	
+	private HashMap<Integer, BufferedImage> spriteMap;
+	private int currentLayer;
+
 	public Map getCurrentMap() {
 		return currentMap;
 	}
@@ -30,20 +32,28 @@ public class ApplicationController {
 		this.currentMap = currentMap;
 	}
 
-	public BufferedImage getCurrentSprite() {
-		return currentSprite;
-	}
-
-	public void setCurrentSprite(BufferedImage currentSprite) {
-		this.currentSprite = currentSprite;
-	}
-
 	public int getCurrentSpriteIndex() {
 		return currentSpriteIndex;
 	}
 
 	public void setCurrentSpriteIndex(int currentSpriteIndex) {
 		this.currentSpriteIndex = currentSpriteIndex;
+	}
+
+	public HashMap<Integer, BufferedImage> getSpriteMap() {
+		return spriteMap;
+	}
+
+	public void setSpriteMap(HashMap<Integer, BufferedImage> spriteMap) {
+		this.spriteMap = spriteMap;
+	}
+
+	public int getCurrentLayer() {
+		return currentLayer;
+	}
+
+	public void setCurrentLayer(int currentLayer) {
+		this.currentLayer = currentLayer;
 	}
 
 }

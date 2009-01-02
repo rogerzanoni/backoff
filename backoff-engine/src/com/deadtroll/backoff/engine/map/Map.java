@@ -84,5 +84,13 @@ public class Map {
 	public void setSpriteSheetWidth(int spriteSheetWidth) {
 		this.spriteSheetWidth = spriteSheetWidth;
 	}
+
+	public void initializeMapLayers(int amount) {
+		this.layers = new MapLayer[amount];
+		for (int i=0; i<amount; i++) {
+			this.layers[i] = new MapLayer();
+			this.layers[i].setMatrix(new MapBlock[this.mapWidth][this.mapHeight]);
+		}
+	}
 	
 }

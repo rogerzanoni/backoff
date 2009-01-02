@@ -40,6 +40,11 @@ public class MapPanel extends JPanel {
 
 	public void setMap(Map map) {
 		this.map = map;
+		if (map!=null) {
+			this.canvas.setHorizontalBlocks(this.map.getMapWidth());
+			this.canvas.setVerticalBlocks(this.map.getMapHeight());
+			this.canvas.setMap(map);
+		}
 	}
 
 }
