@@ -15,8 +15,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.InternetHeaders;
-
 
 public class MapIOUtil {
 
