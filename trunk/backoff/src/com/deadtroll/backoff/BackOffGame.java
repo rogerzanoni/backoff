@@ -16,6 +16,10 @@ import com.deadtroll.backoff.engine.Player;
 import com.deadtroll.backoff.engine.enemy.EnemyDescriptionMap;
 import com.deadtroll.backoff.engine.enemy.EnemyFactory;
 import com.deadtroll.backoff.engine.enemy.IEnemy;
+import com.deadtroll.backoff.engine.map.Map;
+import com.deadtroll.backoff.engine.map.MapBlock;
+import com.deadtroll.backoff.engine.map.MapIOUtil;
+import com.deadtroll.backoff.engine.map.MapLayer;
 
 public class BackOffGame extends BasicGame {
 
@@ -40,7 +44,8 @@ public class BackOffGame extends BasicGame {
 	long lastFire;
 	long fireInterval = 200;
 	
-	Image background;
+	Map levelMap;
+	SpriteSheet mapSpriteSheet;
 	
 	EnemyDescriptionMap enemyMap;
 
@@ -58,7 +63,10 @@ public class BackOffGame extends BasicGame {
 	}
 	
 	private void start() throws Exception {
-		this.background = new Image("res/sprites/background.jpg");
+		this.levelMap = MapIOUtil.loadMap("level01.map");
+		
+		Image img = new Image(this.levelMap.getSpriteSheet());
+		this.mapSpriteSheet = new SpriteSheet(this.levelMap.getSpriteSheet(),img.getWidth()/this.levelMap.getSpriteSheetWidth(),img.getHeight()/this.levelMap.getSpriteSheetHeight());
 		
 		this.player = new Player();
 		this.player.setSpriteSheet(new SpriteSheet("res/sprites/player.png",32,32));
@@ -145,7 +153,6 @@ public class BackOffGame extends BasicGame {
 	}
 
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		g.drawImage(this.background, 0, 0);
 		if (this.gameOver) {
 			g.setBackground(new Color(0,0,0));
 			String gameOverMessage = "GAME OVER!\n Press any key to start again.";
@@ -159,17 +166,32 @@ public class BackOffGame extends BasicGame {
 			int messageHeight = g.getFont().getHeight(gameOverMessage);
 			g.drawString(gameOverMessage, (BackOffGame.GAME_WIDTH/2)-(messageWidth/2), (BackOffGame.GAME_HEIGHT/2)-(messageHeight/2));
 		} else {
-			g.setBackground(new Color(50,200,80));
-			g.drawImage(this.player.getCurrentSprite(),this.player.getX(),this.player.getY());
-			for (IEnemy e : this.enemies) {
-				if (e!=null) {
-					g.drawImage(e.getCurrentSprite(), e.getX(), e.getY());
+			int currentLayer = 0;
+			for (MapLayer ml : this.levelMap.getLayers()) {
+				if (currentLayer==this.levelMap.getPlayerLayer()) {
+					g.drawImage(this.player.getCurrentSprite(),this.player.getX(),this.player.getY());
+					for (IEnemy e : this.enemies) {
+						if (e!=null) {
+							g.drawImage(e.getCurrentSprite(), e.getX(), e.getY());
+						}
+					}
+					for (Bullet b: this.bullets) {
+						if (b!=null) {
+							g.drawImage(b.getSprite(), b.getX(), b.getY());
+						}
+					}
 				}
-			}
-			for (Bullet b: this.bullets) {
-				if (b!=null) {
-					g.drawImage(b.getSprite(), b.getX(), b.getY());
+				for (int i=0; i<this.levelMap.getMapWidth(); i++) {
+					for (int j=0; j<this.levelMap.getMapHeight(); j++) {
+						MapBlock mb = ml.getMatrix()[i][j];
+						if (mb!=null) {
+							int id = mb.getSpriteId();
+							Image tile = this.mapSpriteSheet.getSprite((id%this.mapSpriteSheet.getHorizontalCount()),id/this.mapSpriteSheet.getHorizontalCount());
+							g.drawImage(tile, tile.getWidth()*i, tile.getHeight()*j);
+						}
+					}
 				}
+				currentLayer++;
 			}
 			g.drawString("Energy: "+this.player.getEnergy(), 10, 22);
 			g.drawString("Score: "+this.player.getTotalScore(), 10, 34);
@@ -347,4 +369,5 @@ public class BackOffGame extends BasicGame {
 			}
 		}
 	}
+	
 }
