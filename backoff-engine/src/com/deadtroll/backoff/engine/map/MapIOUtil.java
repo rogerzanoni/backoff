@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
 
 public class MapIOUtil {
 
-	public static Map loadMap(String src) throws Throwable {
+	public static Map loadMap(String src) throws Exception {
 		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(src));
 		Map map = xmlToMap(doc);
 		return map;
