@@ -231,46 +231,51 @@ public class BackOffGame extends BasicGame {
 	}
 
 	private void updatePlayerPosition() {
+		int plW = this.player.getCurrentSprite().getWidth();
+		int plH = this.player.getCurrentSprite().getHeight();
+
 		if (this.downPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_DOWN);
-			if (checkForCollision(this.player.getX(), this.player.getY()+this.player.getSpeed())) {
+			if (checkForLayerCollision(this.player.getX(), this.player.getY()+this.player.getSpeed(), plW, plH)) {
 				this.player.setY(this.player.getY()+this.player.getSpeed());
 			}
 			this.heading = 0;
 		}
 		if (this.upPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_UP);
-			if (checkForCollision(this.player.getX(), this.player.getY()-this.player.getSpeed())) {
+			if (checkForLayerCollision(this.player.getX(), this.player.getY()-this.player.getSpeed(), plW, plH)) {
 				this.player.setY(this.player.getY()-this.player.getSpeed());
 			}
 			this.heading = 1;
 		}
 		if (this.leftPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_LEFT);
-			if (checkForCollision(this.player.getX()-this.player.getSpeed(), this.player.getY())) {
+			if (checkForLayerCollision(this.player.getX()-this.player.getSpeed(), this.player.getY(), plW, plH)) {
 				this.player.setX(this.player.getX()-this.player.getSpeed());
 			}
 			this.heading = 2;
 		}
 		if (this.rightPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_RIGHT);
-			if (checkForCollision(this.player.getX()+this.player.getSpeed(), this.player.getY())) {
+			if (checkForLayerCollision(this.player.getX()+this.player.getSpeed(), this.player.getY(), plW, plH)) {
 				this.player.setX(this.player.getX()+this.player.getSpeed());
 			}
 			this.heading = 3;
 		}
 	}
 
-	private boolean checkForCollision(int x, int y) {
+	private boolean checkForLayerCollision(int x, int y, int objectWidth, int objectHeight) {
 		int playerLayer = this.levelMap.getPlayerLayer();
-		Rectangle playerRect = new Rectangle(new Point(x,y),new Dimension(this.player.getCurrentSprite().getWidth(),this.player.getCurrentSprite().getHeight()));
+		Rectangle playerRect = new Rectangle(new Point(x,y),new Dimension(objectWidth, objectHeight));
+		
+		Image tile = this.mapSpriteSheet.getSprite(0, 0);
+		
 		MapLayer ml = this.levelMap.getLayers()[playerLayer];
 		for (int i=0; i<this.levelMap.getMapWidth(); i++) {
 			for (int j=0; j<this.levelMap.getMapHeight(); j++) {
 				MapBlock mb = ml.getMatrix()[i][j];
-				Image tile = this.mapSpriteSheet.getSprite(0,0);
-				Rectangle rect = new Rectangle(new Point(tile.getWidth()*i, tile.getHeight()*j), new Dimension(tile.getWidth(),tile.getHeight()));
 				if (mb!=null) {
+					Rectangle rect = new Rectangle(new Point(tile.getWidth()*i, tile.getHeight()*j), new Dimension(tile.getWidth(),tile.getHeight()));
 					if (rect.intersects(playerRect)) {
 						return false;
 					}
@@ -283,22 +288,25 @@ public class BackOffGame extends BasicGame {
 	private void updateEnemyPosition() {
 		for (IEnemy e : this.enemies) {
 			if (e!=null) {
+				int eW = e.getCurrentSprite().getWidth();
+				int eH = e.getCurrentSprite().getHeight();
+
 				if (this.player.getX()>e.getX()) {
-					if (this.checkForCollision(e.getX()+e.getSpeed(), e.getY())) {
+					if (this.checkForLayerCollision(e.getX()+e.getSpeed(), e.getY(), eW, eH)) {
 						e.setX(e.getX()+e.getSpeed());
 					}
 				} else {
-					if (this.checkForCollision(e.getX()-e.getSpeed(), e.getY())) {
+					if (this.checkForLayerCollision(e.getX()-e.getSpeed(), e.getY(), eW, eH)) {
 						e.setX(e.getX()-e.getSpeed());
 					}
 				}
 				
 				if (this.player.getY()>e.getY()) {
-					if (this.checkForCollision(e.getX(), e.getY()+e.getSpeed())) {
+					if (this.checkForLayerCollision(e.getX(), e.getY()+e.getSpeed(), eW, eH)) {
 						e.setY(e.getY()+e.getSpeed());
 					}
 				} else {
-					if (this.checkForCollision(e.getX(), e.getY()-e.getSpeed())) {
+					if (this.checkForLayerCollision(e.getX(), e.getY()-e.getSpeed(), eW, eH)) {
 						e.setY(e.getY()-e.getSpeed());
 					}
 				}
@@ -307,10 +315,15 @@ public class BackOffGame extends BasicGame {
 	}
 	
 	private void updateBulletPosition() {
-		for (Bullet b : this.bullets) {
-			if (b!=null) {
-				b.setX(b.getX()+b.getXSpeed());
-				b.setY(b.getY()+b.getYSpeed());
+		for (int i=0; i<this.bullets.length; i++) {
+			if (this.bullets[i]!=null) {
+				Bullet b = this.bullets[i];
+				if (this.checkForLayerCollision(b.getX()+b.getXSpeed(), b.getY()+b.getYSpeed(), b.getSprite().getWidth(), b.getSprite().getHeight())) {
+					b.setX(b.getX()+b.getXSpeed());
+					b.setY(b.getY()+b.getYSpeed()); 
+				} else {
+					this.bullets[i] = null;
+				}
 			}
 		}
 	}
