@@ -1,20 +1,22 @@
 Roadmap
--------
-0.3 (??/??/????)
-    * Map with tiles and collisions (layered collisions?) [OK]
-    * Map XML representation [OK]
-    * Map Editor 
 
-0.4 (??/??/????)
-    * Character animation logic (??)
-    * Character animation editor (??) 
+0.4 (01/10/2009)
+    * In-game map renderer (OK)
+    * Layer-based collision detection
+    * Game Design Document SERIOUS improvement
+    * Graphic improvement 
 
 0.5 (??/??/????)
-    * Campaign logic (??)
-    * Campaign editor (??) 
+    * Level logic
+    * Level XML Representation
+    * Level editor
+    * Character animation logic
+    * Character animation editor 
 
 0.6 (??/??/????)
-    * Game menu 
+    * Game menu
+    * Campaign logic
+    * Campaign editor 
 
 0.7 (??/??/????)
     * Pause features 
