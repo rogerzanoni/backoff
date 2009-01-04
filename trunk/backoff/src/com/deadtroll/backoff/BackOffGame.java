@@ -233,39 +233,74 @@ public class BackOffGame extends BasicGame {
 	private void updatePlayerPosition() {
 		if (this.downPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_DOWN);
-			this.player.setY(this.player.getY()+this.player.getSpeed());
+			if (checkForCollision(this.player.getX(), this.player.getY()+this.player.getSpeed())) {
+				this.player.setY(this.player.getY()+this.player.getSpeed());
+			}
 			this.heading = 0;
 		}
 		if (this.upPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_UP);
-			this.player.setY(this.player.getY()-this.player.getSpeed());
+			if (checkForCollision(this.player.getX(), this.player.getY()-this.player.getSpeed())) {
+				this.player.setY(this.player.getY()-this.player.getSpeed());
+			}
 			this.heading = 1;
 		}
 		if (this.leftPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_LEFT);
-			this.player.setX(this.player.getX()-this.player.getSpeed());
+			if (checkForCollision(this.player.getX()-this.player.getSpeed(), this.player.getY())) {
+				this.player.setX(this.player.getX()-this.player.getSpeed());
+			}
 			this.heading = 2;
 		}
 		if (this.rightPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_RIGHT);
-			this.player.setX(this.player.getX()+this.player.getSpeed());
+			if (checkForCollision(this.player.getX()+this.player.getSpeed(), this.player.getY())) {
+				this.player.setX(this.player.getX()+this.player.getSpeed());
+			}
 			this.heading = 3;
 		}
+	}
+
+	private boolean checkForCollision(int x, int y) {
+		int playerLayer = this.levelMap.getPlayerLayer();
+		Rectangle playerRect = new Rectangle(new Point(x,y),new Dimension(this.player.getCurrentSprite().getWidth(),this.player.getCurrentSprite().getHeight()));
+		MapLayer ml = this.levelMap.getLayers()[playerLayer];
+		for (int i=0; i<this.levelMap.getMapWidth(); i++) {
+			for (int j=0; j<this.levelMap.getMapHeight(); j++) {
+				MapBlock mb = ml.getMatrix()[i][j];
+				Image tile = this.mapSpriteSheet.getSprite(0,0);
+				Rectangle rect = new Rectangle(new Point(tile.getWidth()*i, tile.getHeight()*j), new Dimension(tile.getWidth(),tile.getHeight()));
+				if (mb!=null) {
+					if (rect.intersects(playerRect)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	private void updateEnemyPosition() {
 		for (IEnemy e : this.enemies) {
 			if (e!=null) {
 				if (this.player.getX()>e.getX()) {
-					e.setX(e.getX()+e.getSpeed());
+					if (this.checkForCollision(e.getX()+e.getSpeed(), e.getY())) {
+						e.setX(e.getX()+e.getSpeed());
+					}
 				} else {
-					e.setX(e.getX()-e.getSpeed());
+					if (this.checkForCollision(e.getX()-e.getSpeed(), e.getY())) {
+						e.setX(e.getX()-e.getSpeed());
+					}
 				}
 				
 				if (this.player.getY()>e.getY()) {
-					e.setY(e.getY()+e.getSpeed());
+					if (this.checkForCollision(e.getX(), e.getY()+e.getSpeed())) {
+						e.setY(e.getY()+e.getSpeed());
+					}
 				} else {
-					e.setY(e.getY()-e.getSpeed());
+					if (this.checkForCollision(e.getX(), e.getY()-e.getSpeed())) {
+						e.setY(e.getY()-e.getSpeed());
+					}
 				}
 			}
 		}
