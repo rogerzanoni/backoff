@@ -34,7 +34,10 @@ public class MapCanvas extends JPanel {
 	private void addEvents() {
 		this.addMouseMotionListener(new MouseMotionListener() {
 
-			public void mouseDragged(MouseEvent arg0) {
+			public void mouseDragged(MouseEvent evt) {
+				MapCanvas.this.currentMouseLocation = evt.getPoint();
+				MapCanvas.this.processClick(evt.getButton()==MouseEvent.BUTTON3);
+				MapCanvas.this.repaint();
 			}
 
 			public void mouseMoved(MouseEvent evt) {
