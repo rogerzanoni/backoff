@@ -1,4 +1,4 @@
-|| Plataforma || PC ||
+|| Plataforma || PC - Java Standard Editon 5.0 - Windows 2000/XP/Vista, MacOS X, Linux 2.4 ||
 || Jogadores || Um jogador ||
 || Gênero || Ação/Aventura ||
 || Objetivo || O objetivo é sobreviver aos monstros que tentam atacar o personagem, enquanto procura os "checkpoints" que vão esclarecendo a trama do jogo. A fase termina quando o jogador alcança todos os "checkpoints" e alcança a saída do cenário. O jogador perde quando o personagem controlado por ele perde todos os pontos de vidas, seja atingido pelos inimigos ou pelos perigos do cenário.||
