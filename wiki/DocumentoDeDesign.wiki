@@ -6,20 +6,72 @@
 "Back-off!" coloca o jogador no papel do coronel Brad Teeper, aparentemente o único sobrevivente de uma terrível invazão de zumbis em Big River Valley, sua cidade natal. O jogador deve ajudar o coronel Brad a sobreviver ao exército de criaturas famintas enquanto tenta desvendar a origem deste estranho incidente, coletando armas e pistas essencias para o sucesso da empreitada.
 
 ==1.2. Aspectos fundamentais==
-O jogador controlará o personagem principal por diversos cenários distintos e seqüenciais, matando ou evitando inimigos, em busca de "checkpoints", onde pedaços da trama vão sendo revelados, sob a forma de slides com texto em tela cheia. A arma inicial é simples, e com munição limitada. Mais munição, além de outras armas, podem ser conseguidas ao longo dos cenários. Em raras ocasiões, o jogador pode encontrar "power-ups" permanentes ou temporários
-que podem, entre outras coisas, aumentar o máximo de pontos de vida do personagem, aumentar o número de disparos por segundo de um determinado tipo de arma ou ainda aumentar o dano causado pelos projéteis da mesma.
+O jogador controlará o personagem principal por diversos cenários distintos e seqüenciais, matando ou evitando inimigos, em busca de "checkpoints", onde pedaços da trama vão sendo revelados, sob a forma de slides com texto em tela cheia. A arma inicial é simples, e com munição limitada. Mais munição, além de outras armas, podem ser conseguidas ao longo dos cenários. Em raras ocasiões, o jogador pode encontrar "power-ups" permanentes ou temporários que podem, entre outras coisas, aumentar o máximo de pontos de vida do personagem, aumentar o número de disparos por segundo de um determinado tipo de arma ou ainda aumentar o dano causado pelos projéteis da mesma.
 
 ==1.3. Golden nuggets==
-<font color="red"><<Lista os elementos do jogo que o diferenciam dos concorrentes>></font>
+<font color="red">
+Lista os elementos do jogo que o diferenciam dos concorrentes
+</font>
 
 =2. Contexto=
-<font color="red">Onde você descreve o mundo que rodeia o jogo, sejam as estepes da Grécia antiga ou os estádios das equipes atuais da NFL. Todo jogo existe dentro de um contexto que é essencial para se entender o que acontece dentro dele. Em alguns jogos é uma história baseada na interação dos personagens. Em outros, pode ser o histórico de uma batalha ou guerra</font>
+<font color="red">
+Onde você descreve o mundo que rodeia o jogo, sejam as estepes da Grécia antiga ou os estádios das equipes atuais da NFL. Todo jogo existe dentro de um contexto que é essencial para se entender o que acontece dentro dele. Em alguns jogos é uma história baseada na interação dos personagens. Em outros, pode ser o histórico de uma batalha ou guerra
+</font>
 
 ==2.1. História do jogo==
-<font color="red">Onde você explica e esclarece a história do jogo, do início ao fim. Esta seção contém "spoilers" da experiência de jogo, mas é essencial que a história (a partir da perspectiva do jogador) seja documentada com clareza</font>
+<font color="red">
+Onde você explica e esclarece a história do jogo, do início ao fim. Esta seção contém "spoilers" da experiência de jogo, mas é essencial que a história (a partir da perspectiva do jogador) seja documentada com clareza
+</font>
 
 ==2.2. Eventos anteriores==
-<font color="red">Esclarece o que aconteceu antes do jogador assumir o controle do(s) personagem(ns). Explica o contexto da história do jogo dentro do universo do mesmo como um todo. Também descreve (quando necessário) o universo do jogo</font>
+<font color="red">
+Esclarece o que aconteceu antes do jogador assumir o controle do(s) personagem(ns). Explica o contexto da história do jogo dentro do universo do mesmo como um todo. Também descreve (quando necessário) o universo do jogo
+</font>
 
 ==2.3. Principais jogadores==
-<font color="red">No caso de jogos em que os personagens são os elementos-chave, esta seção permite que o designer apresente e explique os principais personagens do jogo, do alterego do jogador até seu terrível adversário. No caso de um grande jogo de RPG, a seção pode ser um tanto longa. Ao descrever um personagem, você pode apresentar a biografia dele, sua habilidades especiais, motivações e tudo o mais que definirá como ele agirá e que papel desempenhará dentro da história do game</font>
+<font color="red">
+No caso de jogos em que os personagens são os elementos-chave, esta seção permite que o designer apresente e explique os principais personagens do jogo, do alterego do jogador até seu terrível adversário. No caso de um grande jogo de RPG, a seção pode ser um tanto longa. Ao descrever um personagem, você pode apresentar a biografia dele, sua habilidades especiais, motivações e tudo o mais que definirá como ele agirá e que papel desempenhará dentro da história do game
+</font>
+
+=3. Objetos essenciais=
+
+==3.1. Personagens==
+<font color="red">
+Descreve os personagens do jogo, dos principais aos NPCs aliados ou inimigos menos importantes.
+</font>
+
+==3.2. Armas==
+<font color="red">
+Descreve as armas ou habilidades que exercem papel significativo no jogo.
+</font>
+
+==3.3. Estruturas==
+<font color="red">
+Descrição das estruturas encontradas, utilizadas ou enfrentadas pelo jogador durante o progresso do jogo.
+</font>
+
+==3.4. Objetos==
+<font color="red">
+Descrição de todos os objetos relevantes que não se encaixam nas seções anteriores. Itens de inventário, power-ups, chaves, itens de solução de enigmas, etc.
+</font>
+
+=4. Conflitos e soluções=
+<font color="red">TO DO</font>
+
+=5. Inteligência artificial=
+<font color="red">TO DO</font>
+
+=6. Fluxo do jogo=
+<font color="red">TO DO</font>
+
+=7. Controles=
+<font color="red">TO DO</font>
+
+=8. Variações de jogo=
+<font color="red">TO DO</font>
+
+=9. Definições=
+<font color="red">TO DO</font>
+
+=  # Referências=
+<font color="red">TO DO</font>
