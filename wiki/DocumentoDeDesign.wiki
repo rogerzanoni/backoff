@@ -1,0 +1,11 @@
+=1. Visão geral essencial=
+
+==1.1. Resumo==
+"Back-off!" coloca o jogador no papel do coronel Brad Teeper, aparentemente o único sobrevivente de uma terrível invazão de zumbis em Big River Valley, sua cidade natal. O jogador deve ajudar o coronel Brad a sobreviver ao exército de criaturas famintas enquanto tenta desvendar a origem deste estranho incidente, coletando armas e pistas essencias para o sucesso da empreitada.
+
+==1.2. Aspectos fundamentais==
+O jogador controlará o personagem principal por diversos cenários distintos e seqüenciais, matando ou evitando inimigos, em busca de "checkpoints", onde pedaços da trama vão sendo revelados, sob a forma de slides com texto em tela cheia. A arma inicial é simples, e com munição limitada. Mais munição, além de outras armas, podem ser conseguidas ao longo dos cenários. Em raras ocasiões, o jogador pode encontrar "power-ups" permanentes ou temporários
+que podem, entre outras coisas, aumentar o máximo de pontos de vida do personagem, aumentar o número de disparos por segundo de um determinado tipo de arma ou ainda aumentar o dano causado pelos projéteis da mesma.
+
+==1.3. Golden nuggets==
+<<Lista os elementos do jogo que o diferenciam dos concorrentes>>
