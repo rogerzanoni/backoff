@@ -1,0 +1,15 @@
+#summary Lista de documentos do projeto
+
+= Lista de documentos =
+  # [HighConcept High concept]
+  # [ApresentacaoDeVendas Apresentação de vendas]
+  # [Escopo Escopo]
+  # [DocumentoDeDesign Documento de design]
+  # [DadosDoJogo Dados do jogo]
+  # [DesignTecnico Design técnico]
+  # [EspecificacaoFuncional Especificação funcional]
+  # [DesignDeFerramentas Design de ferramentas]
+  # [ListaDeRecursos Lista de recursos]
+  # [PlanoDeMarketing Plano de marketing]
+  # [PlanoDeLocalizacao Plano de localização]
+  # [ListaDeMetas Lista de Metas]
