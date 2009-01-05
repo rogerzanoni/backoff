@@ -10,6 +10,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -73,7 +74,8 @@ public class PalettePanel extends JPanel {
 
 	protected void layerSelectionAction(int index) {
 		ApplicationController.getInstance().setCurrentLayer(index);
-		this.getParent().invalidate();
+		// Terrible way to do it! who cares? :P
+		((JSplitPane)this.getParent()).getLeftComponent().repaint();
 	}
 
 	protected void listSelectionAction(int index) {
