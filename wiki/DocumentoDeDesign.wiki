@@ -41,9 +41,12 @@ Descreve os personagens do jogo, dos principais aos NPCs aliados ou inimigos men
 </font>
 
 ==3.2. Armas==
-<font color="red">
-Descreve as armas ou habilidades que exercem papel significativo no jogo.
-</font>
+
+*M9*
+|| Tamanho do pente || 15 balas ||
+|| Tempo de recarga (em segundos) || 2.2 ||
+|| Tiros por segundo || 3 ||
+|| Referência || http://en.wikipedia.org/wiki/M9_pistol ||
 
 ==3.3. Estruturas==
 <font color="red">
