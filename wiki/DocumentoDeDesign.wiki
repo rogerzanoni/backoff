@@ -43,10 +43,20 @@ Descreve os personagens do jogo, dos principais aos NPCs aliados ou inimigos men
 ==3.2. Armas==
 
 *M9*
-|| Tamanho do pente || 15 balas ||
+|| Dano || 2 ||
+|| Tamanho do pente || 15 ||
+|| Tamanho do pente || 50 ||
 || Tempo de recarga (em segundos) || 2.2 ||
 || Tiros por segundo || 3 ||
 || Referência || http://en.wikipedia.org/wiki/M9_pistol ||
+
+*Desert Eagle*
+|| Dano || 4 ||
+|| Tamanho do pente || 10 ||
+|| Tamanho do pente || 30 ||
+|| Tempo de recarga (em segundos) || 3 ||
+|| Tiros por segundo || 1.5 ||
+|| Referência || http://en.wikipedia.org/wiki/Desert_Eagle ||
 
 ==3.3. Estruturas==
 <font color="red">
