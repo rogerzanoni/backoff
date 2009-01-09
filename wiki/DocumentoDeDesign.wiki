@@ -45,21 +45,21 @@ Descreve os personagens do jogo, dos principais aos NPCs aliados ou inimigos men
 *M9* (http://en.wikipedia.org/wiki/M9_pistol)
 || Dano || 2 ||
 || Tamanho do pente || 15 ||
-|| Tamanho do pente || 50 ||
+|| Máximo de munição || 50 ||
 || Tempo de recarga (em segundos) || 2.2 ||
 || Tiros por segundo || 3 ||
 
 *Desert Eagle* (http://en.wikipedia.org/wiki/Desert_Eagle)
 || Dano || 4 ||
 || Tamanho do pente || 10 ||
-|| Tamanho do pente || 30 ||
+|| Máximo de munição || 30 ||
 || Tempo de recarga (em segundos) || 3 ||
 || Tiros por segundo || 1.5 ||
 
 *M16* (http://en.wikipedia.org/wiki/M16_rifle)
 || Dano || 2 ||
 || Tamanho do pente || 20 ||
-|| Tamanho do pente || 150 ||
+|| Máximo de munição || 150 ||
 || Tempo de recarga (em segundos) || 3 ||
 || Tiros por segundo || 15 ||
 
