@@ -66,6 +66,12 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
+		this.closeMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MainFrame.this.closeAction();
+			}
+		});
+		
 		this.fileMenu.add(this.newFileMenuItem);
 		this.fileMenu.add(this.openFileMenuItem);
 		this.fileMenu.add(new JSeparator());
@@ -101,10 +107,12 @@ public class MainFrame extends JFrame {
 		new NewMapDialog(this,true).setVisible(true);
 		this.map = ApplicationController.getInstance().getCurrentMap();
 		this.mapPanel.setMap(this.map);
-		this.palettePanel.setSpriteSheet(this.map.getSpriteSheet());
-		this.palettePanel.setSpriteSheetWidth(this.map.getSpriteSheetWidth());
-		this.palettePanel.setSpriteSheetHeight(this.map.getSpriteSheetHeight());
-		this.palettePanel.updatePalette();
+		if (map!=null) {
+			this.palettePanel.setSpriteSheet(this.map.getSpriteSheet());
+			this.palettePanel.setSpriteSheetWidth(this.map.getSpriteSheetWidth());
+			this.palettePanel.setSpriteSheetHeight(this.map.getSpriteSheetHeight());
+			this.palettePanel.updatePalette();
+		}
 		this.fileLocation = "";
 	}
 
@@ -174,5 +182,9 @@ public class MainFrame extends JFrame {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private void closeAction() {
+		this.dispose();
 	}
 }
