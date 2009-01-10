@@ -9,24 +9,21 @@
 O jogador controlará o personagem principal por diversos cenários distintos e seqüenciais, matando ou evitando inimigos, em busca de "checkpoints", onde pedaços da trama vão sendo revelados, sob a forma de slides com texto em tela cheia. A arma inicial é simples, e com munição limitada. Mais munição, além de outras armas, podem ser conseguidas ao longo dos cenários. Em raras ocasiões, o jogador pode encontrar "power-ups" permanentes ou temporários que podem, entre outras coisas, aumentar o máximo de pontos de vida do personagem, aumentar o número de disparos por segundo de um determinado tipo de arma ou ainda aumentar o dano causado pelos projéteis da mesma.
 
 ==1.3. Golden nuggets==
-<font color="red">
-Lista os elementos do jogo que o diferenciam dos concorrentes
-</font>
+Nada, até agora.
 
 =2. Contexto=
 <font color="red">
-Onde você descreve o mundo que rodeia o jogo, sejam as estepes da Grécia antiga ou os estádios das equipes atuais da NFL. Todo jogo existe dentro de um contexto que é essencial para se entender o que acontece dentro dele. Em alguns jogos é uma história baseada na interação dos personagens. Em outros, pode ser o histórico de uma batalha ou guerra
+TODO Melhorar toda a seção
 </font>
 
 ==2.1. História do jogo==
-<font color="red">
-Onde você explica e esclarece a história do jogo, do início ao fim. Esta seção contém "spoilers" da experiência de jogo, mas é essencial que a história (a partir da perspectiva do jogador) seja documentada com clareza
-</font>
+Noite de sábado, o Coronel Brad Teeper dormia em sua cama, em um raro fim de semana de folga. De repende, um barulho no andar de baixo, diretamente de sua sala. O coronel acorda sobressaltado e, de arma em punho, desce para ver o que está havendo. Lá ele encontra uma "pessoa" tentando pegar seu peixe dourado do aquário. O coronel dá voz de prisão, e o ser avança em sua direção. É uma pessoa, mas há algo de errado com ela.
+
+Uma série de mini-missões pela vizinhança e centro da cidade, fazem o coronel chegar à conclusão de que sua única saída é escapar para a base militar mais próxima, a mesma que ele costuma servir.
+Chegando lá, ele descobre que a base está cercada de zumbis e alienígenas. Ele precisa invadir a base e se juntar a uma pequena resistência que se forma lá dentro. Uma vez com isso conquistado, o Coronel ajuda a resistência e elimina todos os inimigos que cercam a base. Com a base livre, chegou a hora de atacar a nave mãe dos alienígenas, na órbita terrestre. O ambiente é estranho e hostil, os inimigos são ágeis e fortes, as salas são imensas. Ao destruir o reator da nave, o coronel volta para a terra, impedindo de uma vez por todas qualquer invasão alienígena. Ao menos, por um bom tempo.
 
 ==2.2. Eventos anteriores==
-<font color="red">
-Esclarece o que aconteceu antes do jogador assumir o controle do(s) personagem(ns). Explica o contexto da história do jogo dentro do universo do mesmo como um todo. Também descreve (quando necessário) o universo do jogo
-</font>
+Os alienígenas do planeta Frings invadem silenciosamente a terra, transformando os habitantes de cidades pequenas em zumbis, para chamar pouca atenção das autoridades e assim formar um exército numeroso, a caminhar na direção das principais cidades do mundo.
 
 ==2.3. Principais jogadores==
 <font color="red">
@@ -64,8 +61,15 @@ Descreve os personagens do jogo, dos principais aos NPCs aliados ou inimigos men
 || Tiros por segundo || 15 ||
 
 ==3.3. Estruturas==
+*Cidade*
+A maior característica do ambiente urbano do jogo é a quantidade de escombros bloqueando o caminho do jogador. Nada demais aqui, apenas coisas quebradas, tijolos ou carros destruídos. Árvores e arbustos compoem a vegetação.
+
+*Base*
+Base militar comum, com veículos inoperantes, destruídos ou simplesmente parados, Barreiras que impedem a passagem do jogador, ambientes que se tornam verdadeiros labirintos. Sem vegetação.
+
+*Nave alienígena*
 <font color="red">
-Descrição das estruturas encontradas, utilizadas ou enfrentadas pelo jogador durante o progresso do jogo.
+Descreve os personagens do jogo, dos principais aos NPCs aliados ou inimigos menos importantes.
 </font>
 
 ==3.4. Objetos==
