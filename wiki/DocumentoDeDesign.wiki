@@ -68,9 +68,8 @@ A maior característica do ambiente urbano do jogo é a quantidade de escombros 
 Base militar comum, com veículos inoperantes, destruídos ou simplesmente parados, Barreiras que impedem a passagem do jogador, ambientes que se tornam verdadeiros labirintos. Sem vegetação.
 
 *Nave alienígena*
-<font color="red">
-Descreve os personagens do jogo, dos principais aos NPCs aliados ou inimigos menos importantes.
-</font>
+A definir.
+
 
 ==3.4. Objetos==
 <font color="red">
