@@ -268,7 +268,6 @@ public class NewMapDialog extends JDialog {
 	}
 
 	private void updatePreview() {
-		// TODO implementar preview de SpriteSheet
 		try {
 			this.previewPanel.removeAll();
 			BufferedImage imgFile = ImageIO.read(new File(this.resourceFile.getAbsolutePath()));
@@ -276,9 +275,7 @@ public class NewMapDialog extends JDialog {
 			 int pH = imgFile.getHeight(null)>this.previewPanel.getHeight()?this.previewPanel.getHeight():imgFile.getHeight(null);
 			 int pW = imgFile.getWidth(null)>this.previewPanel.getWidth()?this.previewPanel.getWidth():imgFile.getWidth(null);
 			 imgFile = this.getScaledInstance(imgFile, pW, pH, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR, true);
-//			 imgFile.getScaledInstance(pW, pH, Image.SCALE_DEFAULT);
 
-			// TODO escalar imagem
 			try {
 				if (this.txtResourcesHeight.getText().length() > 0
 						&& this.txtResourcesWidth.getText().length() > 0) {
