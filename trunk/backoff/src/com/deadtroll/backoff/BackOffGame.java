@@ -20,6 +20,7 @@ import com.deadtroll.backoff.engine.map.Map;
 import com.deadtroll.backoff.engine.map.MapBlock;
 import com.deadtroll.backoff.engine.map.MapIOUtil;
 import com.deadtroll.backoff.engine.map.MapLayer;
+import com.deadtroll.backoff.engine.weapon.Weapon;
 
 public class BackOffGame extends BasicGame {
 
@@ -42,7 +43,6 @@ public class BackOffGame extends BasicGame {
 	byte heading; //0 = down, 1=up, 2=left, 3=right
 
 	long lastFire;
-	long fireInterval = 200;
 	
 	Map levelMap;
 	SpriteSheet mapSpriteSheet;
@@ -72,8 +72,8 @@ public class BackOffGame extends BasicGame {
 		this.player.setSpriteSheet(new SpriteSheet("res/sprites/player.png",32,32));
 		this.player.setSpeed(3);
 		this.player.setEnergy(100);
-		this.player.setX((BackOffGame.GAME_WIDTH/2)-(this.player.getCurrentSprite().getWidth()/2));
-		this.player.setY((BackOffGame.GAME_HEIGHT/2)-(this.player.getCurrentSprite().getHeight()/2));
+		this.player.setX(0);
+		this.player.setY(0);
 		
 		this.bullets = new Bullet[200];
 		
@@ -195,6 +195,8 @@ public class BackOffGame extends BasicGame {
 			}
 			g.drawString("Energy: "+this.player.getEnergy(), 10, 22);
 			g.drawString("Score: "+this.player.getTotalScore(), 10, 34);
+			g.drawString("Magazine Ammo: "+this.player.getActiveWeapon().getMagazineAmmo(), 10, 46);
+			g.drawString("Ammo: "+this.player.getActiveWeapon().getAmmo(), 10, 58);
 		}
 	}
 
@@ -330,9 +332,15 @@ public class BackOffGame extends BasicGame {
 
 	private boolean testFireCondition(long now) {
 		if (this.firePressed) {
-			if (now-this.lastFire>this.fireInterval) {
-				this.lastFire = now;
-				return true;
+			Weapon weapon = this.player.getActiveWeapon();
+			
+			long fireInterval = new Double(1/weapon.getFireRate()*1000).longValue();
+			
+			if (now-this.lastFire>fireInterval) {
+				if (weapon.fire()) {
+					this.lastFire = now;
+					return true;
+				}
 			}
 		}
 		return false;

@@ -1,7 +1,12 @@
 package com.deadtroll.backoff.engine;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
+
+import com.deadtroll.backoff.engine.weapon.M9Pistol;
+import com.deadtroll.backoff.engine.weapon.Weapon;
 
 public class Player {
 	
@@ -17,7 +22,18 @@ public class Player {
 	int currentDirection;
 	SpriteSheet spriteSheet;
 	int currentSpriteX, currentSpriteY;
+	Weapon activeWeapon;
+	ArrayList<Weapon> weapons;
 
+	public Player() {
+		this.weapons = new ArrayList<Weapon>();
+		Weapon firstWeapon = new M9Pistol();
+		firstWeapon.setMagazineAmmo(firstWeapon.getMagazineSize());
+		firstWeapon.setAmmo(firstWeapon.getMagazineSize());
+		this.weapons.add(firstWeapon);
+		setActiveWeapon(firstWeapon);
+	}
+	
 	public int getEnergy() {
 		return energy;
 	}
@@ -76,4 +92,12 @@ public class Player {
 	public void setCurrentDirection(int currentDirection) {
 		this.currentDirection = currentDirection;
 	}
+
+	public Weapon getActiveWeapon() {
+		return activeWeapon;
+	}
+
+	public void setActiveWeapon(Weapon activeWeapon) {
+		this.activeWeapon = activeWeapon;
+	}	
 }
