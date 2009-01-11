@@ -4,10 +4,13 @@ public abstract class Weapon {
 
 	private String name;
 	private int damage;
-	private int fireRate;
+	private double fireRate;
 	private int ammo;
 	private int magazineSize;
+	private int magazineAmmo;
 	private int maxAmmo;
+	private double realoadTime;
+	private double precision;
 
 	public int getDamage() {
 		return damage;
@@ -17,11 +20,11 @@ public abstract class Weapon {
 		this.damage = damage;
 	}
 
-	public int getFireRate() {
+	public double getFireRate() {
 		return fireRate;
 	}
 
-	public void setFireRate(int fireRate) {
+	public void setFireRate(double fireRate) {
 		this.fireRate = fireRate;
 	}
 
@@ -57,4 +60,61 @@ public abstract class Weapon {
 		this.maxAmmo = maxAmmo;
 	}
 
+	public double getRealoadTime() {
+		return realoadTime;
+	}
+
+	public void setRealoadTime(double realoadTime) {
+		this.realoadTime = realoadTime;
+	}
+
+	public int getMagazineAmmo() {
+		return magazineAmmo;
+	}
+
+	public void setMagazineAmmo(int magazineAmmo) {
+		this.magazineAmmo = magazineAmmo;
+	}
+	
+	public double getPrecision() {
+		return precision;
+	}
+
+	public void setPrecision(double precision) {
+		this.precision = precision;
+	}
+	
+	private boolean canFire() {
+		return getMagazineAmmo() > 0;
+	}
+
+	private boolean canReload() {
+		return getAmmo() > 0 && getMagazineAmmo() < getMagazineSize();
+	}
+	
+	private void reload() {
+		if (canReload()) {
+			int needed = getMagazineSize() - getMagazineAmmo();
+			
+			if (needed <= getAmmo()) {
+				setMagazineAmmo(needed);
+				setAmmo(getAmmo()-getMagazineSize());
+			} else {
+				setMagazineAmmo(getAmmo());
+				setAmmo(0);
+			}
+		}
+	}
+	
+	public boolean fire() {
+		if (!canFire())
+			reload();
+		
+		if (canFire()) {
+			setMagazineAmmo(getMagazineAmmo()-1);
+			return true;
+		}
+		
+		return false;
+	}
 }
