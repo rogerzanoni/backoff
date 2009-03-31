@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/libs/slick/slick.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/backoff-engine"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/deadtroll-lib"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

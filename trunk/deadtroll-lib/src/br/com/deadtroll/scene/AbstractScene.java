@@ -1,18 +1,54 @@
 package br.com.deadtroll.scene;
 
-import org.newdawn.slick.GameContainer;
+import br.com.deadtroll.game.IGame;
 
 public abstract class AbstractScene implements IScene {
 
-	private GameContainer gameContainer;
-	
-	public GameContainer getGameContainer() {
-		return this.gameContainer;
+	private IGame game;
+	private boolean initialized;
+	private boolean paused;
+
+	@Override
+	public void pause() {
+		this.setPaused(true);
 	}
 
-	public void setGameContainer(GameContainer container) {
-		this.gameContainer = container;
+	@Override
+	public void resume() {
+		if (!this.isInitialized()) {
+			this.init();
+		}
+		this.setPaused(false);
 	}
 
+	@Override
+	public boolean isInitialized() {
+		return initialized;
+	}
 	
+	@Override
+	public void setInitialized(boolean initialized) {
+		this.initialized = initialized;
+	}
+	
+	@Override
+	public IGame getGame() {
+		return this.game;
+	}
+	
+	@Override
+	public void setGame(IGame game) {
+		this.game = game;
+	}
+
+	@Override
+	public boolean isPaused() {
+		return this.paused;
+	}
+
+	@Override
+	public void setPaused(boolean paused) {
+		this.paused = paused;
+	}
+
 }
