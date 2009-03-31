@@ -4,13 +4,14 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+
+import br.com.deadtroll.game.AbstractGame;
 
 import com.deadtroll.backoff.engine.Player;
 import com.deadtroll.backoff.engine.enemy.EnemyDescriptionMap;
@@ -22,7 +23,7 @@ import com.deadtroll.backoff.engine.map.MapIOUtil;
 import com.deadtroll.backoff.engine.map.MapLayer;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
-public class BackOffGame extends BasicGame {
+public class BackOffGame extends AbstractGame {
 
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
@@ -54,15 +55,8 @@ public class BackOffGame extends BasicGame {
 	}
 
 	@Override
-	public void init(GameContainer container) throws SlickException {
+	public void gameInit() throws SlickException {
 		try {
-			this.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private void start() throws Exception {
 		this.levelMap = MapIOUtil.loadMap("level01.map");
 		
 		Image img = new Image(this.levelMap.getSpriteSheet());
@@ -91,7 +85,9 @@ public class BackOffGame extends BasicGame {
 		this.leftPressed = false;
 		this.rightPressed = false;
 		this.upPressed = false;
-		
+		} catch (Exception e){
+			throw new SlickException(e.getMessage(),e);
+		}
 	}
 
 	@Override
@@ -205,7 +201,7 @@ public class BackOffGame extends BasicGame {
 			this.gameOver=false;
 			this.victory=false;
 			try {
-				this.start();
+				this.init(this.getContainer());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -425,5 +421,5 @@ public class BackOffGame extends BasicGame {
 			}
 		}
 	}
-	
+
 }

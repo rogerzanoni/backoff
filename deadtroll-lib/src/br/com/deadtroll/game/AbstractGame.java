@@ -20,21 +20,24 @@ public abstract class AbstractGame extends BasicGame implements IGame {
 		super(gameName);
 	}
 	
-	public abstract void gameInit();
+	public abstract void gameInit() throws SlickException;
 	
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		this.activeScene.update(delta);
+		if (this.activeScene!=null)
+			this.activeScene.update(delta);
 	}
 
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		this.activeScene.render(g);
+		if (this.activeScene!=null)
+			this.activeScene.render(g);
 	}
 
 	@Override
 	public void keyPressed(int key, char c) {
-		this.activeScene.keyPressed(key, c);
+		if (this.activeScene!=null)
+			this.activeScene.keyPressed(key, c);
 	}
 
 	@Override
@@ -48,9 +51,10 @@ public abstract class AbstractGame extends BasicGame implements IGame {
 	}
 
 	@Override
-	public void setActiveScene(IScene activeScene) {
-		this.activeScene = activeScene;
-		this.activeScene.init();
+	public void setActiveScene(String activeScene) {
+		this.activeScene = this.scenes.get(activeScene);
+		if (this.activeScene!=null)
+			this.activeScene.resume();
 	}
 
 	@Override

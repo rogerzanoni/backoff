@@ -2,12 +2,18 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/libs/junit/junit-4.5.jar"/>
-	<classpathentry kind="lib" path="/libs/slick/slick.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/deadtroll-lib"/>
 	<classpathentry kind="lib" path="/libs/lwjgl/jinput.jar"/>
 	<classpathentry kind="lib" path="/libs/lwjgl/lwjgl_test.jar"/>
 	<classpathentry kind="lib" path="/libs/lwjgl/lwjgl_util_applet.jar"/>
 	<classpathentry kind="lib" path="/libs/lwjgl/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="/libs/lwjgl/lwjgl.jar"/>
+	<classpathentry kind="lib" path="/libs/lwjgl/lwjgl-debug.jar"/>
+	<classpathentry kind="lib" path="/libs/lwjgl/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="libs/lwjgl"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/libs/slick/slick.jar"/>
+	<classpathentry kind="lib" path="/libs/jorbis/jorbis-0.0.17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
