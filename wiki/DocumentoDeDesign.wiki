@@ -9,7 +9,7 @@
 O jogador controlará o personagem principal por diversos cenários distintos e seqüenciais, matando ou evitando inimigos, em busca de "checkpoints", onde pedaços da trama vão sendo revelados, sob a forma de slides com texto em tela cheia. A arma inicial é simples, e com munição limitada. Mais munição, além de outras armas, podem ser conseguidas ao longo dos cenários. Em raras ocasiões, o jogador pode encontrar "power-ups" permanentes ou temporários que podem, entre outras coisas, aumentar o máximo de pontos de vida do personagem, aumentar o número de disparos por segundo de um determinado tipo de arma ou ainda aumentar o dano causado pelos projéteis da mesma.
 
 ==1.3. Golden nuggets==
-Nada, até agora.
+A natureza acadêmica do jogo faz com que o mesmo seja focado em elementos mais simples, com o propósito de instruir os desenvolvedores e artistas a explorar as características básicas de um jogo bidimensional, sem focar em detalhes avançados de game design. Portanto, o jogo não terá Golden Nuggets (diferenciais de gameplay)
 
 =2. Contexto=
 <font color="red">
@@ -17,7 +17,7 @@ TODO Melhorar toda a seção
 </font>
 
 ==2.1. História do jogo==
-Noite de sábado, o Coronel Brad Teeper dormia em sua cama, em um raro fim de semana de folga. De repende, um barulho no andar de baixo, diretamente de sua sala. O coronel acorda sobressaltado e, de arma em punho, desce para ver o que está havendo. Lá ele encontra uma "pessoa" tentando pegar seu peixe dourado do aquário. O coronel dá voz de prisão, e o ser avança em sua direção. É uma pessoa, mas há algo de errado com ela.
+Noite de sábado, o Coronel Brad Teeper dormia em sua cama, em um raro fim de semana de folga. De repente, um barulho no andar de baixo, diretamente de sua sala. O coronel acorda sobressaltado e, de arma em punho, desce para ver o que está havendo. Lá ele encontra uma pessoa tentando pegar seu peixe dourado do aquário. O coronel dá voz de prisão, e o ser avança em sua direção. É uma pessoa, mas há algo de errado com ela.
 
 Uma série de mini-missões pela vizinhança e centro da cidade, fazem o coronel chegar à conclusão de que sua única saída é escapar para a base militar mais próxima, a mesma que ele costuma servir.
 Chegando lá, ele descobre que a base está cercada de zumbis e alienígenas. Ele precisa invadir a base e se juntar a uma pequena resistência que se forma lá dentro. Uma vez com isso conquistado, o Coronel ajuda a resistência e elimina todos os inimigos que cercam a base. Com a base livre, chegou a hora de atacar a nave mãe dos alienígenas, na órbita terrestre. O ambiente é estranho e hostil, os inimigos são ágeis e fortes, as salas são imensas. Ao destruir o reator da nave, o coronel volta para a terra, impedindo de uma vez por todas qualquer invasão alienígena. Ao menos, por um bom tempo.
