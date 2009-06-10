@@ -68,8 +68,7 @@ A maior característica do ambiente urbano do jogo é a quantidade de escombros 
 Base militar comum, com veículos inoperantes, destruídos ou simplesmente parados, Barreiras que impedem a passagem do jogador, ambientes que se tornam verdadeiros labirintos. Sem vegetação.
 
 *Nave alienígena*
-A definir.
-
+Ambiente composto por paredes orgânicas e eletrônicas, lembrando um aspecto de caverna, com colunas no meio dos corredores.
 
 ==3.4. Objetos==
 <font color="red">
