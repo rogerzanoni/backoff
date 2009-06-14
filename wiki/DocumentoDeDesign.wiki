@@ -12,9 +12,6 @@ O jogador controlará o personagem principal por diversos cenários distintos e 
 A natureza acadêmica do jogo faz com que o mesmo seja focado em elementos mais simples, com o propósito de instruir os desenvolvedores e artistas a explorar as características básicas de um jogo bidimensional, sem focar em detalhes avançados de game design. Portanto, o jogo não terá Golden Nuggets (diferenciais de gameplay)
 
 =2. Contexto=
-<font color="red">
-TODO Melhorar toda a seção
-</font>
 
 ==2.1. História do jogo==
 Noite de sábado, o Coronel Brad Teeper dormia em sua cama, em um raro fim de semana de folga. De repente, um barulho no andar de baixo, diretamente de sua sala. O coronel acorda sobressaltado e, de arma em punho, desce para ver o que está havendo. Lá ele encontra uma pessoa tentando pegar seu peixe dourado do aquário. O coronel dá voz de prisão, e o ser avança em sua direção. É uma pessoa, mas há algo de errado com ela.
@@ -23,12 +20,22 @@ Uma série de mini-missões pela vizinhança e centro da cidade, fazem o coronel
 Chegando lá, ele descobre que a base está cercada de zumbis e alienígenas. Ele precisa invadir a base e se juntar a uma pequena resistência que se forma lá dentro. Uma vez com isso conquistado, o Coronel ajuda a resistência e elimina todos os inimigos que cercam a base. Com a base livre, chegou a hora de atacar a nave mãe dos alienígenas, na órbita terrestre. O ambiente é estranho e hostil, os inimigos são ágeis e fortes, as salas são imensas. Ao destruir o reator da nave, o coronel volta para a terra, impedindo de uma vez por todas qualquer invasão alienígena. Ao menos, por um bom tempo.
 
 ==2.2. Eventos anteriores==
-Os alienígenas do planeta Frings invadem silenciosamente a terra, transformando os habitantes de cidades pequenas em zumbis, para chamar pouca atenção das autoridades e assim formar um exército numeroso, a caminhar na direção das principais cidades do mundo.
+Os alienígenas do planeta Frings invadem silenciosamente a terra, transformando os habitantes de cidades pequenas em zumbis, a fim de chamar pouca atenção das autoridades e assim formar um exército numeroso, a caminhar na direção das principais cidades do mundo.
 
 ==2.3. Principais jogadores==
-<font color="red">
-No caso de jogos em que os personagens são os elementos-chave, esta seção permite que o designer apresente e explique os principais personagens do jogo, do alterego do jogador até seu terrível adversário. No caso de um grande jogo de RPG, a seção pode ser um tanto longa. Ao descrever um personagem, você pode apresentar a biografia dele, sua habilidades especiais, motivações e tudo o mais que definirá como ele agirá e que papel desempenhará dentro da história do game
-</font>
+
+===Coronel Brad Teeper===
+
+*Idade:* 32 anos<br>
+*Pele:* Branca<br>
+*Olhos:* Negros<br>
+*Cabelos:* Negros<br>
+*Altura:* 1,85m<br>
+*Peso:* 90kg<br>
+
+Após 12 anos no exército, tudo o que o Cel. Teeper conseguiu foi preencher pilhas e pilhas de papel. Sempre sedento por ação, sua pouca habilidade com armas e uma especial falta de jeito para atividades físicas o garantiram uma longa e sólida carreira nos birôs das forças armadas, longe do campo de batalha.
+
+A vida amorosa do coronel é insignificante. Com algumas namoradas na adolescência e no começo da vida adulta, Brad nunca se casou. Mas está mais que satisfeito com isso, já que pode fazer o que mais gosta, sem ser importunado. Isso inclue seus dois passatempos favoritos, assistir filmes de terror barato em sua tv de 52" e tomar cerveja escura (as de grãos tostados, jamais as de grãos caramelados).
 
 =3. Objetos essenciais=
 
