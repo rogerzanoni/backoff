@@ -40,9 +40,40 @@ A vida amorosa do coronel é insignificante. Com algumas namoradas na adolescên
 =3. Objetos essenciais=
 
 ==3.1. Personagens==
-<font color="red">
-Descreve os personagens do jogo, dos principais aos NPCs aliados ou inimigos menos importantes.
-</font>
+
+===Jogadores===
+
+*Coronel Brad Teeper*<br>
+ver seção 2.3
+
+===Inimigos===
+
+*Zumbi*<br>
+<font color="red">TODO Imagem</font>
+|| Vida || 5 ||
+|| Dano || 1 ||
+|| Velocidade || 2 ||
+|| Visão || 10 ||
+|| Inteligência || 1 ||
+|| Arma || Mãos e dentes ||
+
+*Cão zumbi*<br>
+<font color="red">TODO Imagem</font>
+|| Vida || 3 ||
+|| Dano || 3 ||
+|| Velocidade || 5 ||
+|| Visão || 15 ||
+|| Inteligência || 2 ||
+|| Arma || Dentes ||
+
+*Soldado alienígena*<br>
+<font color="red">TODO Imagem</font>
+|| Vida || 10 ||
+|| Dano || 8 ||
+|| Velocidade || 3 ||
+|| Visão || 20 ||
+|| Inteligência || 10 ||
+|| Arma || Pistola alien ||
 
 ==3.2. Armas==
 
@@ -86,13 +117,20 @@ Descrição de todos os objetos relevantes que não se encaixam nas seções ant
 <font color="red">TO DO</font>
 
 =5. Inteligência artificial=
-<font color="red">TO DO</font>
+A inteligência artifical dos inimigos se limita a procurar o jogador no campo de visão da classe do inimigo e perseguí-lo pelo cenário, atirando de tempos em tempos, tentando prever (de acordo com a inteligência) o movimento do jogador, para maior precisão do projétil.
 
 =6. Fluxo do jogo=
-<font color="red">TO DO</font>
+O jogador deve passar por todas as fases do jogo na ordem pré-determinada pelo design.
+<br>
+Cada fase consiste em um ponto de partida e um ponto de chegada. O jogador deve atravessar o percurso matando ou fugindo dos inimigos, sempre levando em consideração os seus pontos de vida e a munição restante.
 
 =7. Controles=
-<font color="red">TO DO</font>
+|| Andar para cima || Seta cima || 
+|| Andar para baixo || Seta baixo || 
+|| Andar para a esquerda || Seta esquerda || 
+|| Andar para a direita || Seta direita || 
+|| Atirar || Barra de espaço || 
+|| Recarregar || R || 
 
 =8. Variações de jogo=
 <font color="red">TO DO</font>
