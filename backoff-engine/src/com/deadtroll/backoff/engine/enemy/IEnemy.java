@@ -3,14 +3,10 @@ package com.deadtroll.backoff.engine.enemy;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 
-public interface IEnemy {
+import com.deadtroll.backoff.engine.model.IGameObject;
 
-	public int getX();
-	public void setX(int x);
-	
-	public int getY();
-	public void setY(int y);
-	
+public interface IEnemy extends IGameObject {
+
 	public int getEnergy();
 	public void setEnergy(int energy);
 

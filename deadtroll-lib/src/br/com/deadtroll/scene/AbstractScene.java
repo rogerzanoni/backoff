@@ -17,8 +17,15 @@ public abstract class AbstractScene implements IScene {
 	public void resume() {
 		if (!this.isInitialized()) {
 			this.init();
+			this.setInitialized(true);
 		}
 		this.setPaused(false);
+	}
+	
+	@Override
+	public void stop() {
+		this.initialized = false;
+		this.paused = false;
 	}
 
 	@Override

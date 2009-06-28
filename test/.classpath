@@ -15,5 +15,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="/libs/slick/slick.jar"/>
 	<classpathentry kind="lib" path="/libs/jorbis/jorbis-0.0.17.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/backoff-engine"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

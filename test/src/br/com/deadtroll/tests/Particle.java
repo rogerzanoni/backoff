@@ -1,7 +1,6 @@
 package br.com.deadtroll.tests;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.particles.ParticleSystem;
 
 public class Particle {
 
@@ -26,7 +25,6 @@ public class Particle {
 	}
 	
 	public void update() {
-		//new org.newdawn.slick.particles.Particle(new ParticleSystem())
 	}
 	
 	public int getX() {

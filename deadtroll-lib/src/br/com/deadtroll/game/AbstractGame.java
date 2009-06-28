@@ -41,6 +41,12 @@ public abstract class AbstractGame extends BasicGame implements IGame {
 	}
 
 	@Override
+	public void keyReleased(int key, char c) {
+		if (this.activeScene!=null)
+			this.activeScene.keyReleased(key, c);
+	}
+	
+	@Override
 	public IScene getActiveScene() {
 		return this.activeScene;
 	}
@@ -51,10 +57,18 @@ public abstract class AbstractGame extends BasicGame implements IGame {
 	}
 
 	@Override
-	public void setActiveScene(String activeScene) {
+	public void setActiveScene(String activeScene, boolean stopCurrentScene) {
+		if (this.activeScene!=null) {
+			if (stopCurrentScene) {
+				this.activeScene.stop();
+			} else {
+				this.activeScene.pause();
+			}
+		}
 		this.activeScene = this.scenes.get(activeScene);
-		if (this.activeScene!=null)
+		if (this.activeScene!=null) {
 			this.activeScene.resume();
+		}
 	}
 
 	@Override

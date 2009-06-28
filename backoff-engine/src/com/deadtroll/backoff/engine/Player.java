@@ -7,11 +7,11 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.deadtroll.backoff.engine.model.IGameObject;
+import com.deadtroll.backoff.engine.model.AbstractGameObject;
 import com.deadtroll.backoff.engine.weapon.M9Pistol;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
-public class Player implements IGameObject {
+public class Player extends AbstractGameObject {
 	
 	public static final int DIRECTION_UP = 0;
 	public static final int DIRECTION_RIGHT = 1;
@@ -19,7 +19,7 @@ public class Player implements IGameObject {
 	public static final int DIRECTION_LEFT = 3;
 
 	int energy;
-	int speed;
+	float speed;
 	long totalScore;
 	int currentDirection;
 	SpriteSheet spriteSheet;
@@ -46,11 +46,11 @@ public class Player implements IGameObject {
 		this.energy = energy;
 	}
 
-	public int getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(int speed) {
+	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
 
@@ -64,7 +64,7 @@ public class Player implements IGameObject {
 
 	public Image getCurrentSprite() {
 		int lineTotal = this.spriteSheet.getHorizontalCount();
-		return this.spriteSheet.getSprite((int)(this.position.x + this.position.y) % lineTotal,
+		return this.spriteSheet.getSprite((int)(Math.abs(this.position.x) + Math.abs(this.position.y)) % lineTotal,
 				this.currentDirection);
 
 	}
@@ -105,13 +105,13 @@ public class Player implements IGameObject {
 	}
 
 	@Override
-	public void update(long delta) {
-		// TODO Auto-generated method stub
+	public void setPosition(Vector2f position) {
+		this.position = position;
 	}
 
 	@Override
-	public void setPosition(Vector2f position) {
-		this.position = position;
-	}	
+	public void setLayer(int layer) {
+		this.currentLayer = layer;
+	}
 	
 }
