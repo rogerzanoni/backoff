@@ -127,7 +127,6 @@ public class MapCanvas extends JPanel {
 					if (mb!=null) {
 						BufferedImage img = ApplicationController.getInstance().getSpriteMap().get(mb.getSpriteId());
 						Image scaled = img.getScaledInstance(blockWidth, blockHeight, Image.SCALE_FAST);
-						
 						g.drawImage(scaled,blockWidth*(i), blockHeight*(j),null);
 					}
 				}

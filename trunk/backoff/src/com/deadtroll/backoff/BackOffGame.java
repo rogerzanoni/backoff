@@ -10,6 +10,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Vector2f;
 
 import br.com.deadtroll.game.AbstractGame;
 
@@ -21,6 +22,7 @@ import com.deadtroll.backoff.engine.map.Map;
 import com.deadtroll.backoff.engine.map.MapBlock;
 import com.deadtroll.backoff.engine.map.MapIOUtil;
 import com.deadtroll.backoff.engine.map.MapLayer;
+import com.deadtroll.backoff.engine.renderer.MapRenderer;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
 public class BackOffGame extends AbstractGame {
@@ -28,27 +30,28 @@ public class BackOffGame extends AbstractGame {
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
 	
-	Player player;
-	IEnemy[] enemies;
-	Bullet[] bullets;
+	private Player player;
+	private IEnemy[] enemies;
+	private Bullet[] bullets;
 
-	boolean downPressed;
-	boolean upPressed;
-	boolean leftPressed;
-	boolean rightPressed;
-	boolean firePressed;
+	private boolean downPressed;
+	private boolean upPressed;
+	private boolean leftPressed;
+	private boolean rightPressed;
+	private boolean firePressed;
 
-	boolean gameOver;
-	boolean victory;
+	private boolean gameOver;
+	private boolean victory;
 	
-	byte heading; //0 = down, 1=up, 2=left, 3=right
+	private byte heading; //0 = down, 1=up, 2=left, 3=right
 
-	long lastFire;
+	private long lastFire;
 	
-	Map levelMap;
-	SpriteSheet mapSpriteSheet;
+	private Map levelMap;
 	
-	EnemyDescriptionMap enemyMap;
+	private EnemyDescriptionMap enemyMap;
+	
+	private MapRenderer renderer;
 
 	public BackOffGame() {
 		super("Back Off! 0.1");
@@ -57,34 +60,34 @@ public class BackOffGame extends AbstractGame {
 	@Override
 	public void gameInit() throws SlickException {
 		try {
-		this.levelMap = MapIOUtil.loadMap("level01.map");
-		
-		Image img = new Image(this.levelMap.getSpriteSheet());
-		this.mapSpriteSheet = new SpriteSheet(this.levelMap.getSpriteSheet(),img.getWidth()/this.levelMap.getSpriteSheetWidth(),img.getHeight()/this.levelMap.getSpriteSheetHeight());
-		
-		this.player = new Player();
-		this.player.setSpriteSheet(new SpriteSheet("res/sprites/player.png",32,32));
-		this.player.setSpeed(3);
-		this.player.setEnergy(100);
-		this.player.setX(0);
-		this.player.setY(0);
-		
-		this.bullets = new Bullet[200];
-		
-		this.enemies = new IEnemy[5];
-		
-		this.enemyMap = new EnemyDescriptionMap("res/foe");
-		
-		for (int i=0; i<this.enemies.length; i++) {
-			this.enemies[i] = EnemyFactory.getInstance().getEnemyInstance("zombie", this.enemyMap);
-			this.enemies[i].setX((int)(Math.random()*GAME_WIDTH));
-			this.enemies[i].setY((int)(Math.random()*GAME_HEIGHT));
-		}
-		
-		this.downPressed = false;
-		this.leftPressed = false;
-		this.rightPressed = false;
-		this.upPressed = false;
+			this.levelMap = MapIOUtil.loadMap("level01.map");
+			this.levelMap.setVisibleArea(new org.newdawn.slick.geom.Rectangle(0,0,GAME_WIDTH,GAME_HEIGHT));
+			this.renderer = new MapRenderer();
+			this.renderer.setMap(this.levelMap);
+			
+			this.player = new Player();
+			this.player.setSpriteSheet(new SpriteSheet("res/sprites/player.png",32,32));
+			this.player.setSpeed(3);
+			this.player.setEnergy(100);
+			this.player.setPosition(new Vector2f(0,0));
+			this.renderer.addGameObject(this.player);
+			
+			this.bullets = new Bullet[200];
+			
+			this.enemies = new IEnemy[5];
+			
+			this.enemyMap = new EnemyDescriptionMap("res/foe");
+			
+			for (int i=0; i<this.enemies.length; i++) {
+				this.enemies[i] = EnemyFactory.getInstance().getEnemyInstance("zombie", this.enemyMap);
+				this.enemies[i].setX((int)(Math.random()*GAME_WIDTH));
+				this.enemies[i].setY((int)(Math.random()*GAME_HEIGHT));
+			}
+			
+			this.downPressed = false;
+			this.leftPressed = false;
+			this.rightPressed = false;
+			this.upPressed = false;
 		} catch (Exception e){
 			throw new SlickException(e.getMessage(),e);
 		}
@@ -114,26 +117,26 @@ public class BackOffGame extends AbstractGame {
 						case 0:
 							b.setYSpeed(b.getAbsoluteSpeed());
 							b.setXSpeed(0);
-							b.setX(this.player.getX()+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2));
-							b.setY(this.player.getY()+this.player.getCurrentSprite().getHeight());
+							b.setX((int)this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2));
+							b.setY((int)this.player.getPosition().y+this.player.getCurrentSprite().getHeight());
 							break;
 						case 1:
 							b.setYSpeed(-b.getAbsoluteSpeed());
 							b.setXSpeed(0);
-							b.setX(this.player.getX()+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2));
-							b.setY(this.player.getY()-b.getSprite().getHeight());
+							b.setX((int)this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2));
+							b.setY((int)this.player.getPosition().y-b.getSprite().getHeight());
 							break;
 						case 2:
 							b.setXSpeed(-b.getAbsoluteSpeed());
 							b.setYSpeed(0);
-							b.setX(this.player.getX()-b.getSprite().getWidth());
-							b.setY(this.player.getY()+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2));
+							b.setX((int)this.player.getPosition().x-b.getSprite().getWidth());
+							b.setY((int)this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2));
 							break;
 						case 3:
 							b.setXSpeed(b.getAbsoluteSpeed());
 							b.setYSpeed(0);
-							b.setX(this.player.getX()+this.player.getCurrentSprite().getWidth());
-							b.setY(this.player.getY()+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2));
+							b.setX((int)this.player.getPosition().x+this.player.getCurrentSprite().getWidth());
+							b.setY((int)this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2));
 							break;
 						}
 						bullets[i] = b;
@@ -162,33 +165,7 @@ public class BackOffGame extends AbstractGame {
 			int messageHeight = g.getFont().getHeight(gameOverMessage);
 			g.drawString(gameOverMessage, (BackOffGame.GAME_WIDTH/2)-(messageWidth/2), (BackOffGame.GAME_HEIGHT/2)-(messageHeight/2));
 		} else {
-			int currentLayer = 0;
-			for (MapLayer ml : this.levelMap.getLayers()) {
-				if (currentLayer==this.levelMap.getPlayerLayer()) {
-					g.drawImage(this.player.getCurrentSprite(),this.player.getX(),this.player.getY());
-					for (IEnemy e : this.enemies) {
-						if (e!=null) {
-							g.drawImage(e.getCurrentSprite(), e.getX(), e.getY());
-						}
-					}
-					for (Bullet b: this.bullets) {
-						if (b!=null) {
-							g.drawImage(b.getSprite(), b.getX(), b.getY());
-						}
-					}
-				}
-				for (int i=0; i<this.levelMap.getMapWidth(); i++) {
-					for (int j=0; j<this.levelMap.getMapHeight(); j++) {
-						MapBlock mb = ml.getMatrix()[i][j];
-						if (mb!=null) {
-							int id = mb.getSpriteId();
-							Image tile = this.mapSpriteSheet.getSprite((id%this.mapSpriteSheet.getHorizontalCount()),id/this.mapSpriteSheet.getHorizontalCount());
-							g.drawImage(tile, tile.getWidth()*i, tile.getHeight()*j);
-						}
-					}
-				}
-				currentLayer++;
-			}
+			this.renderer.render(g);
 			g.drawString("Energy: "+this.player.getEnergy(), 10, 22);
 			g.drawString("Score: "+this.player.getTotalScore(), 10, 34);
 			g.drawString("Magazine Ammo: "+this.player.getActiveWeapon().getMagazineAmmo(), 10, 46);
@@ -234,46 +211,45 @@ public class BackOffGame extends AbstractGame {
 
 		if (this.downPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_DOWN);
-			if (checkForLayerCollision(this.player.getX(), this.player.getY()+this.player.getSpeed(), plW, plH)) {
-				this.player.setY(this.player.getY()+this.player.getSpeed());
+			if (checkForLayerCollision(this.player.getPosition().x, this.player.getPosition().y+this.player.getSpeed(), plW, plH)) {
+				this.player.getPosition().y = this.player.getPosition().y+this.player.getSpeed();
 			}
 			this.heading = 0;
 		}
 		if (this.upPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_UP);
-			if (checkForLayerCollision(this.player.getX(), this.player.getY()-this.player.getSpeed(), plW, plH)) {
-				this.player.setY(this.player.getY()-this.player.getSpeed());
+			if (checkForLayerCollision(this.player.getPosition().x, this.player.getPosition().y-this.player.getSpeed(), plW, plH)) {
+				this.player.getPosition().y = this.player.getPosition().y-this.player.getSpeed();
 			}
 			this.heading = 1;
 		}
 		if (this.leftPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_LEFT);
-			if (checkForLayerCollision(this.player.getX()-this.player.getSpeed(), this.player.getY(), plW, plH)) {
-				this.player.setX(this.player.getX()-this.player.getSpeed());
+			if (checkForLayerCollision(this.player.getPosition().y-this.player.getSpeed(), this.player.getPosition().y, plW, plH)) {
+				this.player.getPosition().x = this.player.getPosition().x-this.player.getSpeed();
 			}
 			this.heading = 2;
 		}
 		if (this.rightPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_RIGHT);
-			if (checkForLayerCollision(this.player.getX()+this.player.getSpeed(), this.player.getY(), plW, plH)) {
-				this.player.setX(this.player.getX()+this.player.getSpeed());
+			if (checkForLayerCollision(this.player.getPosition().x+this.player.getSpeed(), this.player.getPosition().y, plW, plH)) {
+				this.player.getPosition().x = this.player.getPosition().x+this.player.getSpeed();
 			}
 			this.heading = 3;
 		}
 	}
 
-	private boolean checkForLayerCollision(int x, int y, int objectWidth, int objectHeight) {
-		int playerLayer = this.levelMap.getPlayerLayer();
-		Rectangle playerRect = new Rectangle(new Point(x,y),new Dimension(objectWidth, objectHeight));
+	private boolean checkForLayerCollision(float x, float y, int objectWidth, int objectHeight) {
+		org.newdawn.slick.geom.Rectangle playerRect = new org.newdawn.slick.geom.Rectangle(x,y,objectWidth,objectHeight);
 		
-		Image tile = this.mapSpriteSheet.getSprite(0, 0);
+		Image tile = this.levelMap.getMapSpriteSheet().getSprite(0, 0);
 		
-		MapLayer ml = this.levelMap.getLayers()[playerLayer];
+		MapLayer ml = this.levelMap.getLayers()[this.player.getLayer()];
 		for (int i=0; i<this.levelMap.getMapWidth(); i++) {
 			for (int j=0; j<this.levelMap.getMapHeight(); j++) {
 				MapBlock mb = ml.getMatrix()[i][j];
 				if (mb!=null) {
-					Rectangle rect = new Rectangle(new Point(tile.getWidth()*i, tile.getHeight()*j), new Dimension(tile.getWidth(),tile.getHeight()));
+					org.newdawn.slick.geom.Rectangle rect = new org.newdawn.slick.geom.Rectangle(tile.getWidth()*i, tile.getHeight()*j, tile.getWidth(),tile.getHeight());
 					if (rect.intersects(playerRect)) {
 						return false;
 					}
@@ -289,7 +265,7 @@ public class BackOffGame extends AbstractGame {
 				int eW = e.getCurrentSprite().getWidth();
 				int eH = e.getCurrentSprite().getHeight();
 
-				if (this.player.getX()>e.getX()) {
+				if ((int)this.player.getPosition().x>e.getX()) {
 					if (this.checkForLayerCollision(e.getX()+e.getSpeed(), e.getY(), eW, eH)) {
 						e.setX(e.getX()+e.getSpeed());
 					}
@@ -299,7 +275,7 @@ public class BackOffGame extends AbstractGame {
 					}
 				}
 				
-				if (this.player.getY()>e.getY()) {
+				if ((int)this.player.getPosition().y>e.getY()) {
 					if (this.checkForLayerCollision(e.getX(), e.getY()+e.getSpeed(), eW, eH)) {
 						e.setY(e.getY()+e.getSpeed());
 					}
@@ -372,7 +348,7 @@ public class BackOffGame extends AbstractGame {
 	}
 
 	private void checkForPlayerStatus() {
-		Rectangle playerRect = new Rectangle(this.player.getX(), this.player.getY(), this.player.getCurrentSprite().getWidth(), this.player.getCurrentSprite().getHeight());
+		Rectangle playerRect = new Rectangle((int)this.player.getPosition().x, (int)this.player.getPosition().y, this.player.getCurrentSprite().getWidth(), this.player.getCurrentSprite().getHeight());
 		Rectangle[] boundingBoxes = new Rectangle[this.enemies.length];
 		boolean hasEnemies = false;
 		for (int i=0;i<this.enemies.length;i++) {

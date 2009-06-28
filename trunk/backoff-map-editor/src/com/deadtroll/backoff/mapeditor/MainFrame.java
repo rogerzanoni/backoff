@@ -108,7 +108,7 @@ public class MainFrame extends JFrame {
 		this.map = ApplicationController.getInstance().getCurrentMap();
 		this.mapPanel.setMap(this.map);
 		if (map!=null) {
-			this.palettePanel.setSpriteSheet(this.map.getSpriteSheet());
+			this.palettePanel.setSpriteSheet(this.map.getSpriteSheetPath());
 			this.palettePanel.setSpriteSheetWidth(this.map.getSpriteSheetWidth());
 			this.palettePanel.setSpriteSheetHeight(this.map.getSpriteSheetHeight());
 			this.palettePanel.updatePalette();
@@ -141,7 +141,7 @@ public class MainFrame extends JFrame {
 			ApplicationController.getInstance().setCurrentMap(m);
 			this.map = m;
 			this.mapPanel.setMap(this.map);
-			this.palettePanel.setSpriteSheet(this.map.getSpriteSheet());
+			this.palettePanel.setSpriteSheet(this.map.getSpriteSheetPath());
 			this.palettePanel.setSpriteSheetWidth(this.map.getSpriteSheetWidth());
 			this.palettePanel.setSpriteSheetHeight(this.map.getSpriteSheetHeight());
 			this.palettePanel.updatePalette();

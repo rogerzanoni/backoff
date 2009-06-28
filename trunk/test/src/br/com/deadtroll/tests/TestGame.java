@@ -19,8 +19,8 @@ public class TestGame extends AbstractGame {
 		MenuScene menuScene = new MenuScene();
 		menuScene.setGame(this);
 
-//		this.getScenes().put(TestGame.SCENE_INTRO, introScene);
-		this.getScenes().put(TestGame.SCENE_MAIN_MENU, menuScene);
+		this.getScenes().put(TestGame.SCENE_INTRO, introScene);
+//		this.getScenes().put(TestGame.SCENE_MAIN_MENU, menuScene);
 		
 //		this.setActiveScene(TestGame.SCENE_INTRO);
 		this.setActiveScene(TestGame.SCENE_MAIN_MENU);

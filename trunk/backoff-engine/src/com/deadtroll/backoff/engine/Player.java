@@ -2,13 +2,16 @@ package com.deadtroll.backoff.engine;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Vector2f;
 
+import com.deadtroll.backoff.engine.model.IGameObject;
 import com.deadtroll.backoff.engine.weapon.M9Pistol;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
-public class Player {
+public class Player implements IGameObject {
 	
 	public static final int DIRECTION_UP = 0;
 	public static final int DIRECTION_RIGHT = 1;
@@ -16,14 +19,15 @@ public class Player {
 	public static final int DIRECTION_LEFT = 3;
 
 	int energy;
-	int x, y;
 	int speed;
 	long totalScore;
 	int currentDirection;
 	SpriteSheet spriteSheet;
 	int currentSpriteX, currentSpriteY;
+	Vector2f position;
 	Weapon activeWeapon;
 	ArrayList<Weapon> weapons;
+	int currentLayer;
 
 	public Player() {
 		this.weapons = new ArrayList<Weapon>();
@@ -42,28 +46,12 @@ public class Player {
 		this.energy = energy;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
 	public int getSpeed() {
 		return speed;
 	}
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
 	}
 
 	public long getTotalScore() {
@@ -76,7 +64,7 @@ public class Player {
 
 	public Image getCurrentSprite() {
 		int lineTotal = this.spriteSheet.getHorizontalCount();
-		return this.spriteSheet.getSprite((this.x + this.y) % lineTotal,
+		return this.spriteSheet.getSprite((int)(this.position.x + this.position.y) % lineTotal,
 				this.currentDirection);
 
 	}
@@ -99,5 +87,31 @@ public class Player {
 
 	public void setActiveWeapon(Weapon activeWeapon) {
 		this.activeWeapon = activeWeapon;
+	}
+
+	@Override
+	public int getLayer() {
+		return this.currentLayer;
+	}
+
+	@Override
+	public Vector2f getPosition() {
+		return this.position;
+	}
+
+	@Override
+	public void render(Graphics g) {
+		g.drawImage(this.getCurrentSprite(),this.position.x,this.position.y);
+	}
+
+	@Override
+	public void update(long delta) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void setPosition(Vector2f position) {
+		this.position = position;
 	}	
+	
 }
