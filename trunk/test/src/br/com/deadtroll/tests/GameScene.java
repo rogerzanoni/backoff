@@ -27,7 +27,7 @@ public class GameScene extends AbstractScene {
 
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
-	
+
 	private Player player;
 	private IEnemy[] enemies;
 	private Bullet[] bullets;
@@ -40,15 +40,15 @@ public class GameScene extends AbstractScene {
 
 	private boolean gameOver;
 	private boolean victory;
-	
+
 	private byte heading; //0 = down, 1=up, 2=left, 3=right
 
 	private long lastFire;
-	
+
 	private Map levelMap;
-	
+
 	private EnemyDescriptionMap enemyMap;
-	
+
 	private MapRenderer renderer;
 
 	@Override
@@ -65,19 +65,19 @@ public class GameScene extends AbstractScene {
 			this.player.setEnergy(100);
 			this.player.setPosition(new Vector2f(0,0));
 			this.renderer.addGameObject(this.player);
-			
+
 			this.bullets = new Bullet[200];
-			
+
 			this.enemies = new IEnemy[5];
-			
+
 			this.enemyMap = new EnemyDescriptionMap("res/foe");
-			
+
 			for (int i=0; i<this.enemies.length; i++) {
 				this.enemies[i] = EnemyFactory.getInstance().getEnemyInstance("zombie", this.enemyMap);
 				this.enemies[i].setPosition(new Vector2f((float)Math.random()*GAME_WIDTH,(float)Math.random()*GAME_HEIGHT));
 				this.renderer.addGameObject(this.enemies[i]);
 			}
-			
+
 			this.downPressed = false;
 			this.leftPressed = false;
 			this.rightPressed = false;
@@ -108,30 +108,30 @@ public class GameScene extends AbstractScene {
 					if (bullets[i]==null) {
 						Bullet b = new Bullet();
 						switch (this.heading) {
-						case 0:
-							b.setYSpeed(b.getAbsoluteSpeed());
-							b.setXSpeed(0);
-							b.setX((int)this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2));
-							b.setY((int)this.player.getPosition().y+this.player.getCurrentSprite().getHeight());
-							break;
-						case 1:
-							b.setYSpeed(-b.getAbsoluteSpeed());
-							b.setXSpeed(0);
-							b.setX((int)this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2));
-							b.setY((int)this.player.getPosition().y-b.getSprite().getHeight());
-							break;
-						case 2:
-							b.setXSpeed(-b.getAbsoluteSpeed());
-							b.setYSpeed(0);
-							b.setX((int)this.player.getPosition().x-b.getSprite().getWidth());
-							b.setY((int)this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2));
-							break;
-						case 3:
-							b.setXSpeed(b.getAbsoluteSpeed());
-							b.setYSpeed(0);
-							b.setX((int)this.player.getPosition().x+this.player.getCurrentSprite().getWidth());
-							b.setY((int)this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2));
-							break;
+							case 0:
+								b.setYSpeed(b.getAbsoluteSpeed());
+								b.setXSpeed(0);
+								b.setX((int)this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2));
+								b.setY((int)this.player.getPosition().y+this.player.getCurrentSprite().getHeight());
+								break;
+							case 1:
+								b.setYSpeed(-b.getAbsoluteSpeed());
+								b.setXSpeed(0);
+								b.setX((int)this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2));
+								b.setY((int)this.player.getPosition().y-b.getSprite().getHeight());
+								break;
+							case 2:
+								b.setXSpeed(-b.getAbsoluteSpeed());
+								b.setYSpeed(0);
+								b.setX((int)this.player.getPosition().x-b.getSprite().getWidth());
+								b.setY((int)this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2));
+								break;
+							case 3:
+								b.setXSpeed(b.getAbsoluteSpeed());
+								b.setYSpeed(0);
+								b.setX((int)this.player.getPosition().x+this.player.getCurrentSprite().getWidth());
+								b.setY((int)this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2));
+								break;
 						}
 						bullets[i] = b;
 						break;
@@ -370,7 +370,7 @@ public class GameScene extends AbstractScene {
 			this.gameOver=true;
 		}
 	}
-	
+
 	private void cleanBullets() {
 		for (int i=0; i<this.bullets.length; i++) {
 			if (this.bullets[i]!=null) {
@@ -385,7 +385,7 @@ public class GameScene extends AbstractScene {
 			}
 		}
 	}
-	
+
 	private void cleanEnemies() {
 		for (int i=0; i<this.enemies.length; i++) {
 			if (this.enemies[i]!=null && this.enemies[i].getStatus()==1) {
@@ -393,6 +393,5 @@ public class GameScene extends AbstractScene {
 			}
 		}
 	}
-
 
 }
