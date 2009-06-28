@@ -1,6 +1,5 @@
 package com.deadtroll.backoff.engine.enemy;
 
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 
 import com.deadtroll.backoff.engine.model.IGameObject;
@@ -22,7 +21,6 @@ public interface IEnemy extends IGameObject {
 	public int getScore();
 	public void setScore(int score);
 	
-	public Image getCurrentSprite();
 	public void setSpriteSheet(SpriteSheet sprite);
 	
 }
