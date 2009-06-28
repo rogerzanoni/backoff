@@ -246,10 +246,9 @@ public class NewMapDialog extends JDialog {
 			int resourceW = Integer.parseInt(this.txtResourcesWidth.getText());
 			int resourceH = Integer.parseInt(this.txtResourcesHeight.getText());
 
-			map.setSpriteSheet(this.txtResourcesFile.getText());
+			map.setSpriteSheetPath(this.txtResourcesFile.getText());
 			map.setSpriteSheetHeight(resourceH);
 			map.setSpriteSheetWidth(resourceW);
-			map.setPlayerLayer(Integer.parseInt(this.txtPlayerLayer.getText()) - 1);
 
 			map.initializeMapLayers(Integer.parseInt(this.txtLayers.getText()));
 

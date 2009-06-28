@@ -1,5 +1,7 @@
 package com.deadtroll.backoff.engine.map;
 
+import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Rectangle;
 
 public class Map {
 
@@ -8,10 +10,11 @@ public class Map {
 	private MapLayer[] layers;
 	private int mapWidth;
 	private int mapHeight;
-	private String spriteSheet;
+	private String spriteSheetPath;
 	private int spriteSheetWidth;
 	private int spriteSheetHeight;
-	private int playerLayer;
+	private Rectangle visibleArea;
+	private SpriteSheet mapSpriteSheet;
 
 	public String getName() {
 		return name;
@@ -53,20 +56,12 @@ public class Map {
 		this.mapWidth = mapWidth;
 	}
 
-	public String getSpriteSheet() {
-		return spriteSheet;
+	public String getSpriteSheetPath() {
+		return spriteSheetPath;
 	}
 
-	public void setSpriteSheet(String spriteSheet) {
-		this.spriteSheet = spriteSheet;
-	}
-
-	public int getPlayerLayer() {
-		return playerLayer;
-	}
-
-	public void setPlayerLayer(int playerLayer) {
-		this.playerLayer = playerLayer;
+	public void setSpriteSheetPath(String spriteSheetPath) {
+		this.spriteSheetPath = spriteSheetPath;
 	}
 
 	public int getSpriteSheetHeight() {
@@ -92,5 +87,21 @@ public class Map {
 			this.layers[i].setMatrix(new MapBlock[this.mapWidth][this.mapHeight]);
 		}
 	}
-	
+
+	public Rectangle getVisibleArea() {
+		return visibleArea;
+	}
+
+	public void setVisibleArea(Rectangle visibleArea) {
+		this.visibleArea = visibleArea;
+	}
+
+	public SpriteSheet getMapSpriteSheet() {
+		return mapSpriteSheet;
+	}
+
+	public void setMapSpriteSheet(SpriteSheet mapSpriteSheet) {
+		this.mapSpriteSheet = mapSpriteSheet;
+	}
+
 }

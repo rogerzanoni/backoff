@@ -12,9 +12,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 
 public class MapIOUtil {
 
@@ -32,16 +34,16 @@ public class MapIOUtil {
 		fos.close();
 	}
 	
-	private static Map xmlToMap(Document doc) {
+	private static Map xmlToMap(Document doc) throws SlickException {
 		Map map = new Map();
 		Element root = doc.getDocumentElement();
 		map.setDescription(root.getAttribute("description"));
-		map.setSpriteSheet(root.getAttribute("spriteSheet"));
+		map.setSpriteSheetPath(root.getAttribute("spriteSheet"));
 		map.setSpriteSheetWidth(Integer.parseInt(root.getAttribute("spriteWidth")));
 		map.setSpriteSheetHeight(Integer.parseInt(root.getAttribute("spriteHeight")));
 		map.setMapWidth(Integer.parseInt(root.getAttribute("width")));
 		map.setMapHeight(Integer.parseInt(root.getAttribute("height")));
-		map.setPlayerLayer(Integer.parseInt(root.getAttribute("playerLayer")));
+		//map.setPlayerLayer(Integer.parseInt(root.getAttribute("playerLayer")));
 		map.setLayers(new MapLayer[root.getChildNodes().getLength()]);
 		
 		for (int i=0; i<root.getChildNodes().getLength(); i++) {
@@ -60,6 +62,9 @@ public class MapIOUtil {
 			}
 			map.getLayers()[i] = ml;
 		}
+		Image img = new Image(map.getSpriteSheetPath());
+		map.setMapSpriteSheet(new SpriteSheet(map.getSpriteSheetPath(),img.getWidth()/map.getSpriteSheetWidth(),img.getHeight()/map.getSpriteSheetHeight()));
+		
 		return map;
 	}
 	
@@ -67,12 +72,12 @@ public class MapIOUtil {
 		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 		Element rootNode = doc.createElement("map");
 		rootNode.setAttribute("description", map.getDescription());
-		rootNode.setAttribute("spriteSheet", map.getSpriteSheet());
+		rootNode.setAttribute("spriteSheet", map.getSpriteSheetPath());
 		rootNode.setAttribute("spriteWidth", ""+map.getSpriteSheetWidth());
 		rootNode.setAttribute("spriteHeight", ""+map.getSpriteSheetHeight());
 		rootNode.setAttribute("width", ""+map.getMapWidth());
 		rootNode.setAttribute("height", ""+map.getMapHeight());
-		rootNode.setAttribute("playerLayer", ""+map.getPlayerLayer());
+		//rootNode.setAttribute("playerLayer", ""+map.getPlayerLayer());
 		
 		int zOrder = 0; 
 		for (MapLayer ml : map.getLayers()) {
