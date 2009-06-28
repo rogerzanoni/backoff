@@ -16,12 +16,13 @@ public interface IScene {
 	
 	public void resume();
 	
+	public void stop();
+	
 	public void keyPressed(int key, char c);
 	
 	public void keyReleased(int key, char c);
 	
 	// Gets & Sets
-	
 	public void setGame(IGame game);
 	
 	public IGame getGame();

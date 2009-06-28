@@ -36,6 +36,13 @@ public class IntroScene extends AbstractScene {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void stop() {
+		super.stop();
+		this.slides = null;
+		this.sfx = null;
+	}
 
 	@Override
 	public void update(int delta) {
@@ -50,7 +57,7 @@ public class IntroScene extends AbstractScene {
 				this.currentSlide++;
 				this.updateCount = 0;
 			} else {
-				this.getGame().setActiveScene(TestGame.SCENE_MAIN_MENU);
+				this.getGame().setActiveScene(TestGame.SCENE_MAIN_MENU, true);
 			}
 		}
 	}

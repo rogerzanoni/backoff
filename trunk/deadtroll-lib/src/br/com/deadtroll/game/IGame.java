@@ -14,7 +14,7 @@ public interface IGame {
 
 	public IScene getActiveScene();
 
-	public void setActiveScene(String activeScene);
+	public void setActiveScene(String activeScene, boolean stopCurrentScene);
 
 	public GameContainer getContainer();
 

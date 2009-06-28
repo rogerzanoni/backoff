@@ -51,8 +51,8 @@ public class MapRenderer implements IRenderer {
 			}
 			for (IGameObject go : this.gameObjects) {
 				if (go.getLayer()==currentLayer) {
-					if (viewport.includes(go.getPosition().x,go.getPosition().y)) {
-						go.render(g);	
+					if (viewport.contains(go.getPosition().x,go.getPosition().y)) {
+						go.render(g);
 					}
 				}
 			}

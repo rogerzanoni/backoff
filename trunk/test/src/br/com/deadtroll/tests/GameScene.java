@@ -1,18 +1,16 @@
-package com.deadtroll.backoff;
+package br.com.deadtroll.tests;
 
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
 
-import br.com.deadtroll.game.AbstractGame;
+import br.com.deadtroll.scene.AbstractScene;
 
 import com.deadtroll.backoff.engine.Player;
 import com.deadtroll.backoff.engine.enemy.EnemyDescriptionMap;
@@ -25,7 +23,7 @@ import com.deadtroll.backoff.engine.map.MapLayer;
 import com.deadtroll.backoff.engine.renderer.MapRenderer;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
-public class BackOffGame extends AbstractGame {
+public class GameScene extends AbstractScene {
 
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
@@ -53,15 +51,11 @@ public class BackOffGame extends AbstractGame {
 	
 	private MapRenderer renderer;
 
-	public BackOffGame() {
-		super("Back Off! 0.1");
-	}
-
 	@Override
-	public void gameInit() throws SlickException {
+	public void init() {
 		try {
-			this.levelMap = MapIOUtil.loadMap("level01.map");
-			this.levelMap.setVisibleArea(new org.newdawn.slick.geom.Rectangle(-1,-1,GAME_WIDTH+2,GAME_HEIGHT+2));
+			this.levelMap = MapIOUtil.loadMap("res/level01.map");
+			this.levelMap.setVisibleArea(new org.newdawn.slick.geom.Rectangle(0,0,GAME_WIDTH,GAME_HEIGHT));
 			this.renderer = new MapRenderer();
 			this.renderer.setMap(this.levelMap);
 			
@@ -70,7 +64,6 @@ public class BackOffGame extends AbstractGame {
 			this.player.setSpeed(3);
 			this.player.setEnergy(100);
 			this.player.setPosition(new Vector2f(0,0));
-			this.player.setLayer(1);
 			this.renderer.addGameObject(this.player);
 			
 			this.bullets = new Bullet[200];
@@ -81,7 +74,7 @@ public class BackOffGame extends AbstractGame {
 			
 			for (int i=0; i<this.enemies.length; i++) {
 				this.enemies[i] = EnemyFactory.getInstance().getEnemyInstance("zombie", this.enemyMap);
-				this.enemies[i].setPosition(new Vector2f((float)(Math.random()*GAME_WIDTH),(float)(Math.random()*GAME_HEIGHT)));
+				this.enemies[i].setPosition(new Vector2f((float)Math.random()*GAME_WIDTH,(float)Math.random()*GAME_HEIGHT));
 				this.renderer.addGameObject(this.enemies[i]);
 			}
 			
@@ -90,7 +83,7 @@ public class BackOffGame extends AbstractGame {
 			this.rightPressed = false;
 			this.upPressed = false;
 		} catch (Exception e){
-			throw new SlickException(e.getMessage(),e);
+			e.printStackTrace();
 		}
 	}
 
@@ -105,7 +98,7 @@ public class BackOffGame extends AbstractGame {
 	}
 
 	@Override
-	public void update(GameContainer container, int delta) throws SlickException {
+	public void update(int delta) {
 		if (!this.gameOver && !this.victory) {
 			updatePlayerPosition();
 			updateEnemyPosition();
@@ -152,19 +145,19 @@ public class BackOffGame extends AbstractGame {
 		}
 	}
 
-	public void render(GameContainer container, Graphics g) throws SlickException {
+	public void render(Graphics g) {
 		if (this.gameOver) {
 			g.setBackground(new Color(0,0,0));
 			String gameOverMessage = "GAME OVER!\n Press any key to start again.";
 			int messageWidth = g.getFont().getWidth(gameOverMessage);
 			int messageHeight = g.getFont().getHeight(gameOverMessage);
-			g.drawString(gameOverMessage, (BackOffGame.GAME_WIDTH/2)-(messageWidth/2), (BackOffGame.GAME_HEIGHT/2)-(messageHeight/2));
+			g.drawString(gameOverMessage, (GAME_WIDTH/2)-(messageWidth/2), (GAME_HEIGHT/2)-(messageHeight/2));
 		} else if (this.victory) {
 			g.setBackground(new Color(0,0,0));
 			String gameOverMessage = "WELL DONE!\n Press any key to start again.";
 			int messageWidth = g.getFont().getWidth(gameOverMessage);
 			int messageHeight = g.getFont().getHeight(gameOverMessage);
-			g.drawString(gameOverMessage, (BackOffGame.GAME_WIDTH/2)-(messageWidth/2), (BackOffGame.GAME_HEIGHT/2)-(messageHeight/2));
+			g.drawString(gameOverMessage, (GAME_WIDTH/2)-(messageWidth/2), (GAME_HEIGHT/2)-(messageHeight/2));
 		} else {
 			this.renderer.render(g);
 			g.drawString("Energy: "+this.player.getEnergy(), 10, 22);
@@ -179,7 +172,7 @@ public class BackOffGame extends AbstractGame {
 			this.gameOver=false;
 			this.victory=false;
 			try {
-				this.init(this.getContainer());
+				this.init();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -200,6 +193,8 @@ public class BackOffGame extends AbstractGame {
 				case 208:
 					this.downPressed = pressed;
 					break;
+				case 1:
+					this.getGame().setActiveScene(TestGame.SCENE_MAIN_MENU, false);
 				default:
 					break;
 			}
@@ -213,7 +208,7 @@ public class BackOffGame extends AbstractGame {
 		if (this.downPressed) {
 			this.player.setCurrentDirection(Player.DIRECTION_DOWN);
 			if (checkForLayerCollision(this.player.getPosition().x, this.player.getPosition().y+this.player.getSpeed(), plW, plH)) {
-				this.player.setPosition(new Vector2f(this.player.getPosition().x,this.player.getPosition().y+this.player.getSpeed()));
+				this.player.getPosition().y = this.player.getPosition().y+this.player.getSpeed();
 			}
 			this.heading = 0;
 		}
@@ -381,9 +376,9 @@ public class BackOffGame extends AbstractGame {
 			if (this.bullets[i]!=null) {
 				Bullet b = this.bullets[i];
 				if (	(b.getY()+b.getSprite().getHeight())<0 	|| 
-						b.getY()>BackOffGame.GAME_HEIGHT 		|| 
+						b.getY()>GameScene.GAME_HEIGHT 		|| 
 						(b.getX()+b.getSprite().getWidth())<0 	||
-						b.getX()>BackOffGame.GAME_WIDTH 		||
+						b.getX()>GameScene.GAME_WIDTH 		||
 						b.getStatus()==1 ){
 					this.bullets[i] = null;
 				}
@@ -398,5 +393,6 @@ public class BackOffGame extends AbstractGame {
 			}
 		}
 	}
+
 
 }
