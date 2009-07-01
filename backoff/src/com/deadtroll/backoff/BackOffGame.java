@@ -1,15 +1,12 @@
 package com.deadtroll.backoff;
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
 import br.com.deadtroll.game.AbstractGame;
@@ -61,7 +58,7 @@ public class BackOffGame extends AbstractGame {
 	public void gameInit() throws SlickException {
 		try {
 			this.levelMap = MapIOUtil.loadMap("level01.map");
-			this.levelMap.setVisibleArea(new org.newdawn.slick.geom.Rectangle(-1,-1,GAME_WIDTH+2,GAME_HEIGHT+2));
+			this.levelMap.setVisibleArea(new Rectangle(-1,-1,GAME_WIDTH+2,GAME_HEIGHT+2));
 			this.renderer = new MapRenderer();
 			this.renderer.setMap(this.levelMap);
 			
@@ -114,32 +111,36 @@ public class BackOffGame extends AbstractGame {
 				for (int i=0; i<bullets.length;i++) {
 					if (bullets[i]==null) {
 						Bullet b = new Bullet();
+						float x = 0;
+						float y = 0;
 						switch (this.heading) {
 						case 0:
 							b.setYSpeed(b.getAbsoluteSpeed());
 							b.setXSpeed(0);
-							b.setX((int)this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2));
-							b.setY((int)this.player.getPosition().y+this.player.getCurrentSprite().getHeight());
+							x = this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2);
+							y = this.player.getPosition().y+this.player.getCurrentSprite().getHeight();
 							break;
 						case 1:
 							b.setYSpeed(-b.getAbsoluteSpeed());
 							b.setXSpeed(0);
-							b.setX((int)this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2));
-							b.setY((int)this.player.getPosition().y-b.getSprite().getHeight());
+							x = this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2);
+							y = this.player.getPosition().y-b.getSprite().getHeight();
 							break;
 						case 2:
 							b.setXSpeed(-b.getAbsoluteSpeed());
 							b.setYSpeed(0);
-							b.setX((int)this.player.getPosition().x-b.getSprite().getWidth());
-							b.setY((int)this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2));
+							x = this.player.getPosition().x-b.getSprite().getWidth();
+							y = this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2);
 							break;
 						case 3:
 							b.setXSpeed(b.getAbsoluteSpeed());
 							b.setYSpeed(0);
-							b.setX((int)this.player.getPosition().x+this.player.getCurrentSprite().getWidth());
-							b.setY((int)this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2));
+							x = this.player.getPosition().x+this.player.getCurrentSprite().getWidth();
+							y = this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2);
 							break;
 						}
+						b.setPosition(new Vector2f(x,y));
+						this.renderer.addGameObject(b);
 						bullets[i] = b;
 						break;
 					}
@@ -241,7 +242,7 @@ public class BackOffGame extends AbstractGame {
 	}
 
 	private boolean checkForLayerCollision(float x, float y, int objectWidth, int objectHeight) {
-		org.newdawn.slick.geom.Rectangle playerRect = new org.newdawn.slick.geom.Rectangle(x,y,objectWidth,objectHeight);
+		Rectangle playerRect = new Rectangle(x,y,objectWidth,objectHeight);
 		
 		Image tile = this.levelMap.getMapSpriteSheet().getSprite(0, 0);
 		
@@ -250,7 +251,7 @@ public class BackOffGame extends AbstractGame {
 			for (int j=0; j<this.levelMap.getMapHeight(); j++) {
 				MapBlock mb = ml.getMatrix()[i][j];
 				if (mb!=null) {
-					org.newdawn.slick.geom.Rectangle rect = new org.newdawn.slick.geom.Rectangle(tile.getWidth()*i, tile.getHeight()*j, tile.getWidth(),tile.getHeight());
+					Rectangle rect = new Rectangle(tile.getWidth()*i, tile.getHeight()*j, tile.getWidth(),tile.getHeight());
 					if (rect.intersects(playerRect)) {
 						return false;
 					}
@@ -293,10 +294,10 @@ public class BackOffGame extends AbstractGame {
 		for (int i=0; i<this.bullets.length; i++) {
 			if (this.bullets[i]!=null) {
 				Bullet b = this.bullets[i];
-				if (this.checkForLayerCollision(b.getX()+b.getXSpeed(), b.getY()+b.getYSpeed(), b.getSprite().getWidth(), b.getSprite().getHeight())) {
-					b.setX(b.getX()+b.getXSpeed());
-					b.setY(b.getY()+b.getYSpeed()); 
+				if (this.checkForLayerCollision(b.getPosition().x+b.getXSpeed(), b.getPosition().y+b.getYSpeed(), b.getSprite().getWidth(), b.getSprite().getHeight())) {
+					b.setPosition(new Vector2f(b.getPosition().x+b.getXSpeed(),b.getPosition().y+b.getYSpeed())); 
 				} else {
+					this.renderer.removeGameObject(this.bullets[i]);
 					this.bullets[i] = null;
 				}
 			}
@@ -325,14 +326,14 @@ public class BackOffGame extends AbstractGame {
 		for (int i=0;i<this.enemies.length;i++) {
 			if (this.enemies[i]!=null) {
 				IEnemy e = this.enemies[i];
-				boundingBoxes[i] = new Rectangle(new Point((int)e.getPosition().x,(int)e.getPosition().y),new Dimension(e.getCurrentSprite().getWidth(),e.getCurrentSprite().getHeight())); 
+				boundingBoxes[i] = new Rectangle(e.getPosition().x,e.getPosition().y,e.getCurrentSprite().getWidth(),e.getCurrentSprite().getHeight()); 
 			}
 		}
 		for (Bullet b : this.bullets) {
 			if (b!=null) {
 				for (int i=0;i<boundingBoxes.length;i++) {
 					if (boundingBoxes[i]!=null) {
-						if (boundingBoxes[i].contains(new Point(b.getX(),b.getY()))) {
+						if (boundingBoxes[i].contains(b.getPosition().x,b.getPosition().y)) {
 							this.enemies[i].setStatus((byte)1);
 							b.setStatus((byte)1);
 							this.updateScore(this.enemies[i]);
@@ -356,7 +357,7 @@ public class BackOffGame extends AbstractGame {
 			if (this.enemies[i]!=null) {
 				hasEnemies = true;
 				IEnemy e = this.enemies[i];
-				boundingBoxes[i] = new Rectangle(new Point((int)e.getPosition().x,(int)e.getPosition().y),new Dimension(e.getCurrentSprite().getWidth(),e.getCurrentSprite().getHeight())); 
+				boundingBoxes[i] = new Rectangle(e.getPosition().x,e.getPosition().y,e.getCurrentSprite().getWidth(),e.getCurrentSprite().getHeight()); 
 			}
 		}
 		
@@ -380,11 +381,12 @@ public class BackOffGame extends AbstractGame {
 		for (int i=0; i<this.bullets.length; i++) {
 			if (this.bullets[i]!=null) {
 				Bullet b = this.bullets[i];
-				if (	(b.getY()+b.getSprite().getHeight())<0 	|| 
-						b.getY()>BackOffGame.GAME_HEIGHT 		|| 
-						(b.getX()+b.getSprite().getWidth())<0 	||
-						b.getX()>BackOffGame.GAME_WIDTH 		||
+				if (	(b.getPosition().y+b.getSprite().getHeight())<0 	|| 
+						b.getPosition().y>BackOffGame.GAME_HEIGHT 		|| 
+						(b.getPosition().x+b.getSprite().getWidth())<0 	||
+						b.getPosition().x>BackOffGame.GAME_WIDTH 		||
 						b.getStatus()==1 ){
+					this.renderer.removeGameObject(this.bullets[i]);
 					this.bullets[i] = null;
 				}
 			}
@@ -394,6 +396,7 @@ public class BackOffGame extends AbstractGame {
 	private void cleanEnemies() {
 		for (int i=0; i<this.enemies.length; i++) {
 			if (this.enemies[i]!=null && this.enemies[i].getStatus()==1) {
+				this.renderer.removeGameObject(this.enemies[i]);
 				this.enemies[i] = null;
 			}
 		}
