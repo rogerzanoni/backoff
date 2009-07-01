@@ -1,15 +1,16 @@
 package com.deadtroll.backoff;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Bullet {
+import com.deadtroll.backoff.engine.model.AbstractGameObject;
+
+public class Bullet extends AbstractGameObject {
 
 	private byte status; //0=default, 1=gone
 	private int absoluteSpeed;
 	private Image sprite;
-	private int x;
-	private int y;
 	private int xSpeed;
 	private int ySpeed;
 
@@ -38,22 +39,6 @@ public class Bullet {
 		this.status = status;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
 	public int getXSpeed() {
 		return xSpeed;
 	}
@@ -76,6 +61,16 @@ public class Bullet {
 
 	public void setAbsoluteSpeed(int absoluteSpeed) {
 		this.absoluteSpeed = absoluteSpeed;
+	}
+
+	@Override
+	public Image getCurrentSprite() {
+		return this.sprite;
+	}
+
+	@Override
+	public void render(Graphics g) {
+		g.drawImage(this.getCurrentSprite(), this.position.x, this.position.y);
 	}
 
 }

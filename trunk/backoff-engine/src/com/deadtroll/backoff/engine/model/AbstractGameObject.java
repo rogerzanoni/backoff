@@ -31,7 +31,7 @@ public abstract class AbstractGameObject implements IGameObject {
 	@Override
 	public Vector2f getCenter() {
 		Image img = this.getCurrentSprite();
-		return new Vector2f((this.position.x+img.getWidth())/2,(this.position.y+img.getHeight())/2);
+		return new Vector2f(this.position.x+(img.getWidth())/2,this.position.y+(img.getHeight())/2);
 	}
 	
 }
