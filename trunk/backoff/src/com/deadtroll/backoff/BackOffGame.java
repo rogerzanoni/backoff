@@ -20,6 +20,7 @@ import com.deadtroll.backoff.engine.map.MapBlock;
 import com.deadtroll.backoff.engine.map.MapIOUtil;
 import com.deadtroll.backoff.engine.map.MapLayer;
 import com.deadtroll.backoff.engine.renderer.MapRenderer;
+import com.deadtroll.backoff.engine.viewport.ViewPort;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
 public class BackOffGame extends AbstractGame {
@@ -58,8 +59,8 @@ public class BackOffGame extends AbstractGame {
 	public void gameInit() throws SlickException {
 		try {
 			this.levelMap = MapIOUtil.loadMap("level01.map");
-			this.levelMap.setVisibleArea(new Rectangle(-1,-1,GAME_WIDTH+2,GAME_HEIGHT+2));
 			this.renderer = new MapRenderer();
+			this.renderer.setViewPort(new ViewPort(GAME_WIDTH, GAME_HEIGHT, new Vector2f(0,0), WORLD_WIDTH, WORLD_HEIGHT));
 			this.renderer.setMap(this.levelMap);
 			
 			this.player = new Player();
@@ -105,6 +106,7 @@ public class BackOffGame extends AbstractGame {
 	public void update(GameContainer container, int delta) throws SlickException {
 		if (!this.gameOver && !this.victory) {
 			updatePlayerPosition();
+			updateViewPortPosition();
 			updateEnemyPosition();
 			updateBulletPosition();
 			if (testFireCondition(System.currentTimeMillis())) {
@@ -172,6 +174,9 @@ public class BackOffGame extends AbstractGame {
 			g.drawString("Score: "+this.player.getTotalScore(), 10, 34);
 			g.drawString("Magazine Ammo: "+this.player.getActiveWeapon().getMagazineAmmo(), 10, 46);
 			g.drawString("Ammo: "+this.player.getActiveWeapon().getAmmo(), 10, 58);
+			g.drawString("ViewPort: " + this.renderer.getViewPort(), 10, 70);
+			g.drawString("PlayerPos: " + this.player.getCenter(), 10, 82);
+			g.drawString("Map: w: " + WORLD_WIDTH  + " h: " + WORLD_HEIGHT , 10, 94);
 		}
 	}
 
@@ -239,6 +244,13 @@ public class BackOffGame extends AbstractGame {
 			}
 			this.heading = 3;
 		}
+	}
+	
+	private void updateViewPortPosition() {
+		ViewPort viewPort = this.renderer.getViewPort();
+		float diffx = this.player.getCenter().x - viewPort.getCenterX();
+		float diffy = this.player.getCenter().y - viewPort.getCenterY();
+		viewPort.scroll(new Vector2f(viewPort.getX() + diffx, viewPort.getY() + diffy));
 	}
 
 	private boolean checkForLayerCollision(float x, float y, int objectWidth, int objectHeight) {

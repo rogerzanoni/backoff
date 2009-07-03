@@ -4,13 +4,15 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.deadtroll.backoff.engine.viewport.ViewPort;
+
 public interface IGameObject {
 
-	public int getLayer(); 
+	public int getLayer();
 	
 	public void setLayer(int layer);
 	
-	public void render(Graphics g);
+	public void render(Graphics g, ViewPort viewPort);
 	
 	public Vector2f getPosition();
 	
