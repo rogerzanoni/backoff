@@ -7,6 +7,7 @@ public abstract class AbstractGameObject implements IGameObject {
 
 	protected int layer;
 	protected Vector2f position;
+	protected boolean debugMode;
 	
 	@Override
 	public int getLayer() {
@@ -34,4 +35,13 @@ public abstract class AbstractGameObject implements IGameObject {
 		return new Vector2f(this.position.x+(img.getWidth())/2,this.position.y+(img.getHeight())/2);
 	}
 	
+	@Override
+	public void setDebugMode(boolean debugMode) {
+		this.debugMode = debugMode;
+	}
+	
+	@Override
+	public boolean isDebugMode() {
+		return this.debugMode;
+	}
 }

@@ -27,6 +27,8 @@ public class BackOffGame extends AbstractGame {
 
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
+	public static final int WORLD_WIDTH = 1024;
+	public static final int WORLD_HEIGHT = 768; 
 	
 	private Player player;
 	private IEnemy[] enemies;
@@ -69,6 +71,7 @@ public class BackOffGame extends AbstractGame {
 			this.player.setEnergy(100);
 			this.player.setPosition(new Vector2f(0,0));
 			this.player.setLayer(1);
+			this.player.setDebugMode(true);
 			this.renderer.addGameObject(this.player);
 			
 			this.bullets = new Bullet[200];
@@ -264,7 +267,7 @@ public class BackOffGame extends AbstractGame {
 				MapBlock mb = ml.getMatrix()[i][j];
 				if (mb!=null) {
 					Rectangle rect = new Rectangle(tile.getWidth()*i, tile.getHeight()*j, tile.getWidth(),tile.getHeight());
-					if (rect.intersects(playerRect)) {
+					if (playerRect.intersects(rect)) {
 						return false;
 					}
 				}
