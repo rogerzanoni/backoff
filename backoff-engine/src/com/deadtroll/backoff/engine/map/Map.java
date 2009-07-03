@@ -1,7 +1,6 @@
 package com.deadtroll.backoff.engine.map;
 
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.geom.Rectangle;
 
 public class Map {
 
@@ -13,7 +12,6 @@ public class Map {
 	private String spriteSheetPath;
 	private int spriteSheetWidth;
 	private int spriteSheetHeight;
-	private Rectangle visibleArea;
 	private SpriteSheet mapSpriteSheet;
 
 	public String getName() {
@@ -86,14 +84,6 @@ public class Map {
 			this.layers[i] = new MapLayer();
 			this.layers[i].setMatrix(new MapBlock[this.mapWidth][this.mapHeight]);
 		}
-	}
-
-	public Rectangle getVisibleArea() {
-		return visibleArea;
-	}
-
-	public void setVisibleArea(Rectangle visibleArea) {
-		this.visibleArea = visibleArea;
 	}
 
 	public SpriteSheet getMapSpriteSheet() {

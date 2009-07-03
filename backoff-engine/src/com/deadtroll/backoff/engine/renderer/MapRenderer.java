@@ -12,18 +12,18 @@ import com.deadtroll.backoff.engine.map.Map;
 import com.deadtroll.backoff.engine.map.MapBlock;
 import com.deadtroll.backoff.engine.map.MapLayer;
 import com.deadtroll.backoff.engine.model.IGameObject;
+import com.deadtroll.backoff.engine.viewport.ViewPort;
 
 public class MapRenderer implements IRenderer {
 
 	protected List<IGameObject> gameObjects = new ArrayList<IGameObject>();
 	protected Map map;
+	protected ViewPort viewPort;
 
-	@Override
 	public void addGameObject(IGameObject gameObject) {
 		this.gameObjects.add(gameObject);
 	}
 
-	@Override
 	public void removeGameObject(IGameObject gameObject) {
 		this.gameObjects.remove(gameObject);
 	}
@@ -32,31 +32,40 @@ public class MapRenderer implements IRenderer {
 		this.map = map;
 	}
 
-	@Override
 	public void render(Graphics g) {
 		int currentLayer = 0;
-		Rectangle viewport = this.map.getVisibleArea();
 		SpriteSheet sheet = this.map.getMapSpriteSheet();
 		for (MapLayer ml : this.map.getLayers()) {
 			for (int i=0; i<this.map.getMapWidth(); i++) {
 				for (int j=0; j<this.map.getMapHeight(); j++) {
 					MapBlock mb = ml.getMatrix()[i][j];
 					if (mb!=null) {
-						//TODO testar viewport
 						int id = mb.getSpriteId();
 						Image tile = sheet.getSprite((id%sheet.getHorizontalCount()),id/sheet.getHorizontalCount());
-						g.drawImage(tile, tile.getWidth()*i, tile.getHeight()*j);
+						float posX = tile.getWidth()*i;
+						float posY = tile.getHeight()*j;						
+						if (viewPort.intersects(new Rectangle(posX, posY, tile.getWidth(),tile.getHeight()))) {
+							g.drawImage(tile, posX-viewPort.getX(), posY-viewPort.getY());
+						}
 					}
 				}
 			}
 			for (IGameObject go : this.gameObjects) {
 				if (go.getLayer()==currentLayer) {
-					if (viewport.contains(go.getPosition().x,go.getPosition().y)) {
-						go.render(g);
+					if (viewPort.contains(go)) {
+						go.render(g, viewPort);
 					}
 				}
 			}
 			currentLayer++;
 		}
+	}
+
+	public ViewPort getViewPort() {
+		return viewPort;
+	}
+
+	public void setViewPort(ViewPort viewPort) {
+		this.viewPort = viewPort;
 	}
 }

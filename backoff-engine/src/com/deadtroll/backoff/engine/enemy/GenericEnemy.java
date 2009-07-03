@@ -5,9 +5,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 
 import com.deadtroll.backoff.engine.model.AbstractGameObject;
+import com.deadtroll.backoff.engine.viewport.ViewPort;
 
 public class GenericEnemy extends AbstractGameObject implements IEnemy {
-
 	private int energy;
 	private int speed;
 	private byte status; // 0=alive/default, 1=dead
@@ -67,9 +67,8 @@ public class GenericEnemy extends AbstractGameObject implements IEnemy {
 		this.spriteSheet = sprite;
 	}
 
-	@Override
-	public void render(Graphics g) {
-		g.drawImage(this.getCurrentSprite(),this.position.x,this.position.y);
+	public void render(Graphics g, ViewPort viewPort) {
+		g.drawImage(this.getCurrentSprite(),this.position.x-viewPort.getX(), this.position.y-viewPort.getY());
 	}
 
 }

@@ -55,7 +55,6 @@ public class GameScene extends AbstractScene {
 	public void init() {
 		try {
 			this.levelMap = MapIOUtil.loadMap("res/level01.map");
-			this.levelMap.setVisibleArea(new org.newdawn.slick.geom.Rectangle(0,0,GAME_WIDTH,GAME_HEIGHT));
 			this.renderer = new MapRenderer();
 			this.renderer.setMap(this.levelMap);
 			

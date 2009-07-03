@@ -8,6 +8,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.deadtroll.backoff.engine.model.AbstractGameObject;
+import com.deadtroll.backoff.engine.viewport.ViewPort;
 import com.deadtroll.backoff.engine.weapon.M9Pistol;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
@@ -24,7 +25,6 @@ public class Player extends AbstractGameObject {
 	int currentDirection;
 	SpriteSheet spriteSheet;
 	int currentSpriteX, currentSpriteY;
-	Vector2f position;
 	Weapon activeWeapon;
 	ArrayList<Weapon> weapons;
 	int currentLayer;
@@ -89,29 +89,23 @@ public class Player extends AbstractGameObject {
 		this.activeWeapon = activeWeapon;
 	}
 
-	@Override
 	public int getLayer() {
 		return this.currentLayer;
 	}
 
-	@Override
 	public Vector2f getPosition() {
 		return this.position;
 	}
 
-	@Override
-	public void render(Graphics g) {
-		g.drawImage(this.getCurrentSprite(),this.position.x,this.position.y);
+	public void render(Graphics g, ViewPort viewPort) {
+		g.drawImage(this.getCurrentSprite(),this.position.x-viewPort.getX(),this.position.y-viewPort.getY());
 	}
 
-	@Override
 	public void setPosition(Vector2f position) {
 		this.position = position;
 	}
 
-	@Override
 	public void setLayer(int layer) {
 		this.currentLayer = layer;
 	}
-	
 }
