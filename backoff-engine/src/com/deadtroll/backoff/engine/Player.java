@@ -99,6 +99,9 @@ public class Player extends AbstractGameObject {
 
 	public void render(Graphics g, ViewPort viewPort) {
 		g.drawImage(this.getCurrentSprite(),this.position.x-viewPort.getX(),this.position.y-viewPort.getY());
+		if (this.debugMode) {
+			g.drawRect(this.position.x-viewPort.getX(),this.position.y-viewPort.getY(), this.getCurrentSprite().getWidth(), this.getCurrentSprite().getHeight());
+		}
 	}
 
 	public void setPosition(Vector2f position) {

@@ -22,4 +22,8 @@ public interface IGameObject {
 	
 	public Image getCurrentSprite();
 	
+	public void setDebugMode(boolean debugMode);
+	
+	public boolean isDebugMode();
+	
 }

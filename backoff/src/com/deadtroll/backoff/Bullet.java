@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import com.deadtroll.backoff.engine.model.AbstractGameObject;
+import com.deadtroll.backoff.engine.viewport.ViewPort;
 
 public class Bullet extends AbstractGameObject {
 
@@ -69,8 +70,10 @@ public class Bullet extends AbstractGameObject {
 	}
 
 	@Override
-	public void render(Graphics g) {
-		g.drawImage(this.getCurrentSprite(), this.position.x, this.position.y);
+	public void render(Graphics g, ViewPort viewPort) {
+		if (viewPort.contains(this.position.x, this.position.y)) {
+			g.drawImage(this.getCurrentSprite(), this.position.x, this.position.y);
+		}
 	}
 
 }
