@@ -1,5 +1,7 @@
 package br.com.deadtroll.scene;
 
+import org.newdawn.slick.SlickException;
+
 import br.com.deadtroll.game.IGame;
 
 public abstract class AbstractScene implements IScene {
@@ -14,7 +16,7 @@ public abstract class AbstractScene implements IScene {
 	}
 
 	@Override
-	public void resume() {
+	public void resume() throws SlickException {
 		if (!this.isInitialized()) {
 			this.init();
 			this.setInitialized(true);

@@ -1,6 +1,7 @@
 package br.com.deadtroll.scene;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 
 import br.com.deadtroll.game.IGame;
 
@@ -10,11 +11,11 @@ public interface IScene {
 	
 	public void update(int delta);
 	
-	public void init();
+	public void init() throws SlickException;
 	
 	public void pause();
 	
-	public void resume();
+	public void resume() throws SlickException;
 	
 	public void stop();
 	

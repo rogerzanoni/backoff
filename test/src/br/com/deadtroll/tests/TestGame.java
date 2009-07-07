@@ -1,5 +1,7 @@
 package br.com.deadtroll.tests;
 
+import org.newdawn.slick.SlickException;
+
 import br.com.deadtroll.game.AbstractGame;
 import br.com.deadtroll.tests.menu.MenuScene;
 
@@ -14,7 +16,7 @@ public class TestGame extends AbstractGame {
 	}
 
 	@Override
-	public void gameInit() {
+	public void gameInit() throws SlickException {
 		IntroScene introScene = new IntroScene();
 		introScene.setGame(this);
 		

@@ -3,6 +3,7 @@ package br.com.deadtroll.game;
 import java.util.Map;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
 
 import br.com.deadtroll.scene.IScene;
 
@@ -14,7 +15,7 @@ public interface IGame {
 
 	public IScene getActiveScene();
 
-	public void setActiveScene(String activeScene, boolean stopCurrentScene);
+	public void setActiveScene(String activeScene, boolean stopCurrentScene) throws SlickException;
 
 	public GameContainer getContainer();
 
