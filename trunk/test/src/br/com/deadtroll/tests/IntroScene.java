@@ -57,7 +57,11 @@ public class IntroScene extends AbstractScene {
 				this.currentSlide++;
 				this.updateCount = 0;
 			} else {
-				this.getGame().setActiveScene(TestGame.SCENE_MAIN_MENU, true);
+				try {
+					this.getGame().setActiveScene(TestGame.SCENE_MAIN_MENU, true);
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

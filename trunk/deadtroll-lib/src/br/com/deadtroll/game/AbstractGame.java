@@ -57,7 +57,7 @@ public abstract class AbstractGame extends BasicGame implements IGame {
 	}
 
 	@Override
-	public void setActiveScene(String activeScene, boolean stopCurrentScene) {
+	public void setActiveScene(String activeScene, boolean stopCurrentScene) throws SlickException {
 		if (this.activeScene!=null) {
 			if (stopCurrentScene) {
 				this.activeScene.stop();

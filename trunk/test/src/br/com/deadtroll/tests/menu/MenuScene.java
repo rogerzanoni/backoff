@@ -47,12 +47,12 @@ public class MenuScene extends AbstractScene {
 		this.menuItens.add(new MenuItem("Exit", "Exit game",true, TestGame.SCENE_INTRO));
 		
 		this.menuItens.get(1).setSelected(true);
-//		try {
-//			this.music = new Music("res/menu.ogg");
-//			this.music.play();
-//		} catch (SlickException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			this.music = new Music("res/menu.ogg");
+			this.music.play();
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -88,7 +88,7 @@ public class MenuScene extends AbstractScene {
 	}
 
 	@Override
-	public void resume() {
+	public void resume() throws SlickException {
 		super.resume();
 		if (music!=null)
 			this.music.resume();
@@ -97,7 +97,11 @@ public class MenuScene extends AbstractScene {
 	private void menuSelect() {
 		for (MenuItem item : this.menuItens) {
 			if (item.isSelected()) {
-				this.getGame().setActiveScene(item.getTargetScene(),false);
+				try {
+					this.getGame().setActiveScene(item.getTargetScene(),false);
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
 				break;
 			}
 		}
