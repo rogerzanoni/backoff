@@ -11,28 +11,32 @@ import org.newdawn.slick.geom.Vector2f;
 
 import br.com.deadtroll.game.AbstractGame;
 
-import com.deadtroll.backoff.engine.Player;
+import com.deadtroll.backoff.engine.bullet.Bullet;
+import com.deadtroll.backoff.engine.bullet.IBullet;
 import com.deadtroll.backoff.engine.enemy.EnemyDescriptionMap;
-import com.deadtroll.backoff.engine.enemy.EnemyFactory;
 import com.deadtroll.backoff.engine.enemy.IEnemy;
 import com.deadtroll.backoff.engine.map.Map;
 import com.deadtroll.backoff.engine.map.MapBlock;
 import com.deadtroll.backoff.engine.map.MapIOUtil;
 import com.deadtroll.backoff.engine.map.MapLayer;
+import com.deadtroll.backoff.engine.model.Heading;
+import com.deadtroll.backoff.engine.model.TransientStatus;
+import com.deadtroll.backoff.engine.player.IPlayer;
 import com.deadtroll.backoff.engine.renderer.MapRenderer;
+import com.deadtroll.backoff.engine.sound.SoundEvent;
 import com.deadtroll.backoff.engine.viewport.ViewPort;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
 public class BackOffGame extends AbstractGame {
 
-	public static final int GAME_WIDTH = 800;
-	public static final int GAME_HEIGHT = 600;
-	public static final int WORLD_WIDTH = 1024;
-	public static final int WORLD_HEIGHT = 768; 
-	
-	private Player player;
+	public static final int GAME_WIDTH = 640;
+	public static final int GAME_HEIGHT = 480;
+	public static final int WORLD_WIDTH = 800;
+	public static final int WORLD_HEIGHT = 600;
+
+	private IPlayer player;
 	private IEnemy[] enemies;
-	private Bullet[] bullets;
+	private IBullet[] bullets;
 
 	private boolean downPressed;
 	private boolean upPressed;
@@ -42,8 +46,6 @@ public class BackOffGame extends AbstractGame {
 
 	private boolean gameOver;
 	private boolean victory;
-	
-	private byte heading; //0 = down, 1=up, 2=left, 3=right
 
 	private long lastFire;
 	
@@ -65,8 +67,9 @@ public class BackOffGame extends AbstractGame {
 			this.renderer.setViewPort(new ViewPort(GAME_WIDTH, GAME_HEIGHT, new Vector2f(0,0), WORLD_WIDTH, WORLD_HEIGHT));
 			this.renderer.setMap(this.levelMap);
 			
-			this.player = new Player();
+			this.player = new BradTeeper();
 			this.player.setSpriteSheet(new SpriteSheet("res/sprites/player.png",32,32));
+			this.player.setHeading(Heading.DOWN);
 			this.player.setSpeed(3);
 			this.player.setEnergy(100);
 			this.player.setPosition(new Vector2f(0,0));
@@ -76,7 +79,7 @@ public class BackOffGame extends AbstractGame {
 			
 			this.bullets = new Bullet[200];
 			
-			this.enemies = new IEnemy[5];
+			this.enemies = new DummyEnemy[5];
 			
 			this.enemyMap = new EnemyDescriptionMap("res/foe");
 			
@@ -117,33 +120,26 @@ public class BackOffGame extends AbstractGame {
 					if (bullets[i]==null) {
 						Bullet b = new Bullet();
 						float x = 0;
-						float y = 0;
-						switch (this.heading) {
-						case 0:
-							b.setYSpeed(b.getAbsoluteSpeed());
-							b.setXSpeed(0);
-							x = this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2);
+						float y = 0;						
+						switch (this.player.getHeading()) {						
+						case DOWN:
+							x = this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getCurrentSprite().getHeight()/2);
 							y = this.player.getPosition().y+this.player.getCurrentSprite().getHeight();
 							break;
-						case 1:
-							b.setYSpeed(-b.getAbsoluteSpeed());
-							b.setXSpeed(0);
-							x = this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getSprite().getHeight()/2);
-							y = this.player.getPosition().y-b.getSprite().getHeight();
+						case UP:
+							x = this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getCurrentSprite().getHeight()/2);
+							y = this.player.getPosition().y-b.getCurrentSprite().getHeight();
 							break;
-						case 2:
-							b.setXSpeed(-b.getAbsoluteSpeed());
-							b.setYSpeed(0);
-							x = this.player.getPosition().x-b.getSprite().getWidth();
-							y = this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2);
+						case LEFT:
+							x = this.player.getPosition().x-b.getCurrentSprite().getWidth();
+							y = this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getCurrentSprite().getHeight()/2);
 							break;
-						case 3:
-							b.setXSpeed(b.getAbsoluteSpeed());
-							b.setYSpeed(0);
+						case RIGHT:
 							x = this.player.getPosition().x+this.player.getCurrentSprite().getWidth();
-							y = this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getSprite().getHeight()/2);
+							y = this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getCurrentSprite().getHeight()/2);
 							break;
 						}
+						b.setHeading(this.player.getHeading());
 						b.setPosition(new Vector2f(x,y));
 						this.renderer.addGameObject(b);
 						bullets[i] = b;
@@ -220,32 +216,28 @@ public class BackOffGame extends AbstractGame {
 		int plH = this.player.getCurrentSprite().getHeight();
 
 		if (this.downPressed) {
-			this.player.setCurrentDirection(Player.DIRECTION_DOWN);
+			this.player.setHeading(Heading.DOWN);
 			if (checkForLayerCollision(this.player.getPosition().x, this.player.getPosition().y+this.player.getSpeed(), plW, plH)) {
 				this.player.setPosition(new Vector2f(this.player.getPosition().x,this.player.getPosition().y+this.player.getSpeed()));
 			}
-			this.heading = 0;
 		}
 		if (this.upPressed) {
-			this.player.setCurrentDirection(Player.DIRECTION_UP);
+			this.player.setHeading(Heading.UP);
 			if (checkForLayerCollision(this.player.getPosition().x, this.player.getPosition().y-this.player.getSpeed(), plW, plH)) {
 				this.player.getPosition().y = this.player.getPosition().y-this.player.getSpeed();
 			}
-			this.heading = 1;
 		}
 		if (this.leftPressed) {
-			this.player.setCurrentDirection(Player.DIRECTION_LEFT);
+			this.player.setHeading(Heading.LEFT);
 			if (checkForLayerCollision(this.player.getPosition().y-this.player.getSpeed(), this.player.getPosition().y, plW, plH)) {
 				this.player.getPosition().x = this.player.getPosition().x-this.player.getSpeed();
 			}
-			this.heading = 2;
 		}
 		if (this.rightPressed) {
-			this.player.setCurrentDirection(Player.DIRECTION_RIGHT);
+			this.player.setHeading(Heading.RIGHT);
 			if (checkForLayerCollision(this.player.getPosition().x+this.player.getSpeed(), this.player.getPosition().y, plW, plH)) {
 				this.player.getPosition().x = this.player.getPosition().x+this.player.getSpeed();
 			}
-			this.heading = 3;
 		}
 	}
 	
@@ -308,9 +300,19 @@ public class BackOffGame extends AbstractGame {
 	private void updateBulletPosition() {
 		for (int i=0; i<this.bullets.length; i++) {
 			if (this.bullets[i]!=null) {
-				Bullet b = this.bullets[i];
-				if (this.checkForLayerCollision(b.getPosition().x+b.getXSpeed(), b.getPosition().y+b.getYSpeed(), b.getSprite().getWidth(), b.getSprite().getHeight())) {
-					b.setPosition(new Vector2f(b.getPosition().x+b.getXSpeed(),b.getPosition().y+b.getYSpeed())); 
+				IBullet b = this.bullets[i];
+				int xSpeed=0;
+				int ySpeed=0;
+				if (b.getHeading() == Heading.UP)
+					ySpeed = -b.getSpeed();
+				else if (b.getHeading() == Heading.DOWN)
+					ySpeed = b.getSpeed();
+				else if (b.getHeading() == Heading.LEFT)
+					xSpeed = -b.getSpeed();
+				else if (b.getHeading() == Heading.RIGHT)
+					xSpeed = b.getSpeed();
+				if (this.checkForLayerCollision(b.getPosition().x+xSpeed, b.getPosition().y+ySpeed, b.getCurrentSprite().getWidth(), b.getCurrentSprite().getHeight())) {
+					b.setPosition(new Vector2f(b.getPosition().x+xSpeed,b.getPosition().y+ySpeed)); 
 				} else {
 					this.renderer.removeGameObject(this.bullets[i]);
 					this.bullets[i] = null;
@@ -327,6 +329,7 @@ public class BackOffGame extends AbstractGame {
 			
 			if (now-this.lastFire>fireInterval) {
 				if (weapon.fire()) {
+					this.player.playSoundEvent(SoundEvent.FIRE);
 					this.lastFire = now;
 					return true;
 				}
@@ -344,13 +347,14 @@ public class BackOffGame extends AbstractGame {
 				boundingBoxes[i] = new Rectangle(e.getPosition().x,e.getPosition().y,e.getCurrentSprite().getWidth(),e.getCurrentSprite().getHeight()); 
 			}
 		}
-		for (Bullet b : this.bullets) {
+		for (IBullet b : this.bullets) {
 			if (b!=null) {
 				for (int i=0;i<boundingBoxes.length;i++) {
 					if (boundingBoxes[i]!=null) {
 						if (boundingBoxes[i].contains(b.getPosition().x,b.getPosition().y)) {
-							this.enemies[i].setStatus((byte)1);
-							b.setStatus((byte)1);
+							this.enemies[i].setStatus(TransientStatus.STATUS_GONE);
+							this.enemies[i].playSoundEvent(SoundEvent.DEATH);
+							b.setStatus(TransientStatus.STATUS_GONE);
 							this.updateScore(this.enemies[i]);
 							break;
 						}
@@ -383,7 +387,8 @@ public class BackOffGame extends AbstractGame {
 		for (int i=0;i<boundingBoxes.length;i++) {
 			if (boundingBoxes[i]!=null) {
 				if (boundingBoxes[i].intersects(playerRect)) {
-					this.player.setEnergy(this.player.getEnergy()-this.enemies[i].getDamage());
+					this.player.addDamage(this.enemies[i].getDamage());
+					this.player.playSoundEvent(SoundEvent.HIT);
 				}
 			}
 		}
@@ -395,12 +400,12 @@ public class BackOffGame extends AbstractGame {
 	private void cleanBullets() {
 		for (int i=0; i<this.bullets.length; i++) {
 			if (this.bullets[i]!=null) {
-				Bullet b = this.bullets[i];
-				if (	(b.getPosition().y+b.getSprite().getHeight())<0 	|| 
+				IBullet b = this.bullets[i];
+				if (	(b.getPosition().y+b.getCurrentSprite().getHeight())<0 	|| 
 						b.getPosition().y>BackOffGame.GAME_HEIGHT 		|| 
-						(b.getPosition().x+b.getSprite().getWidth())<0 	||
+						(b.getPosition().x+b.getCurrentSprite().getWidth())<0 	||
 						b.getPosition().x>BackOffGame.GAME_WIDTH 		||
-						b.getStatus()==1 ){
+						b.getStatus()==TransientStatus.STATUS_GONE ){
 					this.renderer.removeGameObject(this.bullets[i]);
 					this.bullets[i] = null;
 				}
@@ -410,7 +415,7 @@ public class BackOffGame extends AbstractGame {
 	
 	private void cleanEnemies() {
 		for (int i=0; i<this.enemies.length; i++) {
-			if (this.enemies[i]!=null && this.enemies[i].getStatus()==1) {
+			if (this.enemies[i]!=null && this.enemies[i].getStatus()==TransientStatus.STATUS_GONE) {
 				this.renderer.removeGameObject(this.enemies[i]);
 				this.enemies[i] = null;
 			}

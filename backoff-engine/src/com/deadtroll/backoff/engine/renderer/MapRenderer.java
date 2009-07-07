@@ -22,9 +22,11 @@ public class MapRenderer implements IRenderer {
 
 	public void addGameObject(IGameObject gameObject) {
 		this.gameObjects.add(gameObject);
+		gameObject.initializeGO();
 	}
 
 	public void removeGameObject(IGameObject gameObject) {
+		gameObject.finalizeGO();
 		this.gameObjects.remove(gameObject);
 	}
 

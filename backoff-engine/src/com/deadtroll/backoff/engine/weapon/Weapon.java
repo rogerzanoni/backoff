@@ -1,5 +1,6 @@
 package com.deadtroll.backoff.engine.weapon;
 
+
 public abstract class Weapon {
 
 	private String name;
