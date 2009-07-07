@@ -1,4 +1,8 @@
-package com.deadtroll.backoff.engine.enemy;
+package com.deadtroll.backoff;
+
+import com.deadtroll.backoff.engine.enemy.EnemyDescription;
+import com.deadtroll.backoff.engine.enemy.EnemyDescriptionMap;
+import com.deadtroll.backoff.engine.enemy.IEnemy;
 
 
 
@@ -19,7 +23,7 @@ public class EnemyFactory {
 	public IEnemy getEnemyInstance(String enemyName, EnemyDescriptionMap map) {
 		if (map.getEnemyDescriptionsMap().containsKey(enemyName)) {
 			EnemyDescription desc = map.getEnemyDescriptionsMap().get(enemyName);
-			GenericEnemy enemy = new GenericEnemy(desc.getDescription());
+			DummyEnemy enemy = new DummyEnemy(desc.getDescription());
 			enemy.setDamage(desc.getDamage());
 			enemy.setEnergy(desc.getEnergy());
 			enemy.setScore(desc.getScore());

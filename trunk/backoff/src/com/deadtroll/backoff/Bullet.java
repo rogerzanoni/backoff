@@ -76,4 +76,16 @@ public class Bullet extends AbstractGameObject {
 		}
 	}
 
+	@Override
+	public void finalizeGO() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initializeGO() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

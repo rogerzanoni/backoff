@@ -12,14 +12,16 @@ import org.newdawn.slick.geom.Vector2f;
 
 import br.com.deadtroll.scene.AbstractScene;
 
+import com.deadtroll.backoff.BradTeeper;
+import com.deadtroll.backoff.EnemyFactory;
 import com.deadtroll.backoff.engine.Player;
 import com.deadtroll.backoff.engine.enemy.EnemyDescriptionMap;
-import com.deadtroll.backoff.engine.enemy.EnemyFactory;
 import com.deadtroll.backoff.engine.enemy.IEnemy;
 import com.deadtroll.backoff.engine.map.Map;
 import com.deadtroll.backoff.engine.map.MapBlock;
 import com.deadtroll.backoff.engine.map.MapIOUtil;
 import com.deadtroll.backoff.engine.map.MapLayer;
+import com.deadtroll.backoff.engine.model.TransientStatus;
 import com.deadtroll.backoff.engine.renderer.MapRenderer;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
@@ -58,7 +60,7 @@ public class GameScene extends AbstractScene {
 			this.renderer = new MapRenderer();
 			this.renderer.setMap(this.levelMap);
 			
-			this.player = new Player();
+			this.player = new BradTeeper();
 			this.player.setSpriteSheet(new SpriteSheet("res/sprites/player.png",32,32));
 			this.player.setSpeed(3);
 			this.player.setEnergy(100);
@@ -327,8 +329,8 @@ public class GameScene extends AbstractScene {
 				for (int i=0;i<boundingBoxes.length;i++) {
 					if (boundingBoxes[i]!=null) {
 						if (boundingBoxes[i].contains(new Point(b.getX(),b.getY()))) {
-							this.enemies[i].setStatus((byte)1);
-							b.setStatus((byte)1);
+							this.enemies[i].setStatus(TransientStatus.STATUS_GONE);
+							b.setStatus(TransientStatus.STATUS_GONE);
 							this.updateScore(this.enemies[i]);
 							break;
 						}
@@ -387,7 +389,7 @@ public class GameScene extends AbstractScene {
 
 	private void cleanEnemies() {
 		for (int i=0; i<this.enemies.length; i++) {
-			if (this.enemies[i]!=null && this.enemies[i].getStatus()==1) {
+			if (this.enemies[i]!=null && this.enemies[i].getStatus()==TransientStatus.STATUS_GONE) {
 				this.enemies[i] = null;
 			}
 		}
