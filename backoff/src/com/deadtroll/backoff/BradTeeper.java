@@ -9,6 +9,7 @@ import com.deadtroll.backoff.engine.sound.SoundManager;
 import com.deadtroll.backoff.engine.weapon.M9Pistol;
 
 public class BradTeeper extends GenericPlayer {
+	
 	public BradTeeper() {
 		setName("Brad Teeper Cadarn");
 		M9Pistol m9 = new M9Pistol();

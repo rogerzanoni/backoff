@@ -3,7 +3,6 @@ package com.deadtroll.backoff.mapeditor;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -107,15 +106,22 @@ public class MapCanvas extends JPanel {
 		
 		g.setColor(Color.BLACK);
 		
-		int blockWidth = (int)(this.getWidth()/this.horizontalBlocks);
-		int blockHeight = (int)(this.getHeight()/this.verticalBlocks);
+		int blockWidth = 16;
+		int blockHeight = 16;
+		
+		try {
+			BufferedImage sampleBlock = ApplicationController.getInstance().getSpriteMap().values().iterator().next();
+			blockWidth = sampleBlock.getWidth();
+			blockHeight = sampleBlock.getWidth();
+		} catch (Exception e) {
+		}
 		
 		for (int i=0; i<this.horizontalBlocks; i++) {
-			g.drawLine(blockWidth*(i+1), 0, blockWidth*(i+1), this.getHeight());
+			g.drawLine(blockWidth*(i+1), 0, blockWidth*(i+1), blockHeight*this.horizontalBlocks);
 		}
 		
 		for (int i=0; i<this.verticalBlocks; i++) {
-			g.drawLine(0, blockHeight*(i+1), this.getWidth(), blockHeight*(i+1));
+			g.drawLine(0, blockHeight*(i+1), blockWidth*this.verticalBlocks, blockHeight*(i+1));
 		}
 
 		Map m = ApplicationController.getInstance().getCurrentMap();
@@ -126,8 +132,8 @@ public class MapCanvas extends JPanel {
 					MapBlock mb = m.getLayers()[layerIndex].getMatrix()[i][j];
 					if (mb!=null) {
 						BufferedImage img = ApplicationController.getInstance().getSpriteMap().get(mb.getSpriteId());
-						Image scaled = img.getScaledInstance(blockWidth, blockHeight, Image.SCALE_FAST);
-						g.drawImage(scaled,blockWidth*(i), blockHeight*(j),null);
+//						Image scaled = img.getScaledInstance(blockWidth, blockHeight, Image.SCALE_FAST);
+						g.drawImage(img,blockWidth*i, blockHeight*j,null);
 					}
 				}
 			}

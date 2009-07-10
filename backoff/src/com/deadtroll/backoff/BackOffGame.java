@@ -19,13 +19,11 @@ import com.deadtroll.backoff.engine.map.Map;
 import com.deadtroll.backoff.engine.map.MapBlock;
 import com.deadtroll.backoff.engine.map.MapIOUtil;
 import com.deadtroll.backoff.engine.map.MapLayer;
-import com.deadtroll.backoff.engine.model.Heading;
 import com.deadtroll.backoff.engine.model.TransientStatus;
 import com.deadtroll.backoff.engine.player.IPlayer;
 import com.deadtroll.backoff.engine.renderer.MapRenderer;
 import com.deadtroll.backoff.engine.sound.SoundEvent;
 import com.deadtroll.backoff.engine.viewport.ViewPort;
-import com.deadtroll.backoff.engine.weapon.Weapon;
 
 public class BackOffGame extends AbstractGame {
 
@@ -68,11 +66,10 @@ public class BackOffGame extends AbstractGame {
 			this.renderer.setMap(this.levelMap);
 			
 			this.player = new BradTeeper();
-			this.player.setSpriteSheet(new SpriteSheet("res/sprites/player.png",32,32));
-			this.player.setHeading(Heading.DOWN);
+			this.player.setSpriteSheet(new SpriteSheet("res/sprites/crap.jpg",75,75));
 			this.player.setSpeed(3);
 			this.player.setEnergy(100);
-			this.player.setPosition(new Vector2f(0,0));
+			this.player.setPosition(new Vector2f(1,1));
 			this.player.setLayer(1);
 			this.player.setDebugMode(true);
 			this.renderer.addGameObject(this.player);
@@ -115,38 +112,38 @@ public class BackOffGame extends AbstractGame {
 			updateViewPortPosition();
 			updateEnemyPosition();
 			updateBulletPosition();
-			if (testFireCondition(System.currentTimeMillis())) {
-				for (int i=0; i<bullets.length;i++) {
-					if (bullets[i]==null) {
-						Bullet b = new Bullet();
-						float x = 0;
-						float y = 0;						
-						switch (this.player.getHeading()) {						
-						case DOWN:
-							x = this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getCurrentSprite().getHeight()/2);
-							y = this.player.getPosition().y+this.player.getCurrentSprite().getHeight();
-							break;
-						case UP:
-							x = this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getCurrentSprite().getHeight()/2);
-							y = this.player.getPosition().y-b.getCurrentSprite().getHeight();
-							break;
-						case LEFT:
-							x = this.player.getPosition().x-b.getCurrentSprite().getWidth();
-							y = this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getCurrentSprite().getHeight()/2);
-							break;
-						case RIGHT:
-							x = this.player.getPosition().x+this.player.getCurrentSprite().getWidth();
-							y = this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getCurrentSprite().getHeight()/2);
-							break;
-						}
-						b.setHeading(this.player.getHeading());
-						b.setPosition(new Vector2f(x,y));
-						this.renderer.addGameObject(b);
-						bullets[i] = b;
-						break;
-					}
-				}
-			}
+//			if (testFireCondition(System.currentTimeMillis())) {
+//				for (int i=0; i<bullets.length;i++) {
+//					if (bullets[i]==null) {
+//						Bullet b = new Bullet();
+//						float x = 0;
+//						float y = 0;						
+//						switch (this.player.getHeading()) {						
+//						case DOWN:
+//							x = this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getCurrentSprite().getHeight()/2);
+//							y = this.player.getPosition().y+this.player.getCurrentSprite().getHeight();
+//							break;
+//						case UP:
+//							x = this.player.getPosition().x+(this.player.getCurrentSprite().getWidth()/2)-(b.getCurrentSprite().getHeight()/2);
+//							y = this.player.getPosition().y-b.getCurrentSprite().getHeight();
+//							break;
+//						case LEFT:
+//							x = this.player.getPosition().x-b.getCurrentSprite().getWidth();
+//							y = this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getCurrentSprite().getHeight()/2);
+//							break;
+//						case RIGHT:
+//							x = this.player.getPosition().x+this.player.getCurrentSprite().getWidth();
+//							y = this.player.getPosition().y+(this.player.getCurrentSprite().getHeight()/2)-(b.getCurrentSprite().getHeight()/2);
+//							break;
+//						}
+//						b.setHeading(this.player.getHeading());
+//						b.setPosition(new Vector2f(x,y));
+//						this.renderer.addGameObject(b);
+//						bullets[i] = b;
+//						break;
+//					}
+//				}
+//			}
 			this.checkForBulletCollisions();
 			this.checkForPlayerStatus();
 			this.cleanBullets();
@@ -174,7 +171,7 @@ public class BackOffGame extends AbstractGame {
 			g.drawString("Magazine Ammo: "+this.player.getActiveWeapon().getMagazineAmmo(), 10, 46);
 			g.drawString("Ammo: "+this.player.getActiveWeapon().getAmmo(), 10, 58);
 			g.drawString("ViewPort: " + this.renderer.getViewPort(), 10, 70);
-			g.drawString("PlayerPos: " + this.player.getCenter(), 10, 82);
+			g.drawString("PlayerPos: " + this.player.getCenter()+" (rot: "+this.player.getRotation()+")", 10, 82);
 			g.drawString("Map: w: " + WORLD_WIDTH  + " h: " + WORLD_HEIGHT , 10, 94);
 		}
 	}
@@ -216,28 +213,25 @@ public class BackOffGame extends AbstractGame {
 		int plH = this.player.getCurrentSprite().getHeight();
 
 		if (this.downPressed) {
-			this.player.setHeading(Heading.DOWN);
-			if (checkForLayerCollision(this.player.getPosition().x, this.player.getPosition().y+this.player.getSpeed(), plW, plH)) {
-				this.player.setPosition(new Vector2f(this.player.getPosition().x,this.player.getPosition().y+this.player.getSpeed()));
-			}
+//			if (checkForLayerCollision(this.player.getPosition().x, this.player.getPosition().y+this.player.getSpeed(), plW, plH)) {
+				//this.player.setPosition(this.player.getPosition().add(new Vector2f(this.player.getSpeed(),this.player.getSpeed())));
+			this.player.setPosition(this.player.getPosition().scale(-01.5f));
+//			}
 		}
 		if (this.upPressed) {
-			this.player.setHeading(Heading.UP);
-			if (checkForLayerCollision(this.player.getPosition().x, this.player.getPosition().y-this.player.getSpeed(), plW, plH)) {
-				this.player.getPosition().y = this.player.getPosition().y-this.player.getSpeed();
-			}
+//			if (checkForLayerCollision(this.player.getPosition().x, this.player.getPosition().y-this.player.getSpeed(), plW, plH)) {
+				this.player.setPosition(this.player.getPosition().scale(01.5f));	
+//			}
 		}
 		if (this.leftPressed) {
-			this.player.setHeading(Heading.LEFT);
-			if (checkForLayerCollision(this.player.getPosition().y-this.player.getSpeed(), this.player.getPosition().y, plW, plH)) {
-				this.player.getPosition().x = this.player.getPosition().x-this.player.getSpeed();
-			}
+//			if (checkForLayerCollision(this.player.getPosition().y-this.player.getSpeed(), this.player.getPosition().y, plW, plH)) {
+				this.player.setRotation(this.player.getRotation()-15f);
+//			}
 		}
 		if (this.rightPressed) {
-			this.player.setHeading(Heading.RIGHT);
-			if (checkForLayerCollision(this.player.getPosition().x+this.player.getSpeed(), this.player.getPosition().y, plW, plH)) {
-				this.player.getPosition().x = this.player.getPosition().x+this.player.getSpeed();
-			}
+//			if (checkForLayerCollision(this.player.getPosition().x+this.player.getSpeed(), this.player.getPosition().y, plW, plH)) {
+				this.player.setRotation(this.player.getRotation()+15f);
+//			}
 		}
 	}
 	
@@ -298,45 +292,45 @@ public class BackOffGame extends AbstractGame {
 	}
 	
 	private void updateBulletPosition() {
-		for (int i=0; i<this.bullets.length; i++) {
-			if (this.bullets[i]!=null) {
-				IBullet b = this.bullets[i];
-				int xSpeed=0;
-				int ySpeed=0;
-				if (b.getHeading() == Heading.UP)
-					ySpeed = -b.getSpeed();
-				else if (b.getHeading() == Heading.DOWN)
-					ySpeed = b.getSpeed();
-				else if (b.getHeading() == Heading.LEFT)
-					xSpeed = -b.getSpeed();
-				else if (b.getHeading() == Heading.RIGHT)
-					xSpeed = b.getSpeed();
-				if (this.checkForLayerCollision(b.getPosition().x+xSpeed, b.getPosition().y+ySpeed, b.getCurrentSprite().getWidth(), b.getCurrentSprite().getHeight())) {
-					b.setPosition(new Vector2f(b.getPosition().x+xSpeed,b.getPosition().y+ySpeed)); 
-				} else {
-					this.renderer.removeGameObject(this.bullets[i]);
-					this.bullets[i] = null;
-				}
-			}
-		}
+//		for (int i=0; i<this.bullets.length; i++) {
+//			if (this.bullets[i]!=null) {
+//				IBullet b = this.bullets[i];
+//				int xSpeed=0;
+//				int ySpeed=0;
+//				if (b.getHeading() == Heading.UP)
+//					ySpeed = -b.getSpeed();
+//				else if (b.getHeading() == Heading.DOWN)
+//					ySpeed = b.getSpeed();
+//				else if (b.getHeading() == Heading.LEFT)
+//					xSpeed = -b.getSpeed();
+//				else if (b.getHeading() == Heading.RIGHT)
+//					xSpeed = b.getSpeed();
+//				if (this.checkForLayerCollision(b.getPosition().x+xSpeed, b.getPosition().y+ySpeed, b.getCurrentSprite().getWidth(), b.getCurrentSprite().getHeight())) {
+//					b.setPosition(new Vector2f(b.getPosition().x+xSpeed,b.getPosition().y+ySpeed)); 
+//				} else {
+//					this.renderer.removeGameObject(this.bullets[i]);
+//					this.bullets[i] = null;
+//				}
+//			}
+//		}
 	}
 
-	private boolean testFireCondition(long now) {
-		if (this.firePressed) {
-			Weapon weapon = this.player.getActiveWeapon();
-			
-			long fireInterval = new Double(1/weapon.getFireRate()*1000).longValue();
-			
-			if (now-this.lastFire>fireInterval) {
-				if (weapon.fire()) {
-					this.player.playSoundEvent(SoundEvent.FIRE);
-					this.lastFire = now;
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+//	private boolean testFireCondition(long now) {
+//		if (this.firePressed) {
+//			Weapon weapon = this.player.getActiveWeapon();
+//			
+//			long fireInterval = new Double(1/weapon.getFireRate()*1000).longValue();
+//			
+//			if (now-this.lastFire>fireInterval) {
+//				if (weapon.fire()) {
+//					this.player.playSoundEvent(SoundEvent.FIRE);
+//					this.lastFire = now;
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
+//	}
 	
 	private void checkForBulletCollisions() {
 		// Preenche bounding boxes

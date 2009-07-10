@@ -1,22 +1,26 @@
 package com.deadtroll.backoff.engine.model;
 
-public abstract class AbstractMoveableGameObject extends AbstractGameObject implements IMoveable {
-	protected int speed;
-	protected Heading heading;
+import org.newdawn.slick.geom.Vector2f;
 
-	public void setHeading(Heading heading) {
-		this.heading = heading;
-	}
+public abstract class AbstractMoveableGameObject extends AbstractGameObject implements IMoveable {
+
+	protected int speed;
+	protected Vector2f angle;
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
 
-	public Heading getHeading() {
-		return heading;
-	}
-
 	public int getSpeed() {		
 		return speed;
 	}
+
+	public Vector2f getAngle() {
+		return angle;
+	}
+
+	public void setAngle(Vector2f angle) {
+		this.angle = angle;
+	}
+	
 }

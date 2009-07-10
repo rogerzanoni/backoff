@@ -6,7 +6,6 @@ import java.util.List;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.geom.Rectangle;
 
 import com.deadtroll.backoff.engine.map.Map;
 import com.deadtroll.backoff.engine.map.MapBlock;
@@ -37,18 +36,23 @@ public class MapRenderer implements IRenderer {
 	public void render(Graphics g) {
 		int currentLayer = 0;
 		SpriteSheet sheet = this.map.getMapSpriteSheet();
+		Image block = sheet.getSprite(0,0);
+		int startX = (int)(this.viewPort.getX()/block.getWidth());
+		int startY = (int)(this.viewPort.getY()/block.getHeight());
+		
+		int endX = (int)((this.viewPort.getX()+this.viewPort.getWidth())/block.getWidth());
+		int endY = (int)((this.viewPort.getY()+this.viewPort.getHeight())/block.getHeight());
+		
 		for (MapLayer ml : this.map.getLayers()) {
-			for (int i=0; i<this.map.getMapWidth(); i++) {
-				for (int j=0; j<this.map.getMapHeight(); j++) {
+			for (int i=startX; i<=endX; i++) {
+				for (int j=startY; j<=endY; j++) {
+					float posX = block.getWidth()*i;
+					float posY = block.getHeight()*j;
 					MapBlock mb = ml.getMatrix()[i][j];
 					if (mb!=null) {
 						int id = mb.getSpriteId();
 						Image tile = sheet.getSprite((id%sheet.getHorizontalCount()),id/sheet.getHorizontalCount());
-						float posX = tile.getWidth()*i;
-						float posY = tile.getHeight()*j;						
-						if (viewPort.intersects(new Rectangle(posX, posY, tile.getWidth(),tile.getHeight()))) {
-							g.drawImage(tile, posX-viewPort.getX(), posY-viewPort.getY());
-						}
+						g.drawImage(tile, posX-viewPort.getX(), posY-viewPort.getY());
 					}
 				}
 			}

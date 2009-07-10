@@ -15,7 +15,9 @@ import javax.swing.JSplitPane;
 import javax.swing.filechooser.FileFilter;
 
 import com.deadtroll.backoff.engine.map.Map;
+import com.deadtroll.backoff.engine.map.MapBlock;
 import com.deadtroll.backoff.engine.map.MapIOUtil;
+import com.deadtroll.backoff.engine.map.MapLayer;
 
 public class MainFrame extends JFrame {
 
@@ -32,6 +34,10 @@ public class MainFrame extends JFrame {
 	private JMenuItem saveFileMenuItem;
 	private JMenuItem closeMenuItem;
 
+	private JMenu toolsMenu;
+	private JMenuItem paintAllMenuItem;
+	
+
 	private Map map;
 	private String fileLocation;
 
@@ -47,6 +53,9 @@ public class MainFrame extends JFrame {
 		this.openFileMenuItem = new JMenuItem("Open");
 		this.saveFileMenuItem = new JMenuItem("Save");
 		this.closeMenuItem = new JMenuItem("Close");
+		
+		this.toolsMenu = new JMenu("Tools");
+		this.paintAllMenuItem = new JMenuItem("Paint All");
 		
 		this.newFileMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -72,6 +81,12 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
+		this.paintAllMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainFrame.this.paintAllAction();
+			}
+		});
+		
 		this.fileMenu.add(this.newFileMenuItem);
 		this.fileMenu.add(this.openFileMenuItem);
 		this.fileMenu.add(new JSeparator());
@@ -79,7 +94,10 @@ public class MainFrame extends JFrame {
 		this.fileMenu.add(new JSeparator());
 		this.fileMenu.add(this.closeMenuItem);
 		
+		this.toolsMenu.add(this.paintAllMenuItem);
+
 		this.menuBar.add(this.fileMenu);
+		this.menuBar.add(this.toolsMenu);
 		
 		this.setJMenuBar(menuBar);
 		
@@ -186,5 +204,17 @@ public class MainFrame extends JFrame {
 	
 	private void closeAction() {
 		this.dispose();
+	}
+	
+	private void paintAllAction() {
+		MapLayer layer = this.map.getLayers()[ApplicationController.getInstance().getCurrentLayer()];
+		for (int i=0; i<this.map.getMapHeight();i++) {
+			for (int j=0; j<this.map.getMapWidth();j++) {
+				MapBlock mb = new MapBlock();
+				mb.setSpriteId(ApplicationController.getInstance().getCurrentSpriteIndex());
+				layer.getMatrix()[i][j] = mb;
+			}
+		}
+		this.mapPanel.repaint();
 	}
 }
