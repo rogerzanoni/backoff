@@ -10,6 +10,7 @@ import com.deadtroll.backoff.engine.sound.SoundEvent;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
 public abstract class GenericPlayer extends AbstractMoveableGameObject implements IPlayer {
+	
 	protected int energy;
 	protected int damage;
 	protected long totalScore;
@@ -53,7 +54,7 @@ public abstract class GenericPlayer extends AbstractMoveableGameObject implement
 	
 	public Image getCurrentSprite() {
 		int lineTotal = this.spriteSheet.getHorizontalCount();
-		return this.spriteSheet.getSprite((int)(Math.abs(this.position.x) + Math.abs(this.position.y)) % lineTotal,	this.heading.getValue());
+		return this.spriteSheet.getSprite((int)(Math.abs(this.position.x) + Math.abs(this.position.y)) % lineTotal,	0);
 	}
 
 	public void addWeapon(Weapon weapon) {

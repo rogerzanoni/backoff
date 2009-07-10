@@ -43,7 +43,6 @@ public class MapIOUtil {
 		map.setSpriteSheetHeight(Integer.parseInt(root.getAttribute("spriteHeight")));
 		map.setMapWidth(Integer.parseInt(root.getAttribute("width")));
 		map.setMapHeight(Integer.parseInt(root.getAttribute("height")));
-		//map.setPlayerLayer(Integer.parseInt(root.getAttribute("playerLayer")));
 		map.setLayers(new MapLayer[root.getChildNodes().getLength()]);
 		
 		for (int i=0; i<root.getChildNodes().getLength(); i++) {
@@ -62,9 +61,11 @@ public class MapIOUtil {
 			}
 			map.getLayers()[i] = ml;
 		}
-		Image img = new Image(map.getSpriteSheetPath());
-		map.setMapSpriteSheet(new SpriteSheet(map.getSpriteSheetPath(),img.getWidth()/map.getSpriteSheetWidth(),img.getHeight()/map.getSpriteSheetHeight()));
-		
+		try {
+			Image img = new Image(map.getSpriteSheetPath());
+			map.setMapSpriteSheet(new SpriteSheet(map.getSpriteSheetPath(),img.getWidth()/map.getSpriteSheetWidth(),img.getHeight()/map.getSpriteSheetHeight()));
+		} catch (Exception e) {
+		}
 		return map;
 	}
 	
@@ -77,7 +78,6 @@ public class MapIOUtil {
 		rootNode.setAttribute("spriteHeight", ""+map.getSpriteSheetHeight());
 		rootNode.setAttribute("width", ""+map.getMapWidth());
 		rootNode.setAttribute("height", ""+map.getMapHeight());
-		//rootNode.setAttribute("playerLayer", ""+map.getPlayerLayer());
 		
 		int zOrder = 0; 
 		for (MapLayer ml : map.getLayers()) {

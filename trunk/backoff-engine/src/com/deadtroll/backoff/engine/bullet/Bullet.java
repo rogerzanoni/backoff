@@ -36,4 +36,5 @@ public class Bullet extends AbstractMoveableGameObject implements IBullet {
 
 	public void initializeGO() {
 	}
+
 }

@@ -8,10 +8,12 @@ import org.newdawn.slick.geom.Vector2f;
 import com.deadtroll.backoff.engine.viewport.ViewPort;
 
 public abstract class AbstractGameObject implements IGameObject {
+
 	protected int layer;
 	protected Vector2f position;
 	protected boolean debugMode;
 	protected SpriteSheet spriteSheet;
+	protected float rotation;
 	
 	public int getLayer() {
 		return this.layer;
@@ -45,8 +47,20 @@ public abstract class AbstractGameObject implements IGameObject {
 	public void setSpriteSheet(SpriteSheet sprite) {
 		this.spriteSheet = sprite;
 	}
+	
+	@Override
+	public float getRotation() {
+		return this.rotation;
+	}
+	
+	@Override
+	public void setRotation(float angle) {
+		this.rotation = angle;
+	}
 
 	public void render(Graphics g, ViewPort viewPort) {
-		g.drawImage(this.getCurrentSprite(),this.position.x-viewPort.getX(), this.position.y-viewPort.getY());
+		Image sprite = this.getCurrentSprite();
+		sprite.rotate(this.getRotation());
+		g.drawImage(sprite,this.position.x-viewPort.getX(), this.position.y-viewPort.getY());
 	}
 }
