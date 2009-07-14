@@ -27,7 +27,6 @@ public class EnemyFactory {
 			enemy.setDamage(desc.getDamage());
 			enemy.setEnergy(desc.getEnergy());
 			enemy.setScore(desc.getScore());
-			enemy.setSpeed(desc.getSpeed());
 			enemy.setSpriteSheet(desc.getSpriteSheet());
 			return enemy;
 		} else {

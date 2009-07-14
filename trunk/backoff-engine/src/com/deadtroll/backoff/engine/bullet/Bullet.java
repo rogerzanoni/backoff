@@ -9,11 +9,10 @@ import com.deadtroll.backoff.engine.model.TransientStatus;
 
 public class Bullet extends AbstractMoveableGameObject implements IBullet {
 	private TransientStatus status;
+
 	public Bullet() {
 		try {
-			// TODO: Remover bullet do diretório res de backoff-engine
-			this.setSpriteSheet(new SpriteSheet("res/sprites/bullet.png", 10, 10));
-			setSpeed(10);
+			this.setSpriteSheet(new SpriteSheet("res/sprites/bullet.png", 5, 5));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

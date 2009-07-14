@@ -7,7 +7,7 @@ public interface IMoveable extends IMoveableAcessor {
 
 	public void setSpriteSheet(SpriteSheet sprite);
 
-	public void setSpeed(int speed);
+	public void setSpeed(Vector2f speed);
 
 	public void setAngle(Vector2f angle);
 
