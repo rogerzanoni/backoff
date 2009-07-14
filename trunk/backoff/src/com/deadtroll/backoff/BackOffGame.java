@@ -66,7 +66,7 @@ public class BackOffGame extends AbstractGame {
 			this.renderer.setMap(this.levelMap);
 			
 			this.player = new BradTeeper();
-			this.player.setSpriteSheet(new SpriteSheet("res/sprites/crap.jpg",75,75));
+			this.player.setSpriteSheet(new SpriteSheet("res/sprites/brad.png",29,18));
 			this.player.setSpeed(3);
 			this.player.setEnergy(100);
 			this.player.setPosition(new Vector2f(1,1));
@@ -209,29 +209,23 @@ public class BackOffGame extends AbstractGame {
 	}
 
 	private void updatePlayerPosition() {
-		int plW = this.player.getCurrentSprite().getWidth();
-		int plH = this.player.getCurrentSprite().getHeight();
-
 		if (this.downPressed) {
-//			if (checkForLayerCollision(this.player.getPosition().x, this.player.getPosition().y+this.player.getSpeed(), plW, plH)) {
-				//this.player.setPosition(this.player.getPosition().add(new Vector2f(this.player.getSpeed(),this.player.getSpeed())));
-			this.player.setPosition(this.player.getPosition().scale(-01.5f));
-//			}
+			this.player.setPosition(this.player.getPosition().sub(
+					new Vector2f((float)Math.cos((this.player.getRotation()/180)*Math.PI),
+							(float)Math.sin((this.player.getRotation()/180)*Math.PI)).scale(2f)
+					));	
 		}
 		if (this.upPressed) {
-//			if (checkForLayerCollision(this.player.getPosition().x, this.player.getPosition().y-this.player.getSpeed(), plW, plH)) {
-				this.player.setPosition(this.player.getPosition().scale(01.5f));	
-//			}
+			this.player.setPosition(this.player.getPosition().add(
+					new Vector2f((float)Math.cos((this.player.getRotation()/180)*Math.PI),
+							(float)Math.sin((this.player.getRotation()/180)*Math.PI)).scale(5f)
+					));	
 		}
 		if (this.leftPressed) {
-//			if (checkForLayerCollision(this.player.getPosition().y-this.player.getSpeed(), this.player.getPosition().y, plW, plH)) {
-				this.player.setRotation(this.player.getRotation()-15f);
-//			}
+			this.player.setRotation(((this.player.getRotation()-15f)+360)%360);
 		}
 		if (this.rightPressed) {
-//			if (checkForLayerCollision(this.player.getPosition().x+this.player.getSpeed(), this.player.getPosition().y, plW, plH)) {
-				this.player.setRotation(this.player.getRotation()+15f);
-//			}
+			this.player.setRotation(((this.player.getRotation()+15f)+360)%360);
 		}
 	}
 	
@@ -263,32 +257,32 @@ public class BackOffGame extends AbstractGame {
 	}
 
 	private void updateEnemyPosition() {
-		for (IEnemy e : this.enemies) {
-			if (e!=null) {
-				int eW = e.getCurrentSprite().getWidth();
-				int eH = e.getCurrentSprite().getHeight();
-
-				if ((int)this.player.getPosition().x>e.getPosition().x) {
-					if (this.checkForLayerCollision(e.getPosition().x+e.getSpeed(), e.getPosition().y, eW, eH)) {
-						e.setPosition(new Vector2f(e.getPosition().x+e.getSpeed(),e.getPosition().y));
-					}
-				} else {
-					if (this.checkForLayerCollision(e.getPosition().x-e.getSpeed(), e.getPosition().y, eW, eH)) {
-						e.setPosition(new Vector2f(e.getPosition().x-e.getSpeed(),e.getPosition().y));
-					}
-				}
-				
-				if ((int)this.player.getPosition().y>e.getPosition().y) {
-					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y+e.getSpeed(), eW, eH)) {
-						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y+e.getSpeed()));
-					}
-				} else {
-					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y-e.getSpeed(), eW, eH)) {
-						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y-e.getSpeed()));
-					}
-				}
-			}
-		}
+//		for (IEnemy e : this.enemies) {
+//			if (e!=null) {
+//				int eW = e.getCurrentSprite().getWidth();
+//				int eH = e.getCurrentSprite().getHeight();
+//
+//				if ((int)this.player.getPosition().x>e.getPosition().x) {
+//					if (this.checkForLayerCollision(e.getPosition().x+e.getSpeed(), e.getPosition().y, eW, eH)) {
+//						e.setPosition(new Vector2f(e.getPosition().x+e.getSpeed(),e.getPosition().y));
+//					}
+//				} else {
+//					if (this.checkForLayerCollision(e.getPosition().x-e.getSpeed(), e.getPosition().y, eW, eH)) {
+//						e.setPosition(new Vector2f(e.getPosition().x-e.getSpeed(),e.getPosition().y));
+//					}
+//				}
+//				
+//				if ((int)this.player.getPosition().y>e.getPosition().y) {
+//					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y+e.getSpeed(), eW, eH)) {
+//						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y+e.getSpeed()));
+//					}
+//				} else {
+//					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y-e.getSpeed(), eW, eH)) {
+//						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y-e.getSpeed()));
+//					}
+//				}
+//			}
+//		}
 	}
 	
 	private void updateBulletPosition() {
