@@ -53,7 +53,7 @@ public class BackOffGame extends AbstractGame {
 	private EnemyDescriptionMap enemyMap;
 	
 	private MapRenderer renderer;
-
+	
 	public BackOffGame() {
 		super("Back Off! 0.1");
 	}
@@ -83,6 +83,7 @@ public class BackOffGame extends AbstractGame {
 			for (int i=0; i<this.enemies.length; i++) {
 				this.enemies[i] = EnemyFactory.getInstance().getEnemyInstance("zombie", this.enemyMap);
 				this.enemies[i].setPosition(new Vector2f((float)(Math.random()*GAME_WIDTH),(float)(Math.random()*GAME_HEIGHT)));
+				this.enemies[i].setSpeed(new Vector2f(1,1));
 				this.renderer.addGameObject(this.enemies[i]);
 			}
 			
@@ -128,7 +129,7 @@ public class BackOffGame extends AbstractGame {
 				}
 			}
 			this.checkForBulletCollisions();
-			this.checkForPlayerStatus();
+			//this.checkForPlayerStatus();
 			this.cleanBullets();
 			this.cleanEnemies();
 		}
@@ -153,9 +154,9 @@ public class BackOffGame extends AbstractGame {
 			g.drawString("Score: "+this.player.getTotalScore(), 10, 34);
 			g.drawString("Magazine Ammo: "+this.player.getActiveWeapon().getMagazineAmmo(), 10, 46);
 			g.drawString("Ammo: "+this.player.getActiveWeapon().getAmmo(), 10, 58);
-			g.drawString("ViewPort: " + this.renderer.getViewPort(), 10, 70);
-			g.drawString("PlayerPos: " + this.player.getCenter()+" (rot: "+this.player.getRotation()+")", 10, 82);
-			g.drawString("Map: w: " + WORLD_WIDTH  + " h: " + WORLD_HEIGHT , 10, 94);
+			g.drawString("ViewPort: " + this.renderer.getViewPort(), 10, 440);
+			g.drawString("PlayerPos: " + this.player.getCenter()+" (rot: "+this.player.getRotation()+")", 10, 452);
+			g.drawString("Map: w: " + WORLD_WIDTH  + " h: " + WORLD_HEIGHT , 10, 464);
 		}
 	}
 
@@ -193,23 +194,24 @@ public class BackOffGame extends AbstractGame {
 
 	private void updatePlayerPosition() {
 		double rotation = (this.player.getRotation()/180)*Math.PI;
+		Vector2f nextPosition = null;
 		if (this.downPressed) {
-			this.player.setPosition(this.player.getPosition().sub(
-					new Vector2f((float)Math.cos(rotation),
-							(float)Math.sin(rotation)).scale(2f)
-					));
+			nextPosition = this.player.getPosition().copy().sub(new Vector2f((float)Math.cos(rotation),(float)Math.sin(rotation)).scale(2f));
+			if (checkForLayerCollision(nextPosition.x, nextPosition.y, this.player.getCurrentSprite().getWidth(), this.player.getCurrentSprite().getHeight())) {
+				this.player.setPosition(nextPosition);
+			}
 		}
 		if (this.upPressed) {
-			this.player.setPosition(this.player.getPosition().add(
-					new Vector2f((float)Math.cos(rotation),
-							(float)Math.sin(rotation)).scale(5f)
-					));
+			nextPosition = this.player.getPosition().copy().add(new Vector2f((float)Math.cos(rotation),(float)Math.sin(rotation)).scale(5f));
+			if (checkForLayerCollision(nextPosition.x, nextPosition.y, this.player.getCurrentSprite().getWidth(), this.player.getCurrentSprite().getHeight())) {
+				this.player.setPosition(nextPosition);
+			}
 		}
 		if (this.leftPressed) {
-			this.player.setRotation(((this.player.getRotation()-15f)+360)%360);
+			this.player.setRotation(((this.player.getRotation()-10f)+360)%360);
 		}
 		if (this.rightPressed) {
-			this.player.setRotation(((this.player.getRotation()+15f)+360)%360);
+			this.player.setRotation(((this.player.getRotation()+10f)+360)%360);
 		}
 	}
 	
@@ -221,17 +223,26 @@ public class BackOffGame extends AbstractGame {
 	}
 
 	private boolean checkForLayerCollision(float x, float y, int objectWidth, int objectHeight) {
-		Rectangle playerRect = new Rectangle(x,y,objectWidth,objectHeight);
+		if (x<0 || y<0)
+			return false;
 		
 		Image tile = this.levelMap.getMapSpriteSheet().getSprite(0, 0);
+
+		int startX = (int)(this.player.getPosition().getX()/tile.getWidth());
+		int startY = (int)(this.player.getPosition().getY()/tile.getHeight());
 		
+		int endX = (int)((this.player.getPosition().getX()+this.player.getCurrentSprite().getWidth())/tile.getWidth());
+		int endY = (int)((this.player.getPosition().getY()+this.player.getCurrentSprite().getHeight())/tile.getHeight());
+		
+		Rectangle playerRect = new Rectangle(x,y,objectWidth,objectHeight);
+
 		MapLayer ml = this.levelMap.getLayers()[this.player.getLayer()];
-		for (int i=0; i<this.levelMap.getMapWidth(); i++) {
-			for (int j=0; j<this.levelMap.getMapHeight(); j++) {
+		for (int i=startX; i<endX; i++) {
+			for (int j=startY; j<endY; j++) {
 				MapBlock mb = ml.getMatrix()[i][j];
 				if (mb!=null) {
 					Rectangle rect = new Rectangle(tile.getWidth()*i, tile.getHeight()*j, tile.getWidth(),tile.getHeight());
-					if (playerRect.intersects(rect)) {
+					if (rect.contains(playerRect.getX(), playerRect.getY()) || rect.contains(playerRect.getX()+playerRect.getWidth(), playerRect.getY()+playerRect.getHeight())) {
 						return false;
 					}
 				}
@@ -241,32 +252,32 @@ public class BackOffGame extends AbstractGame {
 	}
 
 	private void updateEnemyPosition() {
-//		for (IEnemy e : this.enemies) {
-//			if (e!=null) {
-//				int eW = e.getCurrentSprite().getWidth();
-//				int eH = e.getCurrentSprite().getHeight();
-//
-//				if ((int)this.player.getPosition().x>e.getPosition().x) {
-//					if (this.checkForLayerCollision(e.getPosition().x+e.getSpeed(), e.getPosition().y, eW, eH)) {
-//						e.setPosition(new Vector2f(e.getPosition().x+e.getSpeed(),e.getPosition().y));
-//					}
-//				} else {
-//					if (this.checkForLayerCollision(e.getPosition().x-e.getSpeed(), e.getPosition().y, eW, eH)) {
-//						e.setPosition(new Vector2f(e.getPosition().x-e.getSpeed(),e.getPosition().y));
-//					}
-//				}
-//				
-//				if ((int)this.player.getPosition().y>e.getPosition().y) {
-//					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y+e.getSpeed(), eW, eH)) {
-//						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y+e.getSpeed()));
-//					}
-//				} else {
-//					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y-e.getSpeed(), eW, eH)) {
-//						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y-e.getSpeed()));
-//					}
-//				}
-//			}
-//		}
+		for (IEnemy e : this.enemies) {
+			if (e!=null) {
+				int eW = e.getCurrentSprite().getWidth();
+				int eH = e.getCurrentSprite().getHeight();
+
+				if ((int)this.player.getPosition().x>e.getPosition().x) {
+					if (this.checkForLayerCollision(e.getPosition().x+e.getSpeed().x, e.getPosition().y, eW, eH)) {
+						e.setPosition(new Vector2f(e.getPosition().x+e.getSpeed().x,e.getPosition().y));
+					}
+				} else {
+					if (this.checkForLayerCollision(e.getPosition().x-e.getSpeed().x, e.getPosition().y, eW, eH)) {
+						e.setPosition(new Vector2f(e.getPosition().x-e.getSpeed().x,e.getPosition().y));
+					}
+				}
+				
+				if ((int)this.player.getPosition().y>e.getPosition().y) {
+					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y+e.getSpeed().y, eW, eH)) {
+						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y+e.getSpeed().y));
+					}
+				} else {
+					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y-e.getSpeed().y, eW, eH)) {
+						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y-e.getSpeed().y));
+					}
+				}
+			}
+		}
 	}
 	
 	private void updateBulletPosition() {
