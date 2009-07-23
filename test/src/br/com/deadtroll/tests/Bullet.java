@@ -2,80 +2,68 @@ package br.com.deadtroll.tests;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 
-public class Bullet {
+import com.deadtroll.backoff.engine.bullet.IBullet;
+import com.deadtroll.backoff.engine.model.AbstractGameObject;
+import com.deadtroll.backoff.engine.model.TransientStatus;
 
-	private byte status; //0=default, 1=gone
-	private int absoluteSpeed;
-	private Image sprite;
-	private int x;
-	private int y;
-	private int xSpeed;
-	private int ySpeed;
+public class Bullet extends AbstractGameObject implements IBullet {
+	private TransientStatus status;
 
 	public Bullet() {
 		try {
-			this.setSprite(new Image("res/sprites/bullet.png"));
-			this.setAbsoluteSpeed(10);
+			this.setSpriteSheet(new SpriteSheet("res/sprites/bullet.png", 5, 5));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public Image getSprite() {
-		return sprite;
+
+	public Image getCurrentSprite() {
+		return this.spriteSheet.getSprite(0, 0);
 	}
 
-	public void setSprite(Image sprite) {
-		this.sprite = sprite;
+	public void setStatus(TransientStatus status) {
+		this.status = status;		
 	}
 
-	public byte getStatus() {
+	public TransientStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(byte status) {
-		this.status = status;
+	public void finalizeGO() {
 	}
 
-	public int getX() {
-		return x;
+	public void initializeGO() {
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	public void addDamage(int damage) {
 	}
 
-	public int getY() {
-		return y;
+	public int getDamage() {
+		return 0;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	public int getEnergy() {
+		return 0;
 	}
 
-	public int getXSpeed() {
-		return xSpeed;
+	public int getScore() {
+		return 0;
 	}
 
-	public void setXSpeed(int speed) {
-		xSpeed = speed;
+	public void setDamage(int damage) {
 	}
 
-	public int getYSpeed() {
-		return ySpeed;
+	public void setEnergy(int energy) {		
 	}
 
-	public void setYSpeed(int speed) {
-		ySpeed = speed;
+	public void setScore(int score) {		
 	}
 
-	public int getAbsoluteSpeed() {
-		return absoluteSpeed;
+	public void addSoundEvents() {
 	}
 
-	public void setAbsoluteSpeed(int absoluteSpeed) {
-		this.absoluteSpeed = absoluteSpeed;
+	public void removeSoundEvents() {
 	}
-
 }

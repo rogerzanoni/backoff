@@ -4,12 +4,10 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
 
-import com.deadtroll.backoff.engine.model.AbstractMoveableGameObject;
-import com.deadtroll.backoff.engine.sound.ISoundEventListener;
-import com.deadtroll.backoff.engine.sound.SoundEvent;
+import com.deadtroll.backoff.engine.model.AbstractGameObject;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
-public abstract class GenericPlayer extends AbstractMoveableGameObject implements IPlayer {
+public abstract class GenericPlayer extends AbstractGameObject implements IPlayer {
 	
 	protected int energy;
 	protected int damage;
@@ -17,7 +15,6 @@ public abstract class GenericPlayer extends AbstractMoveableGameObject implement
 	protected String name;
 	protected Weapon activeWeapon;
 	protected ArrayList<Weapon> weapons;
-	protected ISoundEventListener soundEventlister;
 	
 	public GenericPlayer() {
 		this.weapons = new ArrayList<Weapon>();
@@ -92,23 +89,11 @@ public abstract class GenericPlayer extends AbstractMoveableGameObject implement
 		return totalScore;
 	}
 
-	public void playSoundEvent(SoundEvent event) {
-		if (this.soundEventlister != null) {
-			soundEventlister.playSound(this, event);
-		}
-	}
-
-	public void setSoundEventListener(ISoundEventListener listener) {
-		this.soundEventlister = listener;		
-	}
-
 	public void initializeGO() {
-		addSoundBuffers();
+		addSoundEvents();
 	}
 	
 	public void finalizeGO() {
-		removeSoundBuffers();
+		removeSoundEvents();
 	}
-
-	
 }

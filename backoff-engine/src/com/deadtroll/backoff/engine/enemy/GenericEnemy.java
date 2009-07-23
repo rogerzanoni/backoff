@@ -2,12 +2,11 @@ package com.deadtroll.backoff.engine.enemy;
 
 import org.newdawn.slick.Image;
 
-import com.deadtroll.backoff.engine.model.AbstractMoveableGameObject;
+import com.deadtroll.backoff.engine.model.AbstractGameObject;
 import com.deadtroll.backoff.engine.model.TransientStatus;
 import com.deadtroll.backoff.engine.sound.ISoundEventListener;
-import com.deadtroll.backoff.engine.sound.SoundEvent;
 
-public abstract class GenericEnemy extends AbstractMoveableGameObject implements IEnemy {
+public abstract class GenericEnemy extends AbstractGameObject implements IEnemy {
 	private int energy;
 	private TransientStatus status;
 	private int damage;
@@ -64,23 +63,13 @@ public abstract class GenericEnemy extends AbstractMoveableGameObject implements
 		return name;
 	}
 	
-	public void playSoundEvent(SoundEvent event) {
-		if (this.soundEventlister != null) {
-			soundEventlister.playSound(this, event);
-		}
-	}
-
-	public void setSoundEventListener(ISoundEventListener listener) {
-		this.soundEventlister = listener;		
-	}
-	
 	public void initializeGO() {
 		instanceCount++;
-		addSoundBuffers();
+		addSoundEvents();
 	}
 	
 	public void finalizeGO() {
 		if (--instanceCount == 0)
-			removeSoundBuffers();
+			removeSoundEvents();
 	}
 }
