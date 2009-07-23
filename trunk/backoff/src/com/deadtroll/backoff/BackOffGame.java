@@ -11,7 +11,6 @@ import org.newdawn.slick.geom.Vector2f;
 
 import br.com.deadtroll.game.AbstractGame;
 
-import com.deadtroll.backoff.engine.bullet.Bullet;
 import com.deadtroll.backoff.engine.bullet.IBullet;
 import com.deadtroll.backoff.engine.enemy.EnemyDescriptionMap;
 import com.deadtroll.backoff.engine.enemy.IEnemy;
@@ -22,7 +21,9 @@ import com.deadtroll.backoff.engine.map.MapLayer;
 import com.deadtroll.backoff.engine.model.TransientStatus;
 import com.deadtroll.backoff.engine.player.IPlayer;
 import com.deadtroll.backoff.engine.renderer.MapRenderer;
-import com.deadtroll.backoff.engine.sound.SoundEvent;
+import com.deadtroll.backoff.engine.sound.SoundEventType;
+import com.deadtroll.backoff.engine.sound.SoundManager;
+import com.deadtroll.backoff.engine.sound.SoundSequenceType;
 import com.deadtroll.backoff.engine.viewport.ViewPort;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
@@ -53,7 +54,7 @@ public class BackOffGame extends AbstractGame {
 	private EnemyDescriptionMap enemyMap;
 	
 	private MapRenderer renderer;
-	
+
 	public BackOffGame() {
 		super("Back Off! 0.1");
 	}
@@ -83,7 +84,6 @@ public class BackOffGame extends AbstractGame {
 			for (int i=0; i<this.enemies.length; i++) {
 				this.enemies[i] = EnemyFactory.getInstance().getEnemyInstance("zombie", this.enemyMap);
 				this.enemies[i].setPosition(new Vector2f((float)(Math.random()*GAME_WIDTH),(float)(Math.random()*GAME_HEIGHT)));
-				this.enemies[i].setSpeed(new Vector2f(1,1));
 				this.renderer.addGameObject(this.enemies[i]);
 			}
 			
@@ -108,6 +108,7 @@ public class BackOffGame extends AbstractGame {
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
+		SoundManager.getInstance().update(delta);
 		if (!this.gameOver && !this.victory) {
 			updatePlayerPosition();
 			updateViewPortPosition();
@@ -129,7 +130,7 @@ public class BackOffGame extends AbstractGame {
 				}
 			}
 			this.checkForBulletCollisions();
-			//this.checkForPlayerStatus();
+			this.checkForPlayerStatus();
 			this.cleanBullets();
 			this.cleanEnemies();
 		}
@@ -154,9 +155,9 @@ public class BackOffGame extends AbstractGame {
 			g.drawString("Score: "+this.player.getTotalScore(), 10, 34);
 			g.drawString("Magazine Ammo: "+this.player.getActiveWeapon().getMagazineAmmo(), 10, 46);
 			g.drawString("Ammo: "+this.player.getActiveWeapon().getAmmo(), 10, 58);
-			g.drawString("ViewPort: " + this.renderer.getViewPort(), 10, 440);
-			g.drawString("PlayerPos: " + this.player.getCenter()+" (rot: "+this.player.getRotation()+")", 10, 452);
-			g.drawString("Map: w: " + WORLD_WIDTH  + " h: " + WORLD_HEIGHT , 10, 464);
+			g.drawString("ViewPort: " + this.renderer.getViewPort(), 10, 70);
+			g.drawString("PlayerPos: " + this.player.getCenter()+" (rot: "+this.player.getRotation()+")", 10, 82);
+			g.drawString("Map: w: " + WORLD_WIDTH  + " h: " + WORLD_HEIGHT , 10, 94);
 		}
 	}
 
@@ -194,24 +195,23 @@ public class BackOffGame extends AbstractGame {
 
 	private void updatePlayerPosition() {
 		double rotation = (this.player.getRotation()/180)*Math.PI;
-		Vector2f nextPosition = null;
 		if (this.downPressed) {
-			nextPosition = this.player.getPosition().copy().sub(new Vector2f((float)Math.cos(rotation),(float)Math.sin(rotation)).scale(2f));
-			if (checkForLayerCollision(nextPosition.x, nextPosition.y, this.player.getCurrentSprite().getWidth(), this.player.getCurrentSprite().getHeight())) {
-				this.player.setPosition(nextPosition);
-			}
+			this.player.setPosition(this.player.getPosition().sub(
+					new Vector2f((float)Math.cos(rotation),
+							(float)Math.sin(rotation)).scale(2f)
+					));
 		}
 		if (this.upPressed) {
-			nextPosition = this.player.getPosition().copy().add(new Vector2f((float)Math.cos(rotation),(float)Math.sin(rotation)).scale(5f));
-			if (checkForLayerCollision(nextPosition.x, nextPosition.y, this.player.getCurrentSprite().getWidth(), this.player.getCurrentSprite().getHeight())) {
-				this.player.setPosition(nextPosition);
-			}
+			this.player.setPosition(this.player.getPosition().add(
+					new Vector2f((float)Math.cos(rotation),
+							(float)Math.sin(rotation)).scale(5f)
+					));
 		}
 		if (this.leftPressed) {
-			this.player.setRotation(((this.player.getRotation()-10f)+360)%360);
+			this.player.setRotation(((this.player.getRotation()-15f)+360)%360);
 		}
 		if (this.rightPressed) {
-			this.player.setRotation(((this.player.getRotation()+10f)+360)%360);
+			this.player.setRotation(((this.player.getRotation()+15f)+360)%360);
 		}
 	}
 	
@@ -223,26 +223,17 @@ public class BackOffGame extends AbstractGame {
 	}
 
 	private boolean checkForLayerCollision(float x, float y, int objectWidth, int objectHeight) {
-		if (x<0 || y<0)
-			return false;
+		Rectangle playerRect = new Rectangle(x,y,objectWidth,objectHeight);
 		
 		Image tile = this.levelMap.getMapSpriteSheet().getSprite(0, 0);
-
-		int startX = (int)(this.player.getPosition().getX()/tile.getWidth());
-		int startY = (int)(this.player.getPosition().getY()/tile.getHeight());
 		
-		int endX = (int)((this.player.getPosition().getX()+this.player.getCurrentSprite().getWidth())/tile.getWidth());
-		int endY = (int)((this.player.getPosition().getY()+this.player.getCurrentSprite().getHeight())/tile.getHeight());
-		
-		Rectangle playerRect = new Rectangle(x,y,objectWidth,objectHeight);
-
 		MapLayer ml = this.levelMap.getLayers()[this.player.getLayer()];
-		for (int i=startX; i<endX; i++) {
-			for (int j=startY; j<endY; j++) {
+		for (int i=0; i<this.levelMap.getMapWidth(); i++) {
+			for (int j=0; j<this.levelMap.getMapHeight(); j++) {
 				MapBlock mb = ml.getMatrix()[i][j];
 				if (mb!=null) {
 					Rectangle rect = new Rectangle(tile.getWidth()*i, tile.getHeight()*j, tile.getWidth(),tile.getHeight());
-					if (rect.contains(playerRect.getX(), playerRect.getY()) || rect.contains(playerRect.getX()+playerRect.getWidth(), playerRect.getY()+playerRect.getHeight())) {
+					if (playerRect.intersects(rect)) {
 						return false;
 					}
 				}
@@ -252,32 +243,32 @@ public class BackOffGame extends AbstractGame {
 	}
 
 	private void updateEnemyPosition() {
-		for (IEnemy e : this.enemies) {
-			if (e!=null) {
-				int eW = e.getCurrentSprite().getWidth();
-				int eH = e.getCurrentSprite().getHeight();
-
-				if ((int)this.player.getPosition().x>e.getPosition().x) {
-					if (this.checkForLayerCollision(e.getPosition().x+e.getSpeed().x, e.getPosition().y, eW, eH)) {
-						e.setPosition(new Vector2f(e.getPosition().x+e.getSpeed().x,e.getPosition().y));
-					}
-				} else {
-					if (this.checkForLayerCollision(e.getPosition().x-e.getSpeed().x, e.getPosition().y, eW, eH)) {
-						e.setPosition(new Vector2f(e.getPosition().x-e.getSpeed().x,e.getPosition().y));
-					}
-				}
-				
-				if ((int)this.player.getPosition().y>e.getPosition().y) {
-					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y+e.getSpeed().y, eW, eH)) {
-						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y+e.getSpeed().y));
-					}
-				} else {
-					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y-e.getSpeed().y, eW, eH)) {
-						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y-e.getSpeed().y));
-					}
-				}
-			}
-		}
+//		for (IEnemy e : this.enemies) {
+//			if (e!=null) {
+//				int eW = e.getCurrentSprite().getWidth();
+//				int eH = e.getCurrentSprite().getHeight();
+//
+//				if ((int)this.player.getPosition().x>e.getPosition().x) {
+//					if (this.checkForLayerCollision(e.getPosition().x+e.getSpeed(), e.getPosition().y, eW, eH)) {
+//						e.setPosition(new Vector2f(e.getPosition().x+e.getSpeed(),e.getPosition().y));
+//					}
+//				} else {
+//					if (this.checkForLayerCollision(e.getPosition().x-e.getSpeed(), e.getPosition().y, eW, eH)) {
+//						e.setPosition(new Vector2f(e.getPosition().x-e.getSpeed(),e.getPosition().y));
+//					}
+//				}
+//				
+//				if ((int)this.player.getPosition().y>e.getPosition().y) {
+//					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y+e.getSpeed(), eW, eH)) {
+//						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y+e.getSpeed()));
+//					}
+//				} else {
+//					if (this.checkForLayerCollision(e.getPosition().x, e.getPosition().y-e.getSpeed(), eW, eH)) {
+//						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y-e.getSpeed()));
+//					}
+//				}
+//			}
+//		}
 	}
 	
 	private void updateBulletPosition() {
@@ -302,7 +293,7 @@ public class BackOffGame extends AbstractGame {
 			
 			if (now-this.lastFire>fireInterval) {
 				if (weapon.fire()) {
-					this.player.playSoundEvent(SoundEvent.FIRE);
+					this.player.playSoundEvent(SoundEventType.FIRE, SoundSequenceType.RANDOM, false, false);
 					this.lastFire = now;
 					return true;
 				}
@@ -326,7 +317,7 @@ public class BackOffGame extends AbstractGame {
 					if (boundingBoxes[i]!=null) {
 						if (boundingBoxes[i].contains(b.getPosition().x,b.getPosition().y)) {
 							this.enemies[i].setStatus(TransientStatus.STATUS_GONE);
-							this.enemies[i].playSoundEvent(SoundEvent.DEATH);
+							this.enemies[i].playSoundEvent(SoundEventType.DEATH, SoundSequenceType.RANDOM, true, false);
 							b.setStatus(TransientStatus.STATUS_GONE);
 							this.updateScore(this.enemies[i]);
 							break;
@@ -361,7 +352,7 @@ public class BackOffGame extends AbstractGame {
 			if (boundingBoxes[i]!=null) {
 				if (boundingBoxes[i].intersects(playerRect)) {
 					this.player.addDamage(this.enemies[i].getDamage());
-					this.player.playSoundEvent(SoundEvent.HIT);
+					this.player.playSoundEvent(SoundEventType.HIT, SoundSequenceType.FIRST, true, false);
 				}
 			}
 		}

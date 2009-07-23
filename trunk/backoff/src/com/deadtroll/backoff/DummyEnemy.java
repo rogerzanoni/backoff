@@ -2,9 +2,11 @@ package com.deadtroll.backoff;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.openal.SoundStore;
 
 import com.deadtroll.backoff.engine.enemy.GenericEnemy;
 import com.deadtroll.backoff.engine.sound.SoundEvent;
+import com.deadtroll.backoff.engine.sound.SoundEventType;
 import com.deadtroll.backoff.engine.sound.SoundManager;
 
 public class DummyEnemy extends GenericEnemy {
@@ -13,17 +15,18 @@ public class DummyEnemy extends GenericEnemy {
 		super(enemyName);
 	}
 
-	public void addSoundBuffers() {
+	public void addSoundEvents() {
 		try {
-			SoundManager.getInstance().addSound(this, SoundEvent.DEATH, new Sound("res/sound/creature_scream1.WAV"));
+			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(SoundEventType.DEATH, 0.8F, 1.6F, SoundStore.get().getSoundVolume(), new Sound("res/sound/creature_scream1.WAV")));
+			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(SoundEventType.DEATH, 0.8F, 1.6F, SoundStore.get().getSoundVolume(), new Sound("res/sound/creature_scream2.WAV")));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 		setSoundEventListener(SoundManager.getInstance());
 	}
 
-	public void removeSoundBuffers() {
-		SoundManager.getInstance().removeSound(this, SoundEvent.DEATH);
+	public void removeSoundEvents() {
+		SoundManager.getInstance().removeSoundEvents(this);
 	}
 
 }

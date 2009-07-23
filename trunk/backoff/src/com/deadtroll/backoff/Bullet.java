@@ -1,91 +1,69 @@
 package com.deadtroll.backoff;
 
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 
+import com.deadtroll.backoff.engine.bullet.IBullet;
 import com.deadtroll.backoff.engine.model.AbstractGameObject;
-import com.deadtroll.backoff.engine.viewport.ViewPort;
+import com.deadtroll.backoff.engine.model.TransientStatus;
 
-public class Bullet extends AbstractGameObject {
-
-	private byte status; //0=default, 1=gone
-	private int absoluteSpeed;
-	private Image sprite;
-	private int xSpeed;
-	private int ySpeed;
+public class Bullet extends AbstractGameObject implements IBullet {
+	private TransientStatus status;
 
 	public Bullet() {
 		try {
-			this.setSprite(new Image("res/sprites/bullet.png"));
-			this.setAbsoluteSpeed(10);
+			this.setSpriteSheet(new SpriteSheet("res/sprites/bullet.png", 5, 5));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public Image getSprite() {
-		return sprite;
+
+	public Image getCurrentSprite() {
+		return this.spriteSheet.getSprite(0, 0);
 	}
 
-	public void setSprite(Image sprite) {
-		this.sprite = sprite;
+	public void setStatus(TransientStatus status) {
+		this.status = status;		
 	}
 
-	public byte getStatus() {
+	public TransientStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(byte status) {
-		this.status = status;
-	}
-
-	public int getXSpeed() {
-		return xSpeed;
-	}
-
-	public void setXSpeed(int speed) {
-		xSpeed = speed;
-	}
-
-	public int getYSpeed() {
-		return ySpeed;
-	}
-
-	public void setYSpeed(int speed) {
-		ySpeed = speed;
-	}
-
-	public int getAbsoluteSpeed() {
-		return absoluteSpeed;
-	}
-
-	public void setAbsoluteSpeed(int absoluteSpeed) {
-		this.absoluteSpeed = absoluteSpeed;
-	}
-
-	@Override
-	public Image getCurrentSprite() {
-		return this.sprite;
-	}
-
-	@Override
-	public void render(Graphics g, ViewPort viewPort) {
-		if (viewPort.contains(this.position.x, this.position.y)) {
-			g.drawImage(this.getCurrentSprite(), this.position.x, this.position.y);
-		}
-	}
-
-	@Override
 	public void finalizeGO() {
-		// TODO Auto-generated method stub
-		
 	}
 
-	@Override
 	public void initializeGO() {
-		// TODO Auto-generated method stub
-		
 	}
 
+	public void addDamage(int damage) {
+	}
+
+	public int getDamage() {
+		return 0;
+	}
+
+	public int getEnergy() {
+		return 0;
+	}
+
+	public int getScore() {
+		return 0;
+	}
+
+	public void setDamage(int damage) {
+	}
+
+	public void setEnergy(int energy) {		
+	}
+
+	public void setScore(int score) {		
+	}
+
+	public void addSoundEvents() {
+	}
+
+	public void removeSoundEvents() {
+	}
 }
