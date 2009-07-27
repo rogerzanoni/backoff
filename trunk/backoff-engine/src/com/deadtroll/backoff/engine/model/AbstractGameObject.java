@@ -3,6 +3,9 @@ package com.deadtroll.backoff.engine.model;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.deadtroll.backoff.engine.sound.ISoundEventListener;
@@ -20,6 +23,7 @@ public abstract class AbstractGameObject implements IGameObject {
 	protected Vector2f speed;
 	protected Vector2f angle;
 	protected ISoundEventListener soundEventlister;
+	protected Shape collisionShape;
 	
 	public int getLayer() {
 		return this.layer;
@@ -66,6 +70,8 @@ public abstract class AbstractGameObject implements IGameObject {
 		Image sprite = this.getCurrentSprite();
 		sprite.rotate(this.getRotation());
 		g.drawImage(sprite,this.position.x-viewPort.getX(), this.position.y-viewPort.getY());
+		if (debugMode)
+			g.draw(this.getCollisionShape(viewPort));
 	}
 	
 	public Vector2f getAngle() {
@@ -93,4 +99,13 @@ public abstract class AbstractGameObject implements IGameObject {
 	public void setSoundEventListener(ISoundEventListener listener) {
 		this.soundEventlister = listener;		
 	}
+	
+	@Override
+	public Shape getCollisionShape(ViewPort viewport) {
+		Image img = this.getCurrentSprite();
+		Shape rect = new Rectangle(this.position.x-viewport.getX(),this.position.y-viewport.getY(),img.getWidth(),img.getHeight());
+		rect = rect.transform(Transform.createRotateTransform((float)((this.rotation/180)*Math.PI),rect.getCenterX(),rect.getCenterY()));
+		return rect;
+	}
+	
 }
