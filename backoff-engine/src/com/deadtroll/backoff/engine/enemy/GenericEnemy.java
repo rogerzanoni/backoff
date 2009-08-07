@@ -4,7 +4,6 @@ import org.newdawn.slick.Image;
 
 import com.deadtroll.backoff.engine.model.AbstractGameObject;
 import com.deadtroll.backoff.engine.model.TransientStatus;
-import com.deadtroll.backoff.engine.sound.ISoundEventListener;
 
 public abstract class GenericEnemy extends AbstractGameObject implements IEnemy {
 	private int energy;
@@ -12,7 +11,6 @@ public abstract class GenericEnemy extends AbstractGameObject implements IEnemy 
 	private int damage;
 	private int score;
 	private String name;
-	protected ISoundEventListener soundEventlister;
 	protected static int instanceCount = 0;
 
 	public GenericEnemy(String enemyName) {
