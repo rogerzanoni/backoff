@@ -24,7 +24,6 @@ import com.deadtroll.backoff.engine.player.IPlayer;
 import com.deadtroll.backoff.engine.renderer.MapRenderer;
 import com.deadtroll.backoff.engine.sound.SoundEventType;
 import com.deadtroll.backoff.engine.sound.SoundManager;
-import com.deadtroll.backoff.engine.sound.SoundSequenceType;
 import com.deadtroll.backoff.engine.viewport.ViewPort;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
@@ -306,7 +305,8 @@ public class BackOffGame extends AbstractGame {
 			
 			if (now-this.lastFire>fireInterval) {
 				if (weapon.fire()) {
-					this.player.playSoundEvent(SoundEventType.FIRE, SoundSequenceType.RANDOM, false, false);
+					SoundManager.getInstance().playRandom(this.player, SoundEventType.FIRE, false, false);
+					SoundManager.getInstance().enqueueSingle(this.player, SoundEventType.SHELL_DROP, true, false, 300);
 					this.lastFire = now;
 					return true;
 				}
@@ -330,7 +330,7 @@ public class BackOffGame extends AbstractGame {
 					if (boundingBoxes[i]!=null) {
 						if (boundingBoxes[i].contains(b.getPosition().x,b.getPosition().y)) {
 							this.enemies[i].setStatus(TransientStatus.STATUS_GONE);
-							this.enemies[i].playSoundEvent(SoundEventType.DEATH, SoundSequenceType.RANDOM, true, false);
+							SoundManager.getInstance().playRandom(this.enemies[i], SoundEventType.DEATH, false, false);
 							b.setStatus(TransientStatus.STATUS_GONE);
 							this.updateScore(this.enemies[i]);
 							break;
@@ -365,7 +365,7 @@ public class BackOffGame extends AbstractGame {
 			if (boundingBoxes[i]!=null) {
 				if (boundingBoxes[i].intersects(playerRect)) {
 					this.player.addDamage(this.enemies[i].getDamage());
-					this.player.playSoundEvent(SoundEventType.HIT, SoundSequenceType.FIRST, true, false);
+					SoundManager.getInstance().playSingle(this.player, SoundEventType.HIT, true, false);
 				}
 			}
 		}

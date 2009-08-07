@@ -18,18 +18,16 @@ public class BradTeeper extends GenericPlayer {
 		m9.setMagazineAmmo(m9.getMagazineSize());
 		m9.setAmmo(m9.getMagazineSize()*5);
 		addWeapon(m9);
-		
-		setSoundEventListener(SoundManager.getInstance());
 	}
 
 	public void addSoundEvents() {
 		//TODO: Remover sons da pasta de resources, somente criados para testes
 		try {
-			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(SoundEventType.FIRE, 0.6F, 1.4F, SoundStore.get().getSoundVolume(), new Sound("res/sound/gun_pistol1.WAV")));
-			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(SoundEventType.FIRE, 0.6F, 1.4F, SoundStore.get().getSoundVolume(), new Sound("res/sound/gun_pistol2.WAV")));
-			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(SoundEventType.SHELL_DROP, 0.6F, 1.4F, SoundStore.get().getSoundVolume(), new Sound("res/sound/gun_shell_drop.WAV")));
-			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(SoundEventType.HIT, 0.6F, 1.4F, SoundStore.get().getSoundVolume(), new Sound("res/sound/hit_blood_spat.WAV")));
-			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(SoundEventType.RELOAD, 0.6F, 1.4F, SoundStore.get().getSoundVolume(), new Sound("res/sound/gun_pump_action.WAV")));
+			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(this, SoundEventType.FIRE, 0.6F, 1.4F, SoundStore.get().getSoundVolume(), new Sound("res/sound/gun_pistol1.WAV")));
+			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(this, SoundEventType.FIRE, 0.6F, 1.4F, SoundStore.get().getSoundVolume(), new Sound("res/sound/gun_pistol2.WAV")));
+			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(this, SoundEventType.SHELL_DROP, 0.6F, 1.4F, SoundStore.get().getSoundVolume(), new Sound("res/sound/gun_shell_drop.WAV")));
+			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(this, SoundEventType.HIT, 0.6F, 1.4F, SoundStore.get().getSoundVolume(), new Sound("res/sound/hit_blood_spat.WAV")));
+			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(this, SoundEventType.RELOAD, 0.6F, 1.4F, SoundStore.get().getSoundVolume(), new Sound("res/sound/gun_pump_action.WAV")));
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
