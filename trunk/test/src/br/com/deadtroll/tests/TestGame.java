@@ -30,7 +30,7 @@ public class TestGame extends AbstractGame {
 		this.getScenes().put(TestGame.SCENE_MAIN_MENU, menuScene);
 		this.getScenes().put(TestGame.SCENE_GAME, gameScene);
 		
-		this.setActiveScene(TestGame.SCENE_INTRO, false);
+		this.setActiveScene(TestGame.SCENE_GAME, false);
 	}
 
 }

@@ -1,11 +1,5 @@
 Roadmap
 
-0.4 (01/10/2009)
-    * In-game map renderer (OK)
-    * Layer-based collision detection
-    * Game Design Document SERIOUS improvement
-    * Graphic improvement 
-
 0.5 (??/??/????)
     * Level logic
     * Level XML Representation

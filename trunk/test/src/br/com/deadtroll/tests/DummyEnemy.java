@@ -17,12 +17,11 @@ public class DummyEnemy extends GenericEnemy {
 
 	public void addSoundEvents() {
 		try {
-			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(SoundEventType.DEATH, 0.8F, 1.6F, SoundStore.get().getSoundVolume(), new Sound("res/sound/creature_scream1.WAV")));
-			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(SoundEventType.DEATH, 0.8F, 1.6F, SoundStore.get().getSoundVolume(), new Sound("res/sound/creature_scream2.WAV")));
+			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(this, SoundEventType.DEATH, 0.8F, 1.6F, SoundStore.get().getSoundVolume(), new Sound("res/sound/creature_scream1.WAV")));
+			SoundManager.getInstance().addSoundEvent(this, new SoundEvent(this, SoundEventType.DEATH, 0.8F, 1.6F, SoundStore.get().getSoundVolume(), new Sound("res/sound/creature_scream2.WAV")));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		setSoundEventListener(SoundManager.getInstance());
 	}
 
 	public void removeSoundEvents() {
