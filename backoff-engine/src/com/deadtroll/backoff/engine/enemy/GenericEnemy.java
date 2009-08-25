@@ -34,15 +34,15 @@ public abstract class GenericEnemy extends AbstractGameObject implements IEnemy 
 	}
 
 	public Image getCurrentSprite() {
-		return this.spriteSheet.getSprite(0, 0);
-	}
+		int lineTotal = this.spriteSheet.getHorizontalCount();
+		return this.spriteSheet.getSprite((int)(Math.abs(this.position.x) + Math.abs(this.position.y)) % lineTotal,	0);	}
 
 	public int getDamage() {
 		return damage;
 	}
 
 	public void addDamage(int damage) {
-		this.damage += damage;
+		this.energy -= damage;
 	}
 
 	public void setDamage(int damage) {

@@ -5,9 +5,9 @@
 	<speed>1</speed>
 	<damage>1</damage>
 	<spriteSheet>
-		<filename>res/sprites/zombie.png</filename>
-		<width>50</width>
-		<height>50</height>
+		<filename>res/sprites/zombie_topdown.png</filename>
+		<width>29</width>
+		<height>18</height>
 	</spriteSheet>
 	<score>100</score>
 </foe>
