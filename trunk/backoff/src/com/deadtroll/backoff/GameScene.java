@@ -14,6 +14,7 @@ import br.com.deadtroll.scene.AbstractScene;
 import com.deadtroll.backoff.engine.bullet.IBullet;
 import com.deadtroll.backoff.engine.enemy.EnemyDescriptionMap;
 import com.deadtroll.backoff.engine.enemy.IEnemy;
+import com.deadtroll.backoff.engine.helpers.Angle;
 import com.deadtroll.backoff.engine.map.Map;
 import com.deadtroll.backoff.engine.map.MapBlock;
 import com.deadtroll.backoff.engine.map.MapIOUtil;
@@ -57,6 +58,8 @@ public class GameScene extends AbstractScene {
 
 	public void init() throws SlickException {
 		try {
+			boolean debug = true;
+			
 			this.levelMap = MapIOUtil.loadMap("res/level01.map");
 			this.renderer = new MapRenderer();
 			this.renderer.setViewPort(new ViewPort(GAME_WIDTH, GAME_HEIGHT, new Vector2f(0,0), WORLD_WIDTH, WORLD_HEIGHT));
@@ -66,7 +69,7 @@ public class GameScene extends AbstractScene {
 			this.player.setSpriteSheet(new SpriteSheet("res/sprites/brad.png",29,18));
 			this.player.setEnergy(100);
 			this.player.setPosition(new Vector2f(1,1));
-			this.player.setLayer(1);			this.player.setDebugMode(true);
+			this.player.setLayer(1);			this.player.setDebugMode(debug);
 			this.renderer.addGameObject(this.player);
 			
 			this.bullets = new Bullet[200];
@@ -79,6 +82,7 @@ public class GameScene extends AbstractScene {
 				this.enemies[i] = EnemyFactory.getInstance().getEnemyInstance("zombie", this.enemyMap);
 				this.enemies[i].setPosition(new Vector2f((float)(Math.random()*GAME_WIDTH),(float)(Math.random()*GAME_HEIGHT)));
 				this.enemies[i].setSpeed(new Vector2f(1,1));
+				this.enemies[i].setDebugMode(debug);
 				this.renderer.addGameObject(this.enemies[i]);
 			}
 			
@@ -155,6 +159,19 @@ public class GameScene extends AbstractScene {
 			g.drawString("ViewPort: " + this.renderer.getViewPort(), 10, 70);
 			g.drawString("PlayerPos: " + this.player.getCenter()+" (rot: "+this.player.getRotation()+")", 10, 82);
 			g.drawString("Map: w: " + WORLD_WIDTH  + " h: " + WORLD_HEIGHT , 10, 94);
+			int yOffset = 106;
+			for (IEnemy e: this.enemies) {
+				if (e != null) {
+					if (e.isDebugMode()) {
+						g.drawLine(e.getCenter().getX() - this.renderer.getViewPort().getX(),
+								   e.getCenter().getY() - this.renderer.getViewPort().getY(),
+								   this.player.getCenter().getX() - this.renderer.getViewPort().getX(),
+								   this.player.getCenter().getY() - this.renderer.getViewPort().getY());
+						g.drawString("Enemy life: " + e.getEnergy() +  " rotation: " + e.getRotation(), 10, yOffset);
+						yOffset += 12;
+					}
+				}
+			}
 		}
 	}
 
@@ -268,6 +285,7 @@ public class GameScene extends AbstractScene {
 						e.setPosition(new Vector2f(e.getPosition().x,e.getPosition().y-e.getSpeed().y));
 					}
 				}
+				e.setRotation(Angle.calcAngle2D(e.getCenter(), this.player.getCenter()));
 			}
 		}
 	}
@@ -318,9 +336,14 @@ public class GameScene extends AbstractScene {
 				for (int i=0;i<boundingBoxes.length;i++) {
 					if (boundingBoxes[i]!=null) {
 						if (boundingBoxes[i].contains(b.getPosition().x,b.getPosition().y)) {
-							this.enemies[i].setStatus(TransientStatus.STATUS_GONE);
-							SoundManager.getInstance().playRandom(this.enemies[i], SoundEventType.DEATH, false, false);
 							b.setStatus(TransientStatus.STATUS_GONE);
+							
+							this.enemies[i].addDamage(this.player.getActiveWeapon().getDamage()); // TODO: alterar modelagem de armas
+							if (this.enemies[i].getEnergy() <= 0) {
+								this.enemies[i].setStatus(TransientStatus.STATUS_GONE);
+								this.updateScore(this.enemies[i]);
+								//SoundManager.getInstance().playRandom(this.enemies[i], SoundEventType.DEATH, false, false);
+							}
 							this.updateScore(this.enemies[i]);
 							break;
 						}
