@@ -10,7 +10,6 @@ import com.deadtroll.backoff.engine.model.IGameObject;
 
 public class SoundManager {
 	private Music currentMusic;
-	//TODO: gerenciar quantidade de instancias
 	private Hashtable<String, ArrayList<SoundEvent>> soundEventMap;
 	private ArrayList<SoundQueueEvent> soundEventQueue;
 	private static SoundManager instance;
@@ -37,7 +36,7 @@ public class SoundManager {
 		}
 	}
 	
-	private ArrayList<SoundEvent> getSoundList(IGameObject go, SoundEventType evtType) {
+	private ArrayList<SoundEvent> getSoundList(IGameObject go, SoundEvent.Type evtType) {
 		String key = go.getClass().getName() + evtType.toString();
 		if (this.soundEventMap.containsKey(key)) {
 			ArrayList<SoundEvent> soundEventList = this.soundEventMap.get(key);
@@ -46,7 +45,7 @@ public class SoundManager {
 		return null;
 	}
 	
-	private boolean isPlaying(IGameObject go, SoundEventType evtType) {
+	private boolean isPlaying(IGameObject go, SoundEvent.Type evtType) {
 		ArrayList<SoundEvent> soundEventList = getSoundList(go, evtType);
 		if (soundEventList != null) {
 			for (SoundEvent soundEvent: soundEventList) {
@@ -57,8 +56,8 @@ public class SoundManager {
 		return false;
 	}
 	
-	private void interruptEvents(IGameObject go) {
-		for (SoundEventType evtType: SoundEventType.values()) {
+	private void interruptAllEvents(IGameObject go) {
+		for (SoundEvent.Type evtType: SoundEvent.Type.values()) {
 			ArrayList<SoundEvent> soundEventList = getSoundList(go, evtType);
 			if (soundEventList != null) {
 				for (SoundEvent soundEvent: soundEventList) {
@@ -69,69 +68,61 @@ public class SoundManager {
 		}
 	}
 	
-	private SoundEvent getSingle(IGameObject go, SoundEventType evtType) {
+	private SoundEvent getSingle(IGameObject go, SoundEvent.Type evtType) {
 		ArrayList<SoundEvent> soundEventList = getSoundList(go, evtType);
 		return soundEventList.get(0);
 	}
 	
-	private SoundEvent getRandom(IGameObject go, SoundEventType evtType) {
+	private SoundEvent getRandom(IGameObject go, SoundEvent.Type evtType) {
 		ArrayList<SoundEvent> soundEventList = getSoundList(go, evtType);
 		Random random = new Random();
 		int index = random.nextInt(soundEventList.size());
 		return soundEventList.get(index);
 	}
 	
-	private void playSoundEvent(SoundEvent event) {
+	private void playSoundEvent(SoundEvent event, SoundEvent.Behaviour behaviour) {
+		if (behaviour == SoundEvent.Behaviour.INTERRUPT_ALL) {
+			interruptAllEvents(event.getSource());
+		} else if (behaviour == SoundEvent.Behaviour.INTERRUPT) {
+			event.getSound().stop();
+		} else if (behaviour == SoundEvent.Behaviour.EXCLUSIVE) {
+			if (event.getSound().playing())
+				return;
+		} else if (behaviour == SoundEvent.Behaviour.EXCLUSIVE_GLOBAL) {
+			if (isPlaying(event.getSource(), event.getEventType()))
+				return;
+		}
 		float pitch = getPitchVariation(event.getMinPitch(), event.getMaxPitch());
 		event.getSound().play(pitch, event.getVolume());
 	}
 	
-	public void playSingle(IGameObject go, SoundEventType evtType, boolean exclusive, boolean interupt) {
-		if (interupt)
-			interruptEvents(go);
-		else if (exclusive) {
-			if (isPlaying(go, evtType))
-				return;
-		}
-		playSoundEvent(getSingle(go, evtType));
+	public void playSingle(IGameObject go, SoundEvent.Type evtType, SoundEvent.Behaviour behaviour) {
+		playSoundEvent(getSingle(go, evtType), behaviour);
 	}
 	
-	public void playRandom(IGameObject go, SoundEventType evtType, boolean exclusive, boolean interupt) {
-		if (interupt) {
-			interruptEvents(go);
-		}
-		else if (exclusive) {
-			if (isPlaying(go, evtType))
-				return;
-		}
-		playSoundEvent(getRandom(go, evtType));
+	public void playRandom(IGameObject go, SoundEvent.Type evtType, SoundEvent.Behaviour behaviour) {
+		playSoundEvent(getRandom(go, evtType), behaviour);
 	}
 	
-	public void playMultiple(IGameObject go, SoundEventType evtType, boolean exclusive, boolean interupt) {
-		if (interupt)
-			interruptEvents(go);
-		else if (exclusive) {
-			if (isPlaying(go, evtType))
-				return;
-		}
+	public void playMultiple(IGameObject go, SoundEvent.Type evtType, SoundEvent.Behaviour behaviour) {
 		ArrayList<SoundEvent> soundEventList = getSoundList(go, evtType);
 		for (SoundEvent event: soundEventList) {
-			playSoundEvent(event);
-		}		
+			playSoundEvent(event, behaviour);
+		}
 	}
 	
-	public void enqueueSingle(IGameObject go, SoundEventType evtType, boolean exclusive, boolean interrupt, long playTime) {
-		this.soundEventQueue.add(new SoundQueueEvent(getSingle(go, evtType), exclusive, interrupt, System.currentTimeMillis() + playTime));
+	public void enqueueSingle(IGameObject go, SoundEvent.Type evtType, SoundEvent.Behaviour behaviour, long playTime) {
+		this.soundEventQueue.add(new SoundQueueEvent(getSingle(go, evtType), behaviour, System.currentTimeMillis() + playTime));
 	}
 	
-	public void enqueueRandom(IGameObject go, SoundEventType evtType, boolean exclusive, boolean interrupt, long playTime) {
-		this.soundEventQueue.add(new SoundQueueEvent(getRandom(go, evtType), exclusive, interrupt, System.currentTimeMillis() + playTime));
+	public void enqueueRandom(IGameObject go, SoundEvent.Type evtType, SoundEvent.Behaviour behaviour, long playTime) {
+		this.soundEventQueue.add(new SoundQueueEvent(getRandom(go, evtType), behaviour, System.currentTimeMillis() + playTime));
 	}
 	
-	public void enqueueMultiple(IGameObject go, SoundEventType evtType, boolean exclusive, boolean interrupt, long playTime) {
+	public void enqueueMultiple(IGameObject go, SoundEvent.Type evtType, SoundEvent.Behaviour behaviour, long playTime) {
 		ArrayList<SoundEvent> soundEventList = getSoundList(go, evtType);
 		for (SoundEvent event: soundEventList) {
-			this.soundEventQueue.add(new SoundQueueEvent(event, exclusive, interrupt, System.currentTimeMillis() + playTime));
+			this.soundEventQueue.add(new SoundQueueEvent(event, behaviour, System.currentTimeMillis() + playTime));
 		}
 	}
 	
@@ -149,28 +140,19 @@ public class SoundManager {
 		for (int rIndex = this.soundEventQueue.size()-1; rIndex >= 0; rIndex--) {
 			SoundQueueEvent soundQueueEvent = this.soundEventQueue.get(rIndex);
 			if (soundQueueEvent.getPlayTime() <= System.currentTimeMillis()) {
-				SoundEvent soundEvent = soundQueueEvent.getSoundEvent();
-				if (soundQueueEvent.isInterrupt())
-					interruptEvents(soundEvent.getSource());
-				else if (soundQueueEvent.isExclusive()) {
-					if (isPlaying(soundEvent.getSource(), soundEvent.getEventType())) {
-						this.soundEventQueue.remove(rIndex);
-						continue;
-					}
-				}
-				playSoundEvent(soundQueueEvent.getSoundEvent());
+				playSoundEvent(soundQueueEvent.getSoundEvent(), soundQueueEvent.behaviour);
 				this.soundEventQueue.remove(rIndex);
 			}
 		}
 	}
 
-	public void removeSoundEvent(IGameObject go, SoundEventType event) {
+	public void removeSoundEvent(IGameObject go, SoundEvent.Type event) {
 		String key = go.getClass().getName() + event.toString();
 		this.soundEventMap.remove(key);
 	}
 	
 	public void removeSoundEvents(IGameObject go) {
-		for (SoundEventType evtType: SoundEventType.values()) {
+		for (SoundEvent.Type evtType: SoundEvent.Type.values()) {
 			removeSoundEvent(go, evtType);
 		}
 	}
