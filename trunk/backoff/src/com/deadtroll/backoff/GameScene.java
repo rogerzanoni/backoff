@@ -22,7 +22,7 @@ import com.deadtroll.backoff.engine.map.MapLayer;
 import com.deadtroll.backoff.engine.model.TransientStatus;
 import com.deadtroll.backoff.engine.player.IPlayer;
 import com.deadtroll.backoff.engine.renderer.MapRenderer;
-import com.deadtroll.backoff.engine.sound.SoundEventType;
+import com.deadtroll.backoff.engine.sound.SoundEvent;
 import com.deadtroll.backoff.engine.sound.SoundManager;
 import com.deadtroll.backoff.engine.viewport.ViewPort;
 import com.deadtroll.backoff.engine.weapon.Weapon;
@@ -58,7 +58,7 @@ public class GameScene extends AbstractScene {
 
 	public void init() throws SlickException {
 		try {
-			boolean debug = true;
+			boolean debug = false;
 			
 			this.levelMap = MapIOUtil.loadMap("res/level01.map");
 			this.renderer = new MapRenderer();
@@ -69,7 +69,8 @@ public class GameScene extends AbstractScene {
 			this.player.setSpriteSheet(new SpriteSheet("res/sprites/brad.png",29,18));
 			this.player.setEnergy(100);
 			this.player.setPosition(new Vector2f(1,1));
-			this.player.setLayer(1);			this.player.setDebugMode(debug);
+			this.player.setLayer(1);
+			this.player.setDebugMode(debug);
 			this.renderer.addGameObject(this.player);
 			
 			this.bullets = new Bullet[200];
@@ -249,7 +250,8 @@ public class GameScene extends AbstractScene {
 
 	private boolean checkForLayerCollision(Shape collisionShape) {
 		Image tile = this.levelMap.getMapSpriteSheet().getSprite(0, 0);
-		MapLayer ml = this.levelMap.getLayers()[this.player.getLayer()];
+
+		MapLayer ml = this.levelMap.getLayers()[this.player.getLayer()];
 		for (int i=0; i<ml.getMatrix().length; i++) {
 			for (int j=0; j<ml.getMatrix()[i].length; j++) {
 				MapBlock mb = ml.getMatrix()[i][j];
@@ -266,7 +268,8 @@ public class GameScene extends AbstractScene {
 
 	private void updateEnemyPosition() {
 		for (IEnemy e : this.enemies) {
-			if (e!=null) {				if ((int)this.player.getPosition().x>e.getPosition().x) {
+			if (e!=null) {
+				if ((int)this.player.getPosition().x>e.getPosition().x) {
 					if (this.checkForLayerCollision(e.getCollisionShape(this.renderer.getViewPort()))) {
 						e.setPosition(new Vector2f(e.getPosition().x+e.getSpeed().x,e.getPosition().y));
 					}
@@ -312,8 +315,8 @@ public class GameScene extends AbstractScene {
 			
 			if (now-this.lastFire>fireInterval) {
 				if (weapon.fire()) {
-					SoundManager.getInstance().playRandom(this.player, SoundEventType.FIRE, false, false);
-					SoundManager.getInstance().enqueueSingle(this.player, SoundEventType.SHELL_DROP, true, false, 300);
+					SoundManager.getInstance().playRandom(this.player, SoundEvent.Type.FIRE, SoundEvent.Behaviour.DEFAULT);
+					SoundManager.getInstance().enqueueSingle(this.player, SoundEvent.Type.SHELL_DROP, SoundEvent.Behaviour.EXCLUSIVE, 300);
 					this.lastFire = now;
 					return true;
 				}
@@ -323,28 +326,20 @@ public class GameScene extends AbstractScene {
 	}
 	
 	private void checkForBulletCollisions() {
-		// Preenche bounding boxes
-		Rectangle[] boundingBoxes = new Rectangle[this.enemies.length];
-		for (int i=0;i<this.enemies.length;i++) {
-			if (this.enemies[i]!=null) {
-				IEnemy e = this.enemies[i];
-				boundingBoxes[i] = new Rectangle(e.getPosition().x,e.getPosition().y,e.getCurrentSprite().getWidth(),e.getCurrentSprite().getHeight()); 
-			}
-		}
 		for (IBullet b : this.bullets) {
 			if (b!=null) {
-				for (int i=0;i<boundingBoxes.length;i++) {
-					if (boundingBoxes[i]!=null) {
-						if (boundingBoxes[i].contains(b.getPosition().x,b.getPosition().y)) {
+				for (int i=0;i<this.enemies.length;i++) {
+					if (this.enemies[i] != null) {
+						Shape boundingBox = this.enemies[i].getCollisionShape(renderer.getViewPort());
+						if (boundingBox.contains(b.getPosition().x-renderer.getViewPort().getX(),b.getPosition().y-renderer.getViewPort().getY())) {
 							b.setStatus(TransientStatus.STATUS_GONE);
 							
 							this.enemies[i].addDamage(this.player.getActiveWeapon().getDamage()); // TODO: alterar modelagem de armas
 							if (this.enemies[i].getEnergy() <= 0) {
 								this.enemies[i].setStatus(TransientStatus.STATUS_GONE);
 								this.updateScore(this.enemies[i]);
-								//SoundManager.getInstance().playRandom(this.enemies[i], SoundEventType.DEATH, false, false);
-							}
-							this.updateScore(this.enemies[i]);
+								//SoundManager.getInstance().playRandom(this.enemies[i], SoundEvent.Type.DEATH, false, false);
+							}							
 							break;
 						}
 					}
@@ -377,7 +372,7 @@ public class GameScene extends AbstractScene {
 			if (boundingBoxes[i]!=null) {
 				if (boundingBoxes[i].intersects(playerRect)) {
 					this.player.addDamage(this.enemies[i].getDamage());
-					SoundManager.getInstance().playSingle(this.player, SoundEventType.HIT, true, false);
+					SoundManager.getInstance().playSingle(this.player, SoundEvent.Type.HIT, SoundEvent.Behaviour.EXCLUSIVE);
 				}
 			}
 		}
@@ -410,5 +405,4 @@ public class GameScene extends AbstractScene {
 			}
 		}
 	}
-
 }

@@ -1,22 +1,18 @@
 package com.deadtroll.backoff.engine.sound;
 
-
-
 /**
  * @author higure
  *
  */
 public class SoundQueueEvent {
 	private SoundEvent soundEvent;
+	SoundEvent.Behaviour behaviour;
 	private long playTime;
-	boolean exclusive;
-	boolean interrupt;
 	
-	public SoundQueueEvent(SoundEvent soundEvent, boolean exclusive, boolean interrupt, long playTime) {
+	public SoundQueueEvent(SoundEvent soundEvent, SoundEvent.Behaviour behaviour, long playTime) {
 		this.soundEvent = soundEvent;
 		this.playTime = playTime;
-		this.exclusive = exclusive;
-		this.interrupt = interrupt;
+		this.behaviour = behaviour;
 	}
 
 	public long getPlayTime() {
@@ -25,13 +21,5 @@ public class SoundQueueEvent {
 
 	public SoundEvent getSoundEvent() {
 		return soundEvent;
-	}
-
-	public boolean isExclusive() {
-		return exclusive;
-	}
-
-	public boolean isInterrupt() {
-		return interrupt;
 	}
 }

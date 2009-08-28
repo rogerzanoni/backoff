@@ -11,7 +11,6 @@ public abstract class GenericEnemy extends AbstractGameObject implements IEnemy 
 	private int damage;
 	private int score;
 	private String name;
-	protected static int instanceCount = 0;
 
 	public GenericEnemy(String enemyName) {
 		this.name = enemyName;
@@ -62,12 +61,9 @@ public abstract class GenericEnemy extends AbstractGameObject implements IEnemy 
 	}
 	
 	public void initializeGO() {
-		instanceCount++;
 		addSoundEvents();
 	}
 	
 	public void finalizeGO() {
-		if (--instanceCount == 0)
-			removeSoundEvents();
 	}
 }
