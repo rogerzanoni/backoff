@@ -55,12 +55,15 @@ public class GameScene extends AbstractScene {
 	
 	private MapRenderer renderer;
 	
+	public GameScene() {
+	}
+	
 
 	public void init() throws SlickException {
 		try {
 			boolean debug = false;
 			
-			this.levelMap = MapIOUtil.loadMap("res/level01.map");
+			this.levelMap = MapIOUtil.loadDTMMap("res/level01.dtm");
 			this.renderer = new MapRenderer();
 			this.renderer.setViewPort(new ViewPort(GAME_WIDTH, GAME_HEIGHT, new Vector2f(0,0), WORLD_WIDTH, WORLD_HEIGHT));
 			this.renderer.setMap(this.levelMap);
@@ -107,8 +110,7 @@ public class GameScene extends AbstractScene {
 		this.updateKeyStatus(key, false);
 	}
 
-//	@Override
-//	public void update(GameContainer container, int delta) throws SlickException {
+	@Override
 	public void update(int delta) {
 		SoundManager.getInstance().update(delta);
 		if (!this.gameOver && !this.victory) {
@@ -138,6 +140,7 @@ public class GameScene extends AbstractScene {
 		}
 	}
 
+	@Override
 	public void render(Graphics g) {
 		if (this.gameOver) {
 			g.setBackground(new Color(0,0,0));

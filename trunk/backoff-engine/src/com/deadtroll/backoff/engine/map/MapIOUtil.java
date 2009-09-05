@@ -1,67 +1,57 @@
 package com.deadtroll.backoff.engine.map;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.StringWriter;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import java.io.FileReader;
+import java.io.IOException;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 public class MapIOUtil {
 
-	public static Map loadMap(String src) throws Exception {
-		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(src));
-		Map map = xmlToMap(doc);
+	public static Map loadDTMMap(String src) throws Exception {
+		Map map = DTMToMap(src);
 		return map;
 	}
 	
-	public static void saveMap(Map map, String dst) throws Exception {
-		Document mapDocument = mapToXml(map);
-		String output = xmlToString(mapDocument);
+	public static void saveDTMMap(Map map, String dst) throws Exception {
 		FileOutputStream fos = new FileOutputStream(new File(dst));
-		fos.write(output.getBytes());
+		fos.write(mapToDTM(map));
 		fos.close();
 	}
 	
-	private static Map xmlToMap(Document doc) throws SlickException {
+	private static Map DTMToMap(String filePath) throws SlickException, IOException {
 		Map map = new Map();
-		Element root = doc.getDocumentElement();
-		map.setDescription(root.getAttribute("description"));
-		map.setSpriteSheetPath(root.getAttribute("spriteSheet"));
-		map.setSpriteSheetWidth(Integer.parseInt(root.getAttribute("spriteWidth")));
-		map.setSpriteSheetHeight(Integer.parseInt(root.getAttribute("spriteHeight")));
-		map.setMapWidth(Integer.parseInt(root.getAttribute("width")));
-		map.setMapHeight(Integer.parseInt(root.getAttribute("height")));
-		map.setLayers(new MapLayer[root.getChildNodes().getLength()]);
+		File f = new File(filePath);
+		BufferedReader br = new BufferedReader(new FileReader(f));
+		map.setDescription(br.readLine());
+		map.setSpriteSheetPath(br.readLine());
+		map.setSpriteSheetWidth(new Integer(br.readLine()));
+		map.setSpriteSheetHeight(new Integer(br.readLine()));
+		map.setMapWidth(new Integer(br.readLine()));
+		map.setMapHeight(new Integer(br.readLine()));
+		map.setLayers(new MapLayer[new Integer(br.readLine())]);
+
+		String line;
+		MapLayer currentLayer = null;
+	    while ((line = br.readLine()) != null) {
+	      if (line.equals("==")) {
+	    	  int zorder = new Integer(br.readLine());
+	    	  currentLayer = new MapLayer();
+	    	  currentLayer.setMatrix(new MapBlock[map.getMapWidth()][map.getMapHeight()]);
+	    	  map.getLayers()[zorder] = currentLayer;
+	    	  continue;
+	      }
+	      String[] params = line.split(",");
+	      MapBlock mb = new MapBlock();
+	      mb.setSpriteId(new Integer(params[2]));
+	      currentLayer.getMatrix()[new Integer(params[0])][new Integer(params[1])] = mb; 
+	    }
 		
-		for (int i=0; i<root.getChildNodes().getLength(); i++) {
-			Element layerElement = (Element)root.getChildNodes().item(i);
-			MapLayer ml = new MapLayer();
-			ml.setId(layerElement.getAttribute("id"));
-			ml.setZOrder(Integer.parseInt(layerElement.getAttribute("zOrder")));
-			ml.setMatrix(new MapBlock[map.getMapWidth()][map.getMapHeight()]);
-			for (int j=0; j<layerElement.getChildNodes().getLength(); j++) {
-				Element blockElement = (Element)layerElement.getChildNodes().item(j);
-				MapBlock mb = new MapBlock();
-				mb.setSpriteId(Integer.parseInt(blockElement.getAttribute("sprite")));
-				int x = Integer.parseInt(blockElement.getAttribute("x"));
-				int y = Integer.parseInt(blockElement.getAttribute("y"));
-				ml.getMatrix()[x][y] = mb;
-			}
-			map.getLayers()[i] = ml;
-		}
-		try {
+	    try {
 			Image img = new Image(map.getSpriteSheetPath());
 			map.setMapSpriteSheet(new SpriteSheet(map.getSpriteSheetPath(),img.getWidth()/map.getSpriteSheetWidth(),img.getHeight()/map.getSpriteSheetHeight()));
 		} catch (Exception e) {
@@ -69,48 +59,28 @@ public class MapIOUtil {
 		return map;
 	}
 	
-	private static Document mapToXml(Map map) throws Exception {
-		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-		Element rootNode = doc.createElement("map");
-		rootNode.setAttribute("description", map.getDescription());
-		rootNode.setAttribute("spriteSheet", map.getSpriteSheetPath());
-		rootNode.setAttribute("spriteWidth", ""+map.getSpriteSheetWidth());
-		rootNode.setAttribute("spriteHeight", ""+map.getSpriteSheetHeight());
-		rootNode.setAttribute("width", ""+map.getMapWidth());
-		rootNode.setAttribute("height", ""+map.getMapHeight());
-		
-		int zOrder = 0; 
+	private static byte[] mapToDTM(Map map) throws Exception {
+		StringBuilder builder = new StringBuilder();
+		builder.append(map.getDescription()+"\n");
+		builder.append(map.getSpriteSheetPath()+"\n");
+		builder.append(map.getSpriteSheetWidth()+"\n");
+		builder.append(map.getSpriteSheetHeight()+"\n");
+		builder.append(map.getMapWidth()+"\n");
+		builder.append(map.getMapHeight()+"\n");
+		builder.append(map.getLayers().length+"\n");
 		for (MapLayer ml : map.getLayers()) {
-			Element layerNode = doc.createElement("layer");
-			layerNode.setAttribute("id", ml.getId());
-			layerNode.setAttribute("zOrder", ""+zOrder);
+			builder.append("==\n");
+			builder.append(ml.getZOrder()+"\n");
 			for (int i=0; i<map.getMapWidth(); i++) {
 				for (int j=0; j<map.getMapHeight(); j++) {
 					MapBlock mb = ml.getMatrix()[i][j];
 					if (mb!=null) {
-						Element blockElement = doc.createElement("block");
-						blockElement.setAttribute("x", ""+i);
-						blockElement.setAttribute("y", ""+j);
-						blockElement.setAttribute("sprite", ""+mb.getSpriteId());
-						layerNode.appendChild(blockElement);
+						builder.append(i+","+j+","+mb.getSpriteId()+"\n");
 					}
 				}
 			}
-			rootNode.appendChild(layerNode);
-			zOrder++;
 		}
-		doc.appendChild(rootNode);		
-		return doc;
-	}
-	
-	public static String xmlToString(Document doc) throws Exception {
-	    Source source = new DOMSource(doc.getDocumentElement());
-	    StringWriter stringWriter = new StringWriter();
-	    Result result = new StreamResult(stringWriter);
-	    TransformerFactory factory = TransformerFactory.newInstance();
-	    Transformer transformer = factory.newTransformer();
-	    transformer.transform(source, result);
-	    return stringWriter.getBuffer().toString();
+		return builder.toString().getBytes();
 	}
 	
 }

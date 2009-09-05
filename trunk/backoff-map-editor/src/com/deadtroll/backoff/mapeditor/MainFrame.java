@@ -155,7 +155,7 @@ public class MainFrame extends JFrame {
 			this.fileLocation = fileChooser.getSelectedFile().getAbsolutePath();
 		}
 		try {
-			Map m = MapIOUtil.loadMap(this.fileLocation);
+			Map m = MapIOUtil.loadDTMMap(this.fileLocation);
 			ApplicationController.getInstance().setCurrentMap(m);
 			this.map = m;
 			this.mapPanel.setMap(this.map);
@@ -195,7 +195,7 @@ public class MainFrame extends JFrame {
 				this.fileLocation += ".map";
 			}
 			try {
-				MapIOUtil.saveMap(map, this.fileLocation);
+				MapIOUtil.saveDTMMap(map, this.fileLocation);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

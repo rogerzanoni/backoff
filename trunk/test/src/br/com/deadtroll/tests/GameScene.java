@@ -29,8 +29,6 @@ import com.deadtroll.backoff.engine.weapon.Weapon;
 
 public class GameScene extends AbstractScene {
 
-
-
 	public static final int GAME_WIDTH = 800;
 	public static final int GAME_HEIGHT = 600;
 	public static final int WORLD_WIDTH = 800;
@@ -62,7 +60,7 @@ public class GameScene extends AbstractScene {
 		try {
 			boolean debug = false;
 			
-			this.levelMap = MapIOUtil.loadMap("res/level01.map");
+			this.levelMap = MapIOUtil.loadDTMMap("res/level01.dtm");
 			this.renderer = new MapRenderer();
 			this.renderer.setViewPort(new ViewPort(GAME_WIDTH, GAME_HEIGHT, new Vector2f(0,0), WORLD_WIDTH, WORLD_HEIGHT));
 			this.renderer.setMap(this.levelMap);
