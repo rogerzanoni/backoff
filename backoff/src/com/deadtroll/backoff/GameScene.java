@@ -73,7 +73,7 @@ public class GameScene extends AbstractScene {
 			this.player.setEnergy(100);
 			this.player.setPosition(new Vector2f(1,1));
 			this.player.setLayer(1);
-			this.player.setDebugMode(debug);
+//			this.player.setDebugMode(debug);
 			this.renderer.addGameObject(this.player);
 			
 			this.bullets = new Bullet[200];
@@ -86,7 +86,7 @@ public class GameScene extends AbstractScene {
 				this.enemies[i] = EnemyFactory.getInstance().getEnemyInstance("zombie", this.enemyMap);
 				this.enemies[i].setPosition(new Vector2f((float)(Math.random()*GAME_WIDTH),(float)(Math.random()*GAME_HEIGHT)));
 				this.enemies[i].setSpeed(new Vector2f(1,1));
-				this.enemies[i].setDebugMode(debug);
+//				this.enemies[i].setDebugMode(debug);
 				this.renderer.addGameObject(this.enemies[i]);
 			}
 			
@@ -164,18 +164,18 @@ public class GameScene extends AbstractScene {
 			g.drawString("PlayerPos: " + this.player.getCenter()+" (rot: "+this.player.getRotation()+")", 10, 82);
 			g.drawString("Map: w: " + WORLD_WIDTH  + " h: " + WORLD_HEIGHT , 10, 94);
 			int yOffset = 106;
-			for (IEnemy e: this.enemies) {
-				if (e != null) {
-					if (e.isDebugMode()) {
-						g.drawLine(e.getCenter().getX() - this.renderer.getViewPort().getX(),
-								   e.getCenter().getY() - this.renderer.getViewPort().getY(),
-								   this.player.getCenter().getX() - this.renderer.getViewPort().getX(),
-								   this.player.getCenter().getY() - this.renderer.getViewPort().getY());
-						g.drawString("Enemy life: " + e.getEnergy() +  " rotation: " + e.getRotation(), 10, yOffset);
-						yOffset += 12;
-					}
-				}
-			}
+//			for (IEnemy e: this.enemies) {
+//				if (e != null) {
+//					if (e.isDebugMode()) {
+//						g.drawLine(e.getCenter().getX() - this.renderer.getViewPort().getX(),
+//								   e.getCenter().getY() - this.renderer.getViewPort().getY(),
+//								   this.player.getCenter().getX() - this.renderer.getViewPort().getX(),
+//								   this.player.getCenter().getY() - this.renderer.getViewPort().getY());
+//						g.drawString("Enemy life: " + e.getEnergy() +  " rotation: " + e.getRotation(), 10, yOffset);
+//						yOffset += 12;
+//					}
+//				}
+//			}
 		}
 	}
 

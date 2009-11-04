@@ -10,6 +10,9 @@ import com.deadtroll.backoff.engine.viewport.ViewPort;
 
 public interface IGameObject {
 
+	public long getId();
+	public void setId(long id);
+	
 	public float getRotation();	
 	public void setRotation(float angle);
 	
@@ -19,9 +22,6 @@ public interface IGameObject {
 	public void setPosition(Vector2f position);
 	public Vector2f getPosition();	
 	public Vector2f getCenter();
-
-	public void setDebugMode(boolean debugMode);
-	public boolean isDebugMode();
 
 	public void setSpriteSheet(SpriteSheet spriteSheet);
 	public Image getCurrentSprite();

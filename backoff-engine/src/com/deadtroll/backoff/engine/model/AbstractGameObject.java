@@ -8,13 +8,14 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.deadtroll.backoff.engine.managers.RenderManager;
 import com.deadtroll.backoff.engine.viewport.ViewPort;
 
 public abstract class AbstractGameObject implements IGameObject {
 
+	protected long id;
 	protected int layer;
 	protected Vector2f position;
-	protected boolean debugMode;
 	protected SpriteSheet spriteSheet;
 	protected float rotation;
 	protected Vector2f speed;
@@ -42,14 +43,6 @@ public abstract class AbstractGameObject implements IGameObject {
 		return new Vector2f(this.position.x+(img.getWidth())/2,this.position.y+(img.getHeight())/2);
 	}
 	
-	public void setDebugMode(boolean debugMode) {
-		this.debugMode = debugMode;
-	}
-	
-	public boolean isDebugMode() {
-		return this.debugMode;
-	}
-	
 	public void setSpriteSheet(SpriteSheet sprite) {
 		this.spriteSheet = sprite;
 	}
@@ -66,8 +59,13 @@ public abstract class AbstractGameObject implements IGameObject {
 		Image sprite = this.getCurrentSprite();
 		sprite.rotate(this.getRotation());
 		g.drawImage(sprite,this.position.x-viewPort.getX(), this.position.y-viewPort.getY());
-		if (debugMode)
+		RenderManager rm = RenderManager.getInstance();
+		if (rm.getDrawCollisionShapes()) {
 			g.draw(this.getCollisionShape(viewPort));
+		}
+		if (rm.getDrawObjectId()) {
+			g.drawString(String.valueOf(this.getId()),this.getPosition().x,this.getPosition().y-15);
+		}
 	}
 	
 	public Vector2f getAngle() {
@@ -91,5 +89,14 @@ public abstract class AbstractGameObject implements IGameObject {
 		Shape rect = new Rectangle(this.position.x-viewport.getX(),this.position.y-viewport.getY(),img.getWidth(),img.getHeight());
 		rect = rect.transform(Transform.createRotateTransform((float)((this.rotation/180)*Math.PI),rect.getCenterX(),rect.getCenterY()));
 		return rect;
+	}
+	
+	public long getId() {
+		return this.id;
+	}
+	
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
 }

@@ -6,14 +6,13 @@ import java.util.List;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.TrueTypeFont;
 
 import br.com.deadtroll.scene.AbstractScene;
 
 public class MenuScene extends AbstractScene {
 
-	private Sound sfx;
+//	private Sound sfx;
 	private List<Particle> particles;
 	private Font menuFont;
 	
