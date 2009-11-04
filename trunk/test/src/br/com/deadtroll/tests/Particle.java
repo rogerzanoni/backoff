@@ -9,7 +9,7 @@ public class Particle {
 	private int size;
 	private Color color;
 	private int speed;
-	private int orbitWay = 1;
+//	private int orbitWay = 1;
 	
 
 	public Particle() {
