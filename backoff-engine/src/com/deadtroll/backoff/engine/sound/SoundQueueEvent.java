@@ -22,4 +22,13 @@ public class SoundQueueEvent {
 	public SoundEvent getSoundEvent() {
 		return soundEvent;
 	}
+
+	public SoundEvent.Behaviour getBehaviour() {
+		return behaviour;
+	}
+
+	public void setBehaviour(SoundEvent.Behaviour behaviour) {
+		this.behaviour = behaviour;
+	}
+	
 }
