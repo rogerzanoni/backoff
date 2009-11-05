@@ -1,4 +1,4 @@
-package com.deadtroll.backoff.engine.sound;
+package com.deadtroll.backoff.engine.managers;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -7,6 +7,8 @@ import java.util.Random;
 import org.newdawn.slick.Music;
 
 import com.deadtroll.backoff.engine.model.IGameObject;
+import com.deadtroll.backoff.engine.sound.SoundEvent;
+import com.deadtroll.backoff.engine.sound.SoundQueueEvent;
 
 public class SoundManager {
 	private Music currentMusic;
@@ -140,7 +142,7 @@ public class SoundManager {
 		for (int rIndex = this.soundEventQueue.size()-1; rIndex >= 0; rIndex--) {
 			SoundQueueEvent soundQueueEvent = this.soundEventQueue.get(rIndex);
 			if (soundQueueEvent.getPlayTime() <= System.currentTimeMillis()) {
-				playSoundEvent(soundQueueEvent.getSoundEvent(), soundQueueEvent.behaviour);
+				playSoundEvent(soundQueueEvent.getSoundEvent(), soundQueueEvent.getBehaviour());
 				this.soundEventQueue.remove(rIndex);
 			}
 		}
@@ -205,4 +207,13 @@ public class SoundManager {
 			this.currentMusic.fade(duration, endVolume, stopAfterFade);
 		}
 	}
+
+	public ArrayList<SoundQueueEvent> getSoundEventQueue() {
+		return soundEventQueue;
+	}
+
+	public void setSoundEventQueue(ArrayList<SoundQueueEvent> soundEventQueue) {
+		this.soundEventQueue = soundEventQueue;
+	}
+	
 }
