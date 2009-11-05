@@ -5,8 +5,8 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.openal.SoundStore;
 
 import com.deadtroll.backoff.engine.enemy.GenericEnemy;
+import com.deadtroll.backoff.engine.managers.SoundManager;
 import com.deadtroll.backoff.engine.sound.SoundEvent;
-import com.deadtroll.backoff.engine.sound.SoundManager;
 
 public class DummyEnemy extends GenericEnemy {
 

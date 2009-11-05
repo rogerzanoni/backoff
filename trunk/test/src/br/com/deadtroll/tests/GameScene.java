@@ -15,6 +15,7 @@ import com.deadtroll.backoff.engine.bullet.IBullet;
 import com.deadtroll.backoff.engine.enemy.EnemyDescriptionMap;
 import com.deadtroll.backoff.engine.enemy.IEnemy;
 import com.deadtroll.backoff.engine.helpers.Angle;
+import com.deadtroll.backoff.engine.managers.SoundManager;
 import com.deadtroll.backoff.engine.map.Map;
 import com.deadtroll.backoff.engine.map.MapBlock;
 import com.deadtroll.backoff.engine.map.MapIOUtil;
@@ -23,7 +24,6 @@ import com.deadtroll.backoff.engine.model.TransientStatus;
 import com.deadtroll.backoff.engine.player.IPlayer;
 import com.deadtroll.backoff.engine.renderer.MapRenderer;
 import com.deadtroll.backoff.engine.sound.SoundEvent;
-import com.deadtroll.backoff.engine.sound.SoundManager;
 import com.deadtroll.backoff.engine.viewport.ViewPort;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
