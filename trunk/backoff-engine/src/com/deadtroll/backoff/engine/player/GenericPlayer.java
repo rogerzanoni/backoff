@@ -8,7 +8,6 @@ import com.deadtroll.backoff.engine.model.AbstractGameObject;
 import com.deadtroll.backoff.engine.weapon.Weapon;
 
 public abstract class GenericPlayer extends AbstractGameObject implements IPlayer {
-	
 	protected int energy;
 	protected int damage;
 	protected long totalScore;

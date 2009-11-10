@@ -9,7 +9,6 @@ import com.deadtroll.backoff.engine.managers.SoundManager;
 import com.deadtroll.backoff.engine.sound.SoundEvent;
 
 public class DummyEnemy extends GenericEnemy {
-
 	public DummyEnemy(String enemyName) {
 		super(enemyName);
 	}
