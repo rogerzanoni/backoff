@@ -12,7 +12,6 @@ import com.deadtroll.backoff.engine.managers.RenderManager;
 import com.deadtroll.backoff.engine.viewport.ViewPort;
 
 public abstract class AbstractGameObject implements IGameObject {
-
 	protected long id;
 	protected int layer;
 	protected Vector2f position;
@@ -21,6 +20,7 @@ public abstract class AbstractGameObject implements IGameObject {
 	protected Vector2f speed;
 	protected Vector2f angle;
 	protected Shape collisionShape;
+	private TransientStatus status;
 	
 	public int getLayer() {
 		return this.layer;
@@ -98,5 +98,13 @@ public abstract class AbstractGameObject implements IGameObject {
 	@Override
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public void setStatus(TransientStatus status) {
+		this.status = status;		
+	}
+
+	public TransientStatus getStatus() {
+		return status;
 	}
 }

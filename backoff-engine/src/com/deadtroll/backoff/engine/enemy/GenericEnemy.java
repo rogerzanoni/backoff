@@ -7,7 +7,6 @@ import com.deadtroll.backoff.engine.model.TransientStatus;
 
 public abstract class GenericEnemy extends AbstractGameObject implements IEnemy {
 	private int energy;
-	private TransientStatus status;
 	private int damage;
 	private int score;
 	private String name;
@@ -46,14 +45,6 @@ public abstract class GenericEnemy extends AbstractGameObject implements IEnemy 
 
 	public void setDamage(int damage) {
 		this.damage = damage;
-	}
-
-	public void setStatus(TransientStatus status) {
-		this.status = status;
-	}
-
-	public TransientStatus getStatus() {
-		return status;
 	}
 
 	public String getName() {
