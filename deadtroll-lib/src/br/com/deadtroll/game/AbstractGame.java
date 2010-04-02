@@ -28,7 +28,6 @@ public abstract class AbstractGame extends BasicGame implements IGame {
 			this.activeScene.update(delta);
 	}
 
-	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		if (this.activeScene!=null)
 			this.activeScene.render(g);
@@ -46,17 +45,14 @@ public abstract class AbstractGame extends BasicGame implements IGame {
 			this.activeScene.keyReleased(key, c);
 	}
 	
-	@Override
 	public IScene getActiveScene() {
 		return this.activeScene;
 	}
 
-	@Override
 	public Map<String, IScene> getScenes() {
 		return this.scenes;
 	}
 
-	@Override
 	public void setActiveScene(String activeScene, boolean stopCurrentScene) throws SlickException {
 		if (this.activeScene!=null) {
 			if (stopCurrentScene) {
@@ -71,7 +67,6 @@ public abstract class AbstractGame extends BasicGame implements IGame {
 		}
 	}
 
-	@Override
 	public void setScenes(Map<String, IScene> scenes) {
 		this.scenes = scenes;
 	}
@@ -83,12 +78,10 @@ public abstract class AbstractGame extends BasicGame implements IGame {
 		this.gameInit();
 	}
 
-	@Override
 	public GameContainer getContainer() {
 		return container;
 	}
 
-	@Override
 	public void setContainer(GameContainer container) {
 		this.container = container;
 	}

@@ -95,7 +95,6 @@ public abstract class AbstractGameObject implements IGameObject {
 		return this.id;
 	}
 	
-	@Override
 	public void setId(long id) {
 		this.id = id;
 	}
