@@ -100,17 +100,14 @@ public class GameScene extends AbstractScene {
 		}
 	}
 
-	@Override
 	public void keyPressed(int key, char c) {
 		this.updateKeyStatus(key, true);
 	}
 
-	@Override
 	public void keyReleased(int key, char c) {
 		this.updateKeyStatus(key, false);
 	}
 
-	@Override
 	public void update(int delta) {
 		SoundManager.getInstance().update(delta);
 		if (!this.gameOver && !this.victory) {
@@ -140,7 +137,6 @@ public class GameScene extends AbstractScene {
 		}
 	}
 
-	@Override
 	public void render(Graphics g) {
 		if (this.gameOver) {
 			g.setBackground(new Color(0,0,0));

@@ -10,12 +10,10 @@ public abstract class AbstractScene implements IScene {
 	private boolean initialized;
 	private boolean paused;
 
-	@Override
 	public void pause() {
 		this.setPaused(true);
 	}
 
-	@Override
 	public void resume() throws SlickException {
 		if (!this.isInitialized()) {
 			this.init();
@@ -23,39 +21,32 @@ public abstract class AbstractScene implements IScene {
 		}
 		this.setPaused(false);
 	}
-	
-	@Override
+
 	public void stop() {
 		this.initialized = false;
 		this.paused = false;
 	}
 
-	@Override
 	public boolean isInitialized() {
 		return initialized;
 	}
 	
-	@Override
 	public void setInitialized(boolean initialized) {
 		this.initialized = initialized;
 	}
 	
-	@Override
 	public IGame getGame() {
 		return this.game;
 	}
 	
-	@Override
 	public void setGame(IGame game) {
 		this.game = game;
 	}
 
-	@Override
 	public boolean isPaused() {
 		return this.paused;
 	}
 
-	@Override
 	public void setPaused(boolean paused) {
 		this.paused = paused;
 	}
