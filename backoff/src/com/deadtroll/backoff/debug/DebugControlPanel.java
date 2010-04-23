@@ -3,16 +3,14 @@ package com.deadtroll.backoff.debug;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-import com.deadtroll.backoff.engine.managers.RenderManager;
-import com.deadtroll.backoff.engine.managers.SoundManager;
-import com.deadtroll.backoff.engine.sound.SoundQueueEvent;
+import com.deadtroll.backoff.engine.manager.RenderManager;
 
+@SuppressWarnings("serial")
 public class DebugControlPanel extends JFrame {
 
 	private JCheckBox chkDrawCollisionShapes;
@@ -81,12 +79,13 @@ public class DebugControlPanel extends JFrame {
 	}
 
 	private void updateSoundQueue() {
-		List<SoundQueueEvent> soundQueue = SoundManager.getInstance().getSoundEventQueue();
+		//TODO: Buscar dados da fila de processamento de eventos do jogo (a lista de EventQueueManager)
+		/*List<SoundQueueEvent> soundQueue = SoundManager.getInstance().getSoundEventQueue();
 		this.txaSoundQueue.setText("");
 		StringBuilder sb = new StringBuilder("");
 		for (SoundQueueEvent s : soundQueue) {
 			sb.append(s.getSoundEvent().getSource().getClass().getName()+s.getSoundEvent().getEventType().toString()+" - "+(System.currentTimeMillis()+s.getPlayTime())+" - "+s.getBehaviour().name());
 		}
-		this.txaSoundQueue.setText(sb.toString());
+		this.txaSoundQueue.setText(sb.toString());*/
 	}
 }

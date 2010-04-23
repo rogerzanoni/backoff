@@ -4,6 +4,8 @@ import org.newdawn.slick.SlickException;
 
 import br.com.deadtroll.game.AbstractGame;
 
+import com.deadtroll.backoff.scene.GameScene;
+
 public class BackOffGame extends AbstractGame {
 
 	public static final String SCENE_INTRO = "INTRO";
