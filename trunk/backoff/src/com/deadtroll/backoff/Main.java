@@ -6,6 +6,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
 import com.deadtroll.backoff.debug.DebugControlPanel;
+import com.deadtroll.backoff.scene.GameScene;
 
 public class Main {
 
