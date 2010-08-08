@@ -1,7 +1,7 @@
 package com.deadtroll.backoff.engine.model;
 
-import com.deadtroll.backoff.engine.manager.ScriptManager;
-import com.deadtroll.backoff.engine.scripting.LuaScript;
+import com.deadtroll.backoff.engine.resource.ResourceLoader;
+import com.deadtroll.backoff.engine.resource.scripting.LuaScript;
 
 public abstract class ScriptedGameObject extends AbstractGameObject {
 	protected LuaScript luaScript;
@@ -9,7 +9,7 @@ public abstract class ScriptedGameObject extends AbstractGameObject {
 	
 	public ScriptedGameObject(String scriptName) {
 		this.scriptName = scriptName;
-		luaScript = ScriptManager.getInstance().getScript(this.scriptName);
+		luaScript = ResourceLoader.getInstance().getResource(this.scriptName);
 	}
 	
 	public Object[] call(String functionName /*TODO return values*/) {

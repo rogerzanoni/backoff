@@ -8,8 +8,16 @@ import java.util.Map;
 public class EventQueue {
 	private Map<Class<?>, List<AbstractEventHandler>> eventHandlers;
 	private List<AbstractEvent> eventQueue;
+	private static EventQueue instance;
 
-	public EventQueue() {
+	public static EventQueue getInstance() {
+		if (instance == null) {
+			instance = new EventQueue();
+		}
+		return instance;
+	}
+
+	private EventQueue() {
 		this.eventHandlers = new HashMap<Class<?>, List<AbstractEventHandler>>();
 		this.eventQueue = new ArrayList<AbstractEvent>();
 	}
@@ -28,17 +36,13 @@ public class EventQueue {
 	}
 	
 	public void enqueueEvent(AbstractEvent event) {
-		synchronized (this.eventQueue) {
-			event.setDispatchTime(System.currentTimeMillis());
-			this.eventQueue.add(event);
-		}
+		event.setDispatchTime(System.currentTimeMillis());
+		this.eventQueue.add(event);
 	}
 	
 	public void enqueueEvent(AbstractEvent event, long delay) {
-		synchronized (this.eventQueue) {
-			event.setDispatchTime(System.currentTimeMillis() + delay);
-			this.eventQueue.add(event);
-		}
+		event.setDispatchTime(System.currentTimeMillis() + delay);
+		this.eventQueue.add(event);
 	}
 	
 	public void update(int delta) { 

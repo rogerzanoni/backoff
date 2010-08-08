@@ -11,7 +11,6 @@ import com.deadtroll.backoff.engine.event.game.MapCollisionEvent;
 import com.deadtroll.backoff.engine.helper.CollisionUtil;
 import com.deadtroll.backoff.engine.model.IEntity;
 import com.deadtroll.backoff.engine.model.IGameObject;
-import com.deadtroll.backoff.engine.model.enemy.IEnemy;
 import com.deadtroll.backoff.engine.model.player.IPlayer;
 import com.deadtroll.backoff.engine.viewport.ViewPort;
 
@@ -22,7 +21,6 @@ public class EntityManager {
 	private IPlayer player;
 	protected List<IEntity> entities = new ArrayList<IEntity>();
 	protected List<IGameObject> gameObjects = new ArrayList<IGameObject>();
-	protected List<IEnemy> enemies = new ArrayList<IEnemy>();
 	
 	private EntityManager() {
 	}
@@ -47,9 +45,6 @@ public class EntityManager {
 		if (entity instanceof IGameObject) {
 			this.gameObjects.add((IGameObject)entity);
 		}
-		if (entity instanceof IEnemy) {
-			this.enemies.add((IEnemy)entity);
-		}
 		entity.initializeEntity();
 	}
 
@@ -66,14 +61,9 @@ public class EntityManager {
 		return this.gameObjects;
 	}
 	
-	public List<IEnemy> getEnemies() {
-		return this.enemies;
-	}
-	
 	public void clear() {
 		this.entities.clear();
 		this.gameObjects.clear();
-		this.enemies.clear();
 	}
 	
 	public void update(int delta) {
@@ -87,7 +77,6 @@ public class EntityManager {
 				entity.finalizeEntity();
 				this.entities.remove(entity);
 				this.gameObjects.remove(entity);
-				this.enemies.remove(entity);
 			}
 		}
 	}

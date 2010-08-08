@@ -2,8 +2,8 @@ package com.deadtroll.backoff.model.enemy;
 
 
 import com.deadtroll.backoff.engine.ai.fsm.State;
-import com.deadtroll.backoff.engine.manager.ScriptManager;
-import com.deadtroll.backoff.engine.scripting.LuaScript;
+import com.deadtroll.backoff.engine.resource.ResourceLoader;
+import com.deadtroll.backoff.engine.resource.scripting.LuaScript;
 
 public class ZombieChasingState extends State {
 	private StateMachineZombie zombie;
@@ -11,7 +11,7 @@ public class ZombieChasingState extends State {
 
 	public ZombieChasingState(StateMachineZombie zombie) {
 		this.zombie = zombie;
-		this.luaScript = ScriptManager.getInstance().getScript("zombieChasingState"); 
+		this.luaScript = ResourceLoader.getInstance().getResource("zombieChasingState"); 
 	}
 	
 	@Override

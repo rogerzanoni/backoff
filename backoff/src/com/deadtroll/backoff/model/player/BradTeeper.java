@@ -7,7 +7,6 @@ import org.newdawn.slick.geom.Vector2f;
 import com.deadtroll.backoff.engine.event.sound.SoundEventType;
 import com.deadtroll.backoff.engine.manager.KeyStateManager;
 import com.deadtroll.backoff.engine.manager.SoundManager;
-import com.deadtroll.backoff.engine.model.player.GenericPlayer;
 import com.deadtroll.backoff.model.weapon.DesertEaglePistol;
 
 public class BradTeeper extends GenericPlayer {
@@ -51,18 +50,18 @@ public class BradTeeper extends GenericPlayer {
 			
 			this.previousPosition = this.position;
 			this.previousRotation = this.rotation;
-			if (keyState.isDownPressed()) {
+			if (keyState.isKeyPressed(208)) {
 				nextPosition = this.position.copy().sub(new Vector2f((float)Math.cos(radiusRotation),(float)Math.sin(radiusRotation)).scale(2f));
 				setPosition(nextPosition);
 			}
-			if (keyState.isUpPressed()) {
+			if (keyState.isKeyPressed(200)) {
 				nextPosition = this.position.copy().add(new Vector2f((float)Math.cos(radiusRotation),(float)Math.sin(radiusRotation)).scale(5f));
 				setPosition(nextPosition);
 			}
-			if (keyState.isLeftPressed()) {
+			if (keyState.isKeyPressed(203)) {
 				setRotation(((this.rotation-10f)+360)%360);
 			}
-			if (keyState.isRightPressed()) {
+			if (keyState.isKeyPressed(205)) {
 				setRotation(((this.rotation+10f)+360)%360);
 			}
 		} else {

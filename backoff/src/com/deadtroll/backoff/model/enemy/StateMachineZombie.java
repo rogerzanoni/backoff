@@ -6,7 +6,6 @@ import org.newdawn.slick.Sound;
 import com.deadtroll.backoff.engine.ai.IBrain;
 import com.deadtroll.backoff.engine.event.sound.SoundEventType;
 import com.deadtroll.backoff.engine.manager.SoundManager;
-import com.deadtroll.backoff.engine.model.enemy.ScriptedEnemy;
 
 public class StateMachineZombie extends ScriptedEnemy {
 	

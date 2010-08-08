@@ -1,16 +1,15 @@
 package com.deadtroll.backoff.engine.manager;
 
+import java.util.HashMap;
+
 
 public class KeyStateManager {
-	private boolean downPressed;
-	private boolean upPressed;
-	private boolean leftPressed;
-	private boolean rightPressed;
-	private boolean firePressed;
+	private HashMap<Integer, Boolean> keyStateMap;
 	
 	private static KeyStateManager instance;
 	
 	private KeyStateManager() {
+		this.keyStateMap = new HashMap<Integer, Boolean>();
 	}
 	
 	public static KeyStateManager getInstance() {
@@ -18,74 +17,26 @@ public class KeyStateManager {
 			instance = new KeyStateManager();
 		return instance;
 	}
-
-	public boolean isDownPressed() {
-		return downPressed;
-	}
-
-	public void setDownPressed(boolean downPressed) {
-		this.downPressed = downPressed;
-	}
-
-	public boolean isUpPressed() {
-		return upPressed;
-	}
-
-	public void setUpPressed(boolean upPressed) {
-		this.upPressed = upPressed;
-	}
-
-	public boolean isLeftPressed() {
-		return leftPressed;
-	}
-
-	public void setLeftPressed(boolean leftPressed) {
-		this.leftPressed = leftPressed;
-	}
-
-	public boolean isRightPressed() {
-		return rightPressed;
-	}
-
-	public void setRightPressed(boolean rightPressed) {
-		this.rightPressed = rightPressed;
-	}
-
-	public boolean isFirePressed() {
-		return firePressed;
-	}
-
-	public void setFirePressed(boolean firePressed) {
-		this.firePressed = firePressed;
-	}
 	
 	public void clear() {
-		this.downPressed = false;
-		this.firePressed = false;
-		this.leftPressed = false;
-		this.rightPressed = false;
-		this.upPressed = false;
+		this.keyStateMap.clear();
 	}
 	
 	public void updateState(int key, boolean pressed) {
-		switch (key) {
-			case 57:
-				this.firePressed = pressed;
-				break;
-			case 200:
-				this.upPressed = pressed;
-				break;
-			case 203:
-				this.leftPressed = pressed;
-				break;
-			case 205:
-				this.rightPressed = pressed;
-				break;
-			case 208:
-				this.downPressed = pressed;
-				break;
-			default:
-				break;
+		this.keyStateMap.put(key, pressed);
+	}
+	
+	public boolean isKeyPressed(int key) {
+		if (this.keyStateMap.containsKey(key))
+			return this.keyStateMap.get(key);
+		return false;
+	}
+	
+	public boolean anyKeyPressed() {
+		for(boolean pressed : this.keyStateMap.values()) {
+			if (pressed)
+				return true;
 		}
+		return false;
 	}
 }

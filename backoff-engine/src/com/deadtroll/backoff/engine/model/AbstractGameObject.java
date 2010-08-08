@@ -74,6 +74,7 @@ public abstract class AbstractGameObject extends AbstractEntity implements IGame
 		Image sprite = this.getCurrentSprite();
 		sprite.rotate(this.getRotation());
 		g.drawImage(sprite,this.position.x-viewPort.getX(), this.position.y-viewPort.getY());
+		
 		RenderManager rm = RenderManager.getInstance();
 		if (rm.getDrawCollisionShapes()) {
 			g.draw(this.getCollisionShape(viewPort));

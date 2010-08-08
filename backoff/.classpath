@@ -2,8 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/libs/slick/slick.jar"/>
+	<classpathentry kind="lib" path="/libs/slick/slick.jar" sourcepath="D:/temp/pendrive/source/deadtroll/novas libs/slick"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/backoff-engine"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/deadtroll-lib"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

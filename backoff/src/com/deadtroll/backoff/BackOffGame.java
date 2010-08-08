@@ -2,8 +2,8 @@ package com.deadtroll.backoff;
 
 import org.newdawn.slick.SlickException;
 
-import br.com.deadtroll.game.AbstractGame;
 
+import com.deadtroll.backoff.engine.scene.AbstractGame;
 import com.deadtroll.backoff.scene.GameScene;
 
 public class BackOffGame extends AbstractGame {

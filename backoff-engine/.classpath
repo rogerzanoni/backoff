@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/libs/slick/slick.jar" sourcepath="G:/source/deadtroll/novas libs/slick"/>
+	<classpathentry kind="lib" path="/libs/slick/slick.jar" sourcepath="C:/zanoni/libs_sdks/game engines/java/slick"/>
 	<classpathentry kind="lib" path="/libs/lwjgl/lwjgl.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="libs/lwjgl"/>
