@@ -9,10 +9,9 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.deadtroll.backoff.engine.manager.MapManager;
 import com.deadtroll.backoff.engine.model.AbstractGameObject;
-import com.deadtroll.backoff.engine.model.bullet.IBullet;
 import com.deadtroll.backoff.engine.viewport.ViewPort;
 
-public class Bullet extends AbstractGameObject implements IBullet {
+public class Bullet extends AbstractGameObject {
 	public Bullet() {
 		try {
 			this.setSpriteSheet(new SpriteSheet("res/sprites/bullet.png", 5, 5));

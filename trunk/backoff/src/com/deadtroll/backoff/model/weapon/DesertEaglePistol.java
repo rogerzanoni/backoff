@@ -1,6 +1,5 @@
 package com.deadtroll.backoff.model.weapon;
 
-import com.deadtroll.backoff.engine.model.weapon.Weapon;
 
 public class DesertEaglePistol extends Weapon {
 	public DesertEaglePistol() {

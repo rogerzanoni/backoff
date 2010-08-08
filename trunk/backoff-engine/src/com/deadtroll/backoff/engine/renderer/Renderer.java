@@ -26,7 +26,7 @@ public class Renderer implements IRenderer {
 	protected MapManager mapManager;
 	
 	public Renderer() {
-		this.offScreenBuffers = checkOffScreenBuffersSupport();
+//		this.offScreenBuffers = checkOffScreenBuffersSupport();
 		this.entityManager = EntityManager.getInstance();
 		this.mapManager = MapManager.getInstance();
 	}
@@ -49,7 +49,7 @@ public class Renderer implements IRenderer {
 				SpriteSheet sheet = map.getMapSpriteSheet();
 				Image block = sheet.getSprite(0,0);
 				this.renderedMapLayers[currentLayer] = new ImageBuffer(map.getMapWidth()*block.getWidth(),map.getMapHeight()*block.getHeight()).getImage();
-				
+
 				for (int i=0; i<map.getMapWidth(); i++) {
 					for (int j=0; j<map.getMapHeight(); j++) {
 						float posX = block.getWidth()*i;
@@ -94,8 +94,9 @@ public class Renderer implements IRenderer {
 		
 		int endX = (int)((viewPort.getX()+viewPort.getWidth())/block.getWidth());
 		int endY = (int)((viewPort.getY()+viewPort.getHeight())/block.getHeight());
-		
+			
 		for (MapLayer ml : map.getLayers()) {
+			sheet.startUse();
 			for (int i=startX; i<=endX; i++) {
 				for (int j=startY; j<=endY; j++) {
 					float posX = block.getWidth()*i;
@@ -103,12 +104,17 @@ public class Renderer implements IRenderer {
 					MapBlock mb = ml.getMatrix()[i][j];
 					if (mb!=null) {
 						int id = mb.getSpriteId();
-						Image tile = sheet.getSprite((id%sheet.getHorizontalCount()),id/sheet.getHorizontalCount());
-						g.drawImage(tile, posX-viewPort.getX(), posY-viewPort.getY());
+						float x = posX-viewPort.getX();
+						float y = posY-viewPort.getY();
+						int xCell = id%sheet.getHorizontalCount();
+						int yCell = id/sheet.getHorizontalCount();						
+						sheet.renderInUse((int)x, (int)y, xCell, yCell);
 					}
 				}
 			}
-			for (IGameObject go : this.entityManager.getGameObjects()) {
+			sheet.endUse();
+			
+			for (IGameObject go : this.entityManager.getGameObjects()) {				
 				go.render(g, viewPort);
 			}
 			currentLayer++;

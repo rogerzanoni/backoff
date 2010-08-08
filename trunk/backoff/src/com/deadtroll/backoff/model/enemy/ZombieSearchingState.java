@@ -4,9 +4,9 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.deadtroll.backoff.engine.ai.fsm.State;
 import com.deadtroll.backoff.engine.manager.EntityManager;
-import com.deadtroll.backoff.engine.manager.ScriptManager;
 import com.deadtroll.backoff.engine.model.player.IPlayer;
-import com.deadtroll.backoff.engine.scripting.LuaScript;
+import com.deadtroll.backoff.engine.resource.ResourceLoader;
+import com.deadtroll.backoff.engine.resource.scripting.LuaScript;
 import com.deadtroll.backoff.scene.GameScene;
 
 public class ZombieSearchingState extends State {
@@ -16,7 +16,7 @@ public class ZombieSearchingState extends State {
 	public ZombieSearchingState(StateMachineZombie zombie) {
 		this.zombie = zombie;
 		this.zombie.setDestination(randomDestination());
-		this.luaScript = ScriptManager.getInstance().getScript("zombieSearchingState");
+		this.luaScript = ResourceLoader.getInstance().getResource("zombieSearchingState");
 	}
 	
 	private Vector2f randomDestination() {

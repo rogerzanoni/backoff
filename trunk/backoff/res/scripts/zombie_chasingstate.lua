@@ -1,6 +1,6 @@
 entityManager = luajava.bindClass( "com.deadtroll.backoff.engine.manager.EntityManager" )
 mapManager = luajava.bindClass( "com.deadtroll.backoff.engine.manager.MapManager" )
-angle = luajava.bindClass( "com.deadtroll.backoff.engine.helper.Angle" )
+mathUtil = luajava.bindClass( "com.deadtroll.backoff.engine.helper.MathUtil" )
 
 function act(zombie)
 	player = entityManager:getInstance():getPlayer()
@@ -20,11 +20,15 @@ function act(zombie)
 		newPosition = zombie:getPosition():add(heading)
 
 		zombie:setPosition(newPosition)
-		zombie:setRotation(angle:calcAngle2D(zombie:getPosition(), player:getCenter()))
+		zombie:setRotation(mathUtil:calcAngle2D(zombie:getPosition(), player:getCenter()))
 	else
 		zombie:setCollided(false)
-		zombie:setPosition(zombie:getPreviousPosition())
-		zombie:setRotation(angle:calcAngle2D(zombie:getPosition(), player:getCenter()))
+		prev_position = zombie:getPreviousPosition()
+		if (prev_position == nil) then
+			prev_position = zombie:getPosition()
+		end
+		zombie:setPosition(prev_position)
+		zombie:setRotation(mathUtil:calcAngle2D(zombie:getPosition(), player:getCenter()))
 		--TODO: modificar logica, criar estado para wallhit
 	end
 end
