@@ -1,0 +1,1 @@
+[Documento de Game Design](http://code.google.com/p/backoff/wiki/GameDesignDocument)

@@ -1,0 +1,1 @@
+"Back-off!" coloca o jogador no papel do coronel Brad Teeper, aparentemente o único sobrevivente de uma terrível invazão de zumbis em Big River Valley, sua cidade natal. O jogador deve ajudar o coronel Brad a sobreviver ao exército de criaturas famintas enquanto tenta desvendar a origem deste estranho incidente, coletando armas e pistas essencias para o sucesso da empreitada.
